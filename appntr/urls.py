@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import index
+from .views import index, edit
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^interviewer/(?P<id>.*)$', edit),
     url(r'^', index)
 ]

@@ -35,7 +35,7 @@
               <div class="panel-heading">{{ day.list|first|date:"l, j. F Y" }}</div>
               <div class="panel-body">
                 {% for slot in day.list %}
-                  <label><input type="radio" name="slot" value="{{slot|date:'c'}}">{{ slot|time:"TIME_FORMAT" }} Uhr </label>
+                  <label><input type="radio" name="slot" value="{{slot|date:'c'}}">{{ slot|time:"%H:%M" }} Uhr </label>
                 {% endfor %}
               </div>
             </div>

@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta
+from django.db.models import Q
 from django.db import models
+
 
 
 class Interviewer(models.Model):
@@ -10,6 +13,11 @@ class Interviewer(models.Model):
 
     def __str__(self):
         return self.name
+
+    def upcoming(self):
+        just_before = datetime.utcnow() - timedelta(hours=1)
+        return Appointment.objects.filter(Q(interview_lead=self) | Q(interview_snd=self)
+                ).filter(datetime__gte=just_before).order_by("-datetime").all()
 
 
 class Timeslot(models.Model):

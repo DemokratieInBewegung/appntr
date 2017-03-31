@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interviewer Setup</title>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<div class="container">
+  <div class="row">
+    {% if message %}
+    <div class="alert alert-warning" role="alert">
+      {{message}}
+    </div>
+    {% endif %}
+      {% regroup slots by day as slot_list %}
+      <form method="POST" class="form-inline">
+      {% csrf_token %}
+        <h1>Hallo</h1>
+
+        <h2>kommende Termine:</h2>
+          <ul>
+            {% for apt in interviewer.upcoming %}
+              <li>
+                <strong>{{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}: {{apt.name}} ({{apt.email}})</strong>, {{apt.interview_lead.name}} &amp; {{apt.interview_snd.name}}: <a href="{{apt.link}}">{{apt.link}}</a>
+              </li>
+            {% empty %}
+              <div class="alert alert-default" role="alert">
+              Keine kommenden Termine
+              </div>
+            {% endfor %}
+          </ul>
+
+
+
+        <h2>Einstellungen</h2>
+          <p>Die folgenden Daten werden nach Terminvereinbarung an die Bewerber weitere gegeben.</p>
+          <label>Dein Name: <input type="text" name="name" required value="{{interviewer.name|default:""}}"></label>
+          <label>Deine Email: <input type="email" name="email" required value="{{interviewer.email|default:""}}"></label>
+
+        <h3>Hier bitte die Verfügbarkeit wählen</h3>
+        <div class="form-group">
+          {% for entry in frames %}
+
+            <div class="panel panel-default">
+              <div class="panel-heading">{{ entry.day|date:"l, j. F Y" }}</div>
+              <div class="panel-body">
+                {% for t in entry.times %}
+                  <label><input type="checkbox" {% if t.checked %}checked{% endif %} name="slot" value="{{t.slot|date:'c'}}">{{ t.slot|time:"TIME_FORMAT" }} Uhr </label>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+          <button type="submit">Speichern</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

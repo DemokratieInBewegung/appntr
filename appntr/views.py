@@ -14,21 +14,35 @@ from .models import *
 
 MINIMUM = 2
 URL_BUILDER = "https://talky.io/dib-bw-{}"
+TIMES = [(6, 0), (6, 30),
+		 (7, 0), (7, 30),
+		 (8, 0), (8, 30),
+		 (9, 0), (9, 30),
+		 (10, 0), (10, 30),
+		 (11, 0), (11, 30),
+		 (12, 0), (12, 30),
+		 (13, 0), (13, 30),
+		 (14, 0), (14, 30),
+		 (15, 0), (15, 30),
+		 (16, 0), (16, 30),
+		 (17, 0), (17, 30),
+		 (18, 0), (18, 30),
+		 (19, 0), (19, 30),
+		 (20, 0), (20, 30),
+		 (21, 0), (21, 30),
+		 (22, 0), (22, 30)]
 
 
-def get_open_slots(futureWeeks=2, minimum=24, tomorrow=None):
+def get_open_slots(minimum=24, tomorrow=None):
 	if tomorrow is None:
 		tomorrow = datetime.utcnow() + timedelta(hours=minimum)
 
 	slots = defaultdict(list)
 	for slot in Timeslot.objects.filter(once=True, datetime__gte=datetime.utcnow()):
-		print(slot)
 		slots[slot.datetime].append(slot.interviewer.id)
 
-	print(slots)
 	# filter out existing
 	for appt in Appointment.objects.filter(datetime__gte=datetime.utcnow()):
-		print(appt, slots[appt.datetime])
 		if slots[appt.datetime]:
 			try:
 				slots[appt.datetime].remove(appt.interview_lead.id)
@@ -38,10 +52,44 @@ def get_open_slots(futureWeeks=2, minimum=24, tomorrow=None):
 				slots[appt.datetime].remove(appt.interview_snd.id)
 			except ValueError:
 				pass
-		print(slots[appt.datetime])
 
 	return {k: v for k, v in slots.items() if len(v) >= MINIMUM}
 
+
+def edit(request, id):
+
+	inter = get_object_or_404(Interviewer, pk=id)
+	ctx = dict(interviewer=inter)
+
+	if request.method == "POST":
+		inter.name = request.POST.get("name", inter.name)
+		inter.email = request.POST.get("email", inter.email)
+		# clear slots
+		Timeslot.objects.filter(interviewer=inter).delete()
+		for slot in request.POST.getlist("slot"):
+			parsed = parse_datetime(slot)
+			Timeslot(interviewer=inter, datetime=slot, once=True).save()
+
+	availables = [s.datetime.replace(tzinfo=None) for s in inter.slots.all()]
+	tomorrow = (datetime.utcnow() + timedelta(days=1)).replace(minute=0, hour=0, second=0, microsecond=0)
+
+
+	frames = []
+	for x in range(14):
+		d = tomorrow + timedelta(days=x)
+		times = []
+		for t in TIMES:
+			slot = d.replace(hour=t[0], minute=t[1])
+			times.append({
+					"slot": slot,
+					"checked": slot in availables
+				})
+
+		frames.append({"day": d, "times": times})
+
+	ctx["frames"] = frames;
+
+	return render(request, 'interviewer.html', context=ctx)
 
 
 def index(request):
