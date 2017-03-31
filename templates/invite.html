@@ -23,7 +23,8 @@
     {% endif %}
     <div class="jumbotron">
       <h1>Hallo {{name|default:""}}</h1>
-      <p>Bitte wählen Sie in den unten gelistete einen Termin, der Ihnen passt. Bitte planen Sie etwa 25 Minuten für das Gespräch ein. Das Gespräch wird über den <a href="https://talky.io/">talky.io</a>-Webdienst durchgeführt, Sie brauchen daher zum Zeitpunkt des Gesprächs einen Computer mit Kamera und Mikrofon (oder Android Smartphone) und eine Internetverbindung. Der Link wird Ihnen per Email zugesandt.</p>
+      <p>
+      Bitte wählen Sie aus den unten gelisteten Terminen eine Zeit, die Ihnen passt. Bitte planen Sie etwa 25 Minuten für das Gespräch ein. Das Gespräch wird über den <a href="https://talky.io/">talky.io</a>-Webdienst durchgeführt, Sie brauchen daher zum Zeitpunkt des Gesprächs einen Computer mit Kamera und Mikrofon (oder Android Smartphone) und eine Internetverbindung. Der Link zu dem Webdienst wird Ihnen per Email zugesandt. Den Link klicken Sie dann einfach an.</p>
       {% regroup slots by day as slot_list %}
       <form method="POST" class="form-inline">
       {% csrf_token %}
@@ -39,8 +40,8 @@
                 {% endfor %}
               </div>
             </div>
+            <button type="submit">Termin vereinbaren</button>
           {% endfor %}
-          <button type="submit">Termin vereinbaren</button>
         </div>
       {% else %}
         <div class="alert alert-warning" role="alert">
