@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Termin gebucht</title>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<div class="container">
+  <div class="row">
+    <div class="alert alert-success" role="alert">
+      <h1>Ihr Termin ist gebucht</h1>
+      <p>Das Gespräch mit <strong>{{apt.interview_lead.name}}</strong> und <strong>{{apt.interview_snd.name}}</strong> ist geplant für <strong>{{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}</strong> Bitte planen Sie 25min für das Gespräch ein.<p>
+
+      <p>Klicken Sie dann einfach in Ihrem Browser auf <a href="{{apt.link}}">diesen Link {{apt.link}}</a>
+    </div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
