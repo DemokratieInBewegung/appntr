@@ -11,6 +11,29 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
+<style type="text/css">
+  body {
+    padding-top: 2em;
+  }
+  input[type=radio] {
+    display: none;
+  }
+
+  label > span {
+    background: #62388E;
+    color: white;
+    padding: 0.5em;
+    cursor: pointer;
+  }
+
+  label > span:hover {
+    background: #274F9E;
+  }
+
+  input:checked + span {
+    background: #EB564A;
+  }
+</style>
 <body>
 
 
@@ -36,11 +59,16 @@
               <div class="panel-heading">{{ day.list|first|date:"l, j. F Y" }}</div>
               <div class="panel-body">
                 {% for slot in day.list %}
-                  <label><input type="radio" name="slot" value="{{slot|date:'c'}}">{{ slot|time:"TIME_FORMAT" }} Uhr </label>
+                  <label>
+                    <input type="radio" name="slot" value="{{slot|date:'c'}}">
+                    <span>{{ slot|time:"TIME_FORMAT" }} Uhr </span>
+                  </label>
                 {% endfor %}
               </div>
+              <div class="panel-footer">
+                <button type="submit" class="btn btn-primary">Termin vereinbaren</button>
+              </div>
             </div>
-            <button type="submit">Termin vereinbaren</button>
           {% endfor %}
         </div>
       {% else %}
