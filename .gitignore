@@ -3,3 +3,10 @@
 ?? include/
 ?? lib/
 ?? pip-selfcheck.json
+.pyc
+__pycache__
+bin
+db.sqlite3
+include
+lib
+pip-selfcheck.json
