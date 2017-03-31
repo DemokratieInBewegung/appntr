@@ -102,9 +102,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-if not ON_DOKKU:
+if ON_DOKKU:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = True
+    DEFAULT_FROM_EMAIL = 'robot@demokratie-in-bewegung.org'
+    EMAIL_HOST = "smtp.zoho.eu"
+    EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
+    EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD", 'password')
+    EMAIL_PORT = 465
+else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

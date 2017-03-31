@@ -4,10 +4,11 @@ from django.db.models import Q
 from django.db import models
 
 
-
 class Interviewer(models.Model):
     class Meta:
         app_label = 'appntr'
+
+    id = models.CharField(max_length=10, primary_key=True) 
     email = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
 
@@ -18,6 +19,16 @@ class Interviewer(models.Model):
         just_before = datetime.utcnow() - timedelta(hours=1)
         return Appointment.objects.filter(Q(interview_lead=self) | Q(interview_snd=self)
                 ).filter(datetime__gte=just_before).order_by("-datetime").all()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = uuid4().hex[:8]
+
+        while True:
+            try:
+                return super(Interviewer, self).save(*args, **kwargs)
+            except IntegrityError:
+                self.id = uuid.uuid4().hex[:8]
 
 
 class Timeslot(models.Model):
