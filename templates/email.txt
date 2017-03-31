@@ -2,7 +2,6 @@ Hallo {{apt.name}},
 
 Wir freuen uns Sie kennen zu lernen. Sie haben einen Termin mit {{apt.interview_lead.name}} und {{apt.interview_snd.name}} (beide auch auf CC in dieser Email) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte planen Sie 25min für das Gespräch ein. 
 
-
 Um das Gespräch zu beginnen, klicken Sie dann einfach auf diesen Link:
 
 	{{apt.link}}

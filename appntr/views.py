@@ -5,15 +5,16 @@ from django.utils.dateparse import parse_datetime
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from collections import defaultdict
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
 
 import random
 from uuid import uuid4
 
+URL_BUILDER = "https://talky.io/dib-bw-{}"
 from .models import *
 
 MINIMUM = 2
-URL_BUILDER = "https://talky.io/dib-bw-{}"
 TIMES = [(6, 0), (6, 30),
 		 (7, 0), (7, 30),
 		 (8, 0), (8, 30),
@@ -92,10 +93,18 @@ def edit(request, id):
 	return render(request, 'interviewer.html', context=ctx)
 
 
-def index(request):
+def invite(request, id):
+
+	invite = get_object_or_404(Invite, pk=id)
+
+	try:
+		return render(request, "confirm.html", context=dict(apt=invite.appointment))
+	except Invite.appointment.RelatedObjectDoesNotExist:
+		pass
+
+
 	if request.method == "POST":
-		ctx = dict(name=request.POST.get("name"),
-				   email=request.POST.get("email"))
+		ctx = dict()
 
 		dt = parse_datetime(request.POST.get("slot", ''))
 
@@ -108,16 +117,29 @@ def index(request):
 			apt = Appointment(interview_lead=lead,
 							  interview_snd=snd,
 							  datetime=dt,
-							  link=URL_BUILDER.format(uuid4().hex[:6]),
-							  **ctx)
+							  invite=invite,
+							  link=URL_BUILDER.format(uuid4().hex[:6]))
 			apt.save()
 
-			send_mail('Termin für Bewerbungsgespräch von {} mit Demokratie in Bewegung'.format(apt.name),
-				    render_to_string('email.txt', context=dict(apt=apt)),
-				    'robot@demokratie-in-bewegung.org',
-				    [apt.email, lead.email, snd.email],
-				    fail_silently=False,
-				)
+			EmailMessage(
+				'Termin für Bewerbungsgespräch mit Demokratie in Bewegung',
+			    render_to_string('email.txt', context=dict(apt=apt)),
+			    'robot@demokratie-in-bewegung.org',
+			    [apt.invite.email],
+			    headers={
+			    	'Message-Id': "X-{}".format(invite.id),
+			    	'Cc': ','.join([lead.email, snd.email])
+			    }
+			).send()
+
+
+			
+			EmailMessage(
+				'Termin mit {} (Bewerbungsgespräch)'.format(apt.name),
+			    render_to_string('email_interviewers.txt', context=dict(apt=apt)),
+			    'robot@demokratie-in-bewegung.org',
+			    [lead.email, snd.email]
+			).send()
 
 			return render(request, "confirm.html", context=dict(apt=apt))
 
@@ -126,8 +148,10 @@ def index(request):
 			ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen auswählen."
 
 	else:
-		ctx = dict(name=request.GET.get("name"),
-				   slots=get_open_slots().keys(),
-				   email=request.GET.get("email"))
+		ctx = dict(name=invite.name, slots=get_open_slots().keys())
 
-	return render(request, "index.html", context=ctx)
+	return render(request, "invite.html", context=ctx)
+
+
+def index(request):
+	return HttpResponse("🎉")

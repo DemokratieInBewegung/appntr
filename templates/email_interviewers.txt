@@ -1,0 +1,16 @@
+Hallo {{apt.interview_lead.name}}, hi {{apt.interview_snd.name}},
+
+{{apt.name}} ({{apt.email}}) hat sich einen Termin ausgesucht und ihr beide seit als frei und damit zuständig eingestuft worden. Der Termin ist:
+
+    {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}
+
+Die Bewerbungsunterlagen (und etwaige Diskussion vom Team) findet ihr hier:
+
+    {{apt.invite.external_url}}
+
+Um das Gespräch zu beginnen, klickt dann einfach hier Link:
+
+	{{apt.link}}
+
+
+Cheerio!

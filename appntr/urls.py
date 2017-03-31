@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import index, edit
+from .views import index, invite, edit
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^interviewer/(?P<id>.*)$', edit),
+    url(r'^einladung/(?P<id>.*)', invite),
     url(r'^', index)
 ]
