@@ -148,7 +148,7 @@ def invite(request, id):
 			ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen auswählen."
 
 	else:
-		ctx = dict(name=invite.name, slots=get_open_slots().keys())
+		ctx = dict(name=invite.name, slots=sorted(get_open_slots().keys()))
 
 	return render(request, "invite.html", context=ctx)
 
