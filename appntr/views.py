@@ -39,11 +39,11 @@ def get_open_slots(minimum=24, tomorrow=None):
 		tomorrow = datetime.utcnow() + timedelta(hours=minimum)
 
 	slots = defaultdict(list)
-	for slot in Timeslot.objects.filter(once=True, datetime__gte=datetime.utcnow()):
+	for slot in Timeslot.objects.filter(once=True, datetime__gte=tomorrow):
 		slots[slot.datetime].append(slot.interviewer.id)
 
 	# filter out existing
-	for appt in Appointment.objects.filter(datetime__gte=datetime.utcnow()):
+	for appt in Appointment.objects.filter(datetime__gte=tomorrow):
 		if slots[appt.datetime]:
 			try:
 				slots[appt.datetime].remove(appt.interview_lead.id)
