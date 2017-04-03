@@ -25,6 +25,42 @@ class Interviewer(models.Model):
                 ).filter(datetime__gte=just_before).order_by("-datetime").all()
 
 
+class Application(models.Model):
+    class Meta:
+        app_label = 'appntr'
+
+    class STATES:
+        INBOX = "inbox"
+        ANON_VOTE = "anon_vote"
+        PERSON_VOTE = "person_vote"
+        ACCEPTED = "accepted"
+        REJECTED = "rejected"
+        BACKBURNER = "backburner"
+
+
+    added_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now=True)
+    state = models.CharField(max_length=25, choices= [
+        (STATES.INBOX, "Incoming"),
+        (STATES.ANON_VOTE, "In Voting (anon)"),
+        (STATES.PERSON_VOTE, "In Voting (person)"),
+        (STATES.ACCEPTED, "Accepted"),
+        (STATES.REJECTED, "Rejected"),
+        (STATES.BACKBURNER, "on Backburner")
+    ], default=STATES.INBOX)
+    # actual application 
+    anon_name = models.CharField(max_length=255)
+    anon_content = models.TextField()
+    actual_name = models.CharField(max_length=255)
+    personal_content = models.TextField()
+    contact_details = models.TextField()
+    email = models.CharField(max_length=255)
+
+    # external tracking
+    trello_id = models.CharField(max_length=25, blank=True, null=True)
+    loomio_id = models.CharField(max_length=25, blank=True, null=True)
+
+
 class Timeslot(models.Model):
     class Meta:
         app_label = 'appntr'

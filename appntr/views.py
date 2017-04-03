@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_POST
 from django.utils.dateparse import parse_datetime
+from django.forms import ModelForm
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from collections import defaultdict
@@ -155,3 +156,24 @@ def invite(request, id):
 
 def index(request):
 	return HttpResponse("🎉")
+
+
+
+# class AnonForm(ModelForm):
+# 	class Meta:
+# 	    model = Appllication
+# 	    fields = ['anon_name', 'anon_content']
+
+
+class IncomingForm(ModelForm):
+	class Meta:
+	    model = Application
+	    fields = ['anon_name', 'anon_content', 'actual_name', 'personal_content', 'contact_details', 'email']
+
+
+def incoming(request):
+	form = IncomingForm(request.POST)
+	if form.save():
+		return HttpResponse("ok")
+	else:
+		raise ValueError()
