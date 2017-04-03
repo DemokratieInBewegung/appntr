@@ -60,6 +60,9 @@ class Application(models.Model):
     trello_id = models.CharField(max_length=25, blank=True, null=True)
     loomio_id = models.CharField(max_length=25, blank=True, null=True)
 
+    def __str__(self):
+        return "{}@{}".format(self.anon_name, self.state)
+
 
 class Timeslot(models.Model):
     class Meta:
@@ -127,6 +130,7 @@ def send_invite(sender, instance, **kwargs):
 
 from django.contrib import admin
 admin.site.register(Interviewer)
+admin.site.register(Application)
 admin.site.register(Invite)
 admin.site.register(Timeslot)
 admin.site.register(Appointment)
