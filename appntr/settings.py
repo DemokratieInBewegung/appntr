@@ -132,3 +132,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+#### LOOMIO
+
+LOOMIO_GROUP = 56603
+LOOMIO_CLIENT_ID = os.environ.get("LOOMIO_CLIENT_ID")
+LOOMIO_CLIENT_SECRET = os.environ.get("LOOMIO_CLIENT_SECRET")

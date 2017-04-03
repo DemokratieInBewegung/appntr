@@ -8,6 +8,11 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
 
+class CfgOption(models.Model):
+    key = models.CharField(max_length=10, primary_key=True)
+    value = models.CharField(max_length=1024, null=True, blank=True)
+
+
 class Interviewer(models.Model):
     class Meta:
         app_label = 'appntr'
