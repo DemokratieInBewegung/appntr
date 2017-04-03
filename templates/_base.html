@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gespächstermin buchen</title>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<style type="text/css">
+  body {
+    padding-top: 2em;
+  }
+  input[type=radio] {
+    display: none;
+  }
+
+  label > span {
+    background: #62388E;
+    color: white;
+    padding: 0.5em;
+    cursor: pointer;
+  }
+
+  label > span:hover {
+    background: #274F9E;
+  }
+
+  input:checked + span {
+    background: #EB564A;
+  }
+</style>
+<body>
+
+
+<div class="container">
+  <div class="row">
+    {% if message %}
+    <div class="alert alert-warning" role="alert">
+      {{message}}
+    </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+  </div>
+</div>
+</body>
+</html>
