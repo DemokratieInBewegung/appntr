@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.dateparse import parse_datetime
 from django.forms import ModelForm
@@ -171,6 +172,7 @@ class IncomingForm(ModelForm):
 	    fields = ['anon_name', 'anon_content', 'actual_name', 'personal_content', 'contact_details', 'email']
 
 
+@csrf_exempt
 def incoming(request):
 	form = IncomingForm(request.POST)
 	if form.save():
