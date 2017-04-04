@@ -7,7 +7,6 @@ click==6.7
 dj-database-url==0.4.2
 Django==1.10.6
 django-celery==3.2.1
-get==0.0.0
 itsdangerous==0.24
 Jinja2==2.9.5
 kombu==3.0.37
@@ -28,3 +27,4 @@ six==1.10.0
 SQLAlchemy==1.1.7
 Werkzeug==0.12.1
 WTForms==2.1
+get==0.0.0
