@@ -118,11 +118,13 @@ def invite(request, id):
 			users = random.sample(slots[dt], 2)
 			lead = Interviewer.objects.get(pk=users[0])
 			snd = Interviewer.objects.get(pk=users[1])
-			apt = Appointment(interview_lead=lead,
+			id = uuid4().hex[:6]
+			apt = Appointment(id=id,
+							  interview_lead=lead,
 							  interview_snd=snd,
 							  datetime=dt,
 							  invite=invite,
-							  link=URL_BUILDER.format(uuid4().hex[:6]))
+							  link=URL_BUILDER.format(id))
 			apt.save()
 
 			EmailMessage(
