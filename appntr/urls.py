@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import index, invite, edit, applications, incoming
+from .views import index, invite, edit, applications, incoming, set_state
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^interviewer/(?P<id>.*)$', edit),
     url(r'^einladung/(?P<id>.*)', invite),
     url(r'^incoming/EXTERNAL', incoming),
+    url(r'^applications/(?P<id>.*)/set_state/(?P<state>.*)', set_state),
     url(r'^applications/', applications),
     url(r'^', index)
 ]

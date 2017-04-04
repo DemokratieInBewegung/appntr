@@ -183,6 +183,17 @@ def incoming(request):
 		raise ValueError()
 
 
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def set_state(request, state, id):
+	app = get_object_or_404(Application, pk=id)
+	app.state = state
+	app.save()
+	return redirect("/applications/")
+
+
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def applications(request):
@@ -207,7 +218,7 @@ def applications(request):
 			app.loomio_cur_proposal_id = prp['id']
 			app.state = Application.STATES.ANON_VOTE
 			app.save()
-			ctx["message"] = "Bewerbung in anonyme Abstimmung verschoben"
+			ctx["message"] = "Bewerbung '{}' in anonyme Abstimmung verschoben".format(app.anon_name)
 
 	apps = [{"id": a.id, "name": a.anon_name, "form": AnonForm(instance=a)}
 		 for a in Application.objects.filter(state=Application.STATES.INBOX)]
