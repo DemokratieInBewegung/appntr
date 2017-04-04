@@ -9,9 +9,11 @@ from django.core.mail import EmailMessage
 
 
 class CfgOption(models.Model):
-    key = models.CharField(max_length=10, primary_key=True)
+    key = models.CharField(max_length=255, primary_key=True)
     value = models.CharField(max_length=1024, null=True, blank=True)
 
+    def __str__(self):
+        return self.key
 
 class Interviewer(models.Model):
     class Meta:
@@ -139,3 +141,4 @@ admin.site.register(Application)
 admin.site.register(Invite)
 admin.site.register(Timeslot)
 admin.site.register(Appointment)
+admin.site.register(CfgOption)
