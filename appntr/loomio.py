@@ -103,7 +103,8 @@ def create_proposal(discussion_id, title, datetime, description=""):
 			"description": description,
 			"discussion_id": discussion_id,
 			"attachments_ids": [],
-			"closing_time": datetime.isoformat(),
+			"closing_at": datetime.replace(minute=0, second=0, microsecond=0).isoformat() 
+			+ "Z",
 			"outcome": ""
 		}})['proposals'][0]
 
