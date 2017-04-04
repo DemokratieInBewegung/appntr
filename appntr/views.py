@@ -194,7 +194,7 @@ def applications(request):
 			items = app.actual_name.split('"')
 			if len(items) == 3:
 				items[1] = app.anon_name
-				app.actual_name = items.join('"')
+				app.actual_name = '"'.join(items)
 			else:
 				app.actual_name += ' ehemals "{}"'.format(app.anon_name)
 

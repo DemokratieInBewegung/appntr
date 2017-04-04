@@ -80,7 +80,7 @@ def create_discussion(title, content):
 		"discussion": {
 			"title": title,
 			"description": content,
-			"group_id":  settings.LOOMIO_GROUP,
+			"group_id":  settings.LOOMIO_INCOMING_GROUP,
 			"attachments_ids": [],
 			"uses_markdown": True,
 			"private": True,
