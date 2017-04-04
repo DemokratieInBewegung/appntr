@@ -62,8 +62,8 @@ class Application(models.Model):
     email = models.CharField(max_length=255)
 
     # external tracking
-    trello_id = models.CharField(max_length=25, blank=True, null=True)
-    loomio_id = models.CharField(max_length=25, blank=True, null=True)
+    loomio_discussion_id = models.CharField(max_length=25, blank=True, null=True)
+    loomio_cur_proposal_id = models.CharField(max_length=25, blank=True, null=True)
 
     def __str__(self):
         return "{}@{}".format(self.anon_name, self.state)

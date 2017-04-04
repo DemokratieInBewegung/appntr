@@ -9,6 +9,8 @@ from django.template.loader import render_to_string
 from collections import defaultdict
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from . import loomio
+import re
 
 import random
 from uuid import uuid4
@@ -160,10 +162,10 @@ def index(request):
 
 
 
-# class AnonForm(ModelForm):
-# 	class Meta:
-# 	    model = Appllication
-# 	    fields = ['anon_name', 'anon_content']
+class AnonForm(ModelForm):
+	class Meta:
+	    model = Application
+	    fields = ['anon_name', 'anon_content']
 
 
 class IncomingForm(ModelForm):
@@ -179,3 +181,35 @@ def incoming(request):
 		return HttpResponse("ok")
 	else:
 		raise ValueError()
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def applications(request):
+	ctx = {}
+	if request.method == "POST":
+		app = get_object_or_404(Application, pk=request.POST.get("id"))
+
+		if AnonForm(request.POST, instance=app).save(commit=False):
+			items = app.actual_name.split('"')
+			if len(items) == 3:
+				items[1] = app.anon_name
+				app.actual_name = items.join('"')
+			else:
+				app.actual_name += ' ehemals "{}"'.format(app.anon_name)
+
+
+			dsc = loomio.create_discussion(app.anon_name, app.anon_content)
+			app.loomio_discussion_id = dsc['id']
+			prp = loomio.create_proposal(app.loomio_discussion_id,
+										"{} interviewen".format(app.anon_name),
+										datetime.utcnow() + timedelta(hours=48))
+			app.loomio_cur_proposal_id = prp['id']
+			app.state = Application.STATES.ANON_VOTE
+			app.save()
+			ctx["message"] = "Bewerbung in anonyme Abstimmung verschoben"
+
+	apps = [{"id": a.id, "name": a.anon_name, "form": AnonForm(instance=a)}
+		 for a in Application.objects.filter(state=Application.STATES.INBOX)]
+	ctx["applications"] = apps
+	return render(request, "applications.html", context=ctx)

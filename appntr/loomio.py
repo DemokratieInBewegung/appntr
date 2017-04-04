@@ -28,7 +28,7 @@ requests_log.propagate = True
 
 BASE_URI = "https://www.loomio.org/api/v1/"
 CREATE_DISCUSSION_URI = BASE_URI + "discussions.json"
-# DISCUSSION_URI = BASE_URI + "discussion/{}.json"
+DISCUSSION_URI = BASE_URI + "discussions/{}.json"
 CREATE_PROPOSAL_URI = BASE_URI + "proposals.json"
 PROPOSAL_URI = BASE_URI + "proposals/{}.json"
 
@@ -88,16 +88,11 @@ def create_discussion(title, content):
 		}})['discussions'][0]
 
 
-def update_discussion(title, content):
-	return _make_request("put", CREATE_DISCUSSION_URI, {
+def update_discussion(discussion_id, title, content):
+	return _make_request("put", DISCUSSION_URI.format(discussion_id), {
 		"discussion": {
 			"title": title,
-			"description": content,
-			"group_id":  settings.LOOMIO_GROUP,
-			"attachments_ids": [],
-			"uses_markdown": True,
-			"private": True,
-			"make_announcement": False,
+			"description": content
 		}})['discussions'][0]
 
 

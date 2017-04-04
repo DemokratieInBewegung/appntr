@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+{% block content %}
+  
+  <h1>Incoming</h1>
+  <div class="form-group">
+    {% for app in applications %}
+      <div class="panel panel-default">
+        <div class="panel-heading">{{app.name}}</div>
+        <div class="panel-body">
+          <form method="POST" class="form-inline">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{app.id}}" />
+            {{app.form}}
+        </div>
+        <div class="panel-footer">
+          <button type="submit" class="btn btn-primary">Publish</button>
+          <button type="submit" class="btn btn-danger">Backburner</button>
+        </div>
+      </div>
+      {% empty %}
+    <div class="alert alert-success" role="alert">
+      <h1>All done 🎉</h1>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
