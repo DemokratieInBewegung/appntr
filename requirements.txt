@@ -13,13 +13,11 @@ kombu==3.0.37
 MarkupSafe==1.0
 oauthlib==2.0.2
 packaging==16.8
-post==0.0.0
 psycopg2==2.7.1
 public==0.0.0
 pyparsing==2.2.0
 pytz==2017.2
 query-string==0.0.0
-request==0.0.0
 requests==2.13.0
 requests-oauthlib==0.8.0
 setupfiles==0.0.0
@@ -27,4 +25,3 @@ six==1.10.0
 SQLAlchemy==1.1.7
 Werkzeug==0.12.1
 WTForms==2.1
-get==0.0.0
