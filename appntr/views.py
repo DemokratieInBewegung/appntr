@@ -197,6 +197,9 @@ def refresh_votes(request):
 		maximum = int(request.GET.get("max", 1000))
 		yield "Refreshing..."
 		for discussion in vote_ended:
+			maximum -= 1
+			if maximum <= 0:
+				break
 			try:
 				app = Application.objects.get(loomio_discussion_id=discussion['id'])
 			except:
@@ -254,10 +257,6 @@ def refresh_votes(request):
 				app.state = Application.STATES.REJECTED
 				app.save()
 				yield "\n[❌] {id}, {title} fliegt raus".format(**discussion)
-
-			maximum -= 1
-			if maximum <= 0:
-				break
 
 
 		if missing:
