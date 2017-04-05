@@ -261,8 +261,8 @@ def refresh_votes(request):
 
 		if missing:
 			yield "\n------------------------------ Missing ---------------------------"
-			for x in missing:
-				yield "\n{id},{key},{title}".format(**missing)
+			for entry in missing:
+				yield "\n{id},{key},{title}".format(**entry)
 
 
 	return StreamingHttpResponse(iterate(), status=200, content_type="text/plain;utf-8")
