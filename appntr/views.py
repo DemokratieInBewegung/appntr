@@ -194,13 +194,14 @@ def refresh_votes(request):
 	vote_ended = loomio.get_vote_ended()
 	missing = []
 	def iterate():
+		maximum = int(request.GET.get("max", 1000))
 		yield "Refreshing..."
 		for discussion in vote_ended:
 			try:
 				app = Application.objects.get(loomio_discussion_id=discussion['id'])
 			except:
 				missing.append(discussion)
-				yield "\n[s] {id} -- unknown".format(**discussion)
+				yield "\n[s] {id}, {title} -- unknown".format(**discussion)
 				continue
 
 			if not app.loomio_cur_proposal_id:
@@ -254,6 +255,10 @@ def refresh_votes(request):
 				app.save()
 				yield "\n[❌] {id}, {title} fliegt raus".format(**discussion)
 
+			maximum -= 1
+			if maximum <= 0:
+				break
+
 
 		if missing:
 			yield "\n------------------------------ Missing ---------------------------"
@@ -261,7 +266,7 @@ def refresh_votes(request):
 				yield "\n{id},{key},{title}".format(**missing)
 
 
-	return StreamingHttpResponse(iterate(), status=200, content_type="text/plain")
+	return StreamingHttpResponse(iterate(), status=200, content_type="text/plain;utf-8")
 
 
 @login_required
