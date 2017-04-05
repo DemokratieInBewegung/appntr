@@ -3,12 +3,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.dateparse import parse_datetime
+from django.conf import settings
 from django.forms import ModelForm
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from collections import defaultdict
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
+from django.http import HttpResponse, StreamingHttpResponse
 from . import loomio
 import re
 
@@ -17,6 +18,8 @@ from uuid import uuid4
 
 URL_BUILDER = "https://talky.io/dib-bw-{}"
 from .models import *
+
+MIN_VOTERS = 5
 
 MINIMUM = 2
 TIMES = [(6, 0), (6, 30),
@@ -185,6 +188,80 @@ def incoming(request):
 		raise ValueError()
 
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def refresh_votes(request):
+	vote_ended = loomio.get_vote_ended()
+	missing = []
+	def iterate():
+		yield "Refreshing..."
+		for discussion in vote_ended:
+			try:
+				app = Application.objects.get(loomio_discussion_id=discussion['id'])
+			except:
+				missing.append(discussion)
+				yield "\n[s] {id} -- unknown".format(**discussion)
+				continue
+
+			if not app.loomio_cur_proposal_id:
+				missing.append(discussion)
+				yield "\n[s] {id} {title} -- not managed by us".format(**discussion)
+				continue
+
+			proposal = loomio.get_proposal(app.loomio_cur_proposal_id)
+
+			if proposal['voters_count'] < MIN_VOTERS:
+				name = app.anon_name if app.state == Application.STATES.ANON_VOTE else app.actual_name
+				prp = loomio.create_proposal(app.loomio_discussion_id,
+											"{} interviewen".format(name),
+											datetime.utcnow() + timedelta(hours=24),
+											description="Erneutes Voting über 24h, da weniger als {} abgestimmt haben".format(MIN_VOTERS))
+				app.loomio_cur_proposal_id = prp['id']
+				app.save()
+				yield "\n[🔄]{id}, {title} um 24 verlängert".format(**discussion)
+				continue
+
+			result = loomio.calc_result(proposal)
+
+			if result == 'yes':
+				if app.state == Application.STATES.ANON_VOTE:
+					# flip the card:
+					loomio.update_discussion(app.loomio_discussion_id, app.actual_name, app.personal_content)
+					prp = loomio.create_proposal(app.loomio_discussion_id,
+												"{} interviewen".format(app.actual_name),
+												datetime.utcnow() + timedelta(hours=24))
+					app.loomio_cur_proposal_id = prp['id']
+					app.state = Application.STATES.PERSON_VOTE
+					app.save()
+					yield "\n[➰]{id}, {title} -> {actual_name}".format(actual_name=app.actual_name, **discussion)
+				else:
+					# We've been in the personal vote. Let's accept them
+					loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_ACCEPTED_GROUP)
+					app.state = Application.STATES.ACCEPTED
+					app.save()
+					yield "\n[✔] {id}, {actual_name} accepted".format(actual_name=app.actual_name, **discussion)
+					# FIXME: send email to invite them for a discussion.
+
+			elif result == 'abstain':
+				loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_BACKBURNER_GROUP)
+				app.state = Application.STATES.BACKBURNER
+				app.save()
+				yield "\n[⭕] {id}, {title} warm gehalten".format(**discussion)
+
+			else:
+				loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_REJECTED_GROUP)
+				app.state = Application.STATES.REJECTED
+				app.save()
+				yield "\n[❌] {id}, {title} fliegt raus".format(**discussion)
+
+
+		if missing:
+			yield "\n------------------------------ Missing ---------------------------"
+			for x in missing:
+				yield "\n{id},{key},{title}".format(**missing)
+
+
+	return StreamingHttpResponse(iterate(), status=200, content_type="text/plain")
 
 
 @login_required

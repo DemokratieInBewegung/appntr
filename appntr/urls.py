@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import index, invite, edit, applications, incoming, set_state
+from .views import index, invite, edit, refresh_votes, applications, incoming, set_state
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^einladung/(?P<id>.*)', invite),
     url(r'^incoming/EXTERNAL', incoming),
     url(r'^applications/(?P<id>.*)/set_state/(?P<state>.*)', set_state),
+    url(r'^applications/refresh', refresh_votes),
     url(r'^applications/', applications),
     url(r'^', index)
 ]

@@ -27,9 +27,10 @@ requests_log.propagate = True
 
 
 BASE_URI = "https://www.loomio.org/api/v1/"
-CREATE_DISCUSSION_URI = BASE_URI + "discussions.json"
+DISCUSSIONS_URI = BASE_URI + "discussions.json"
 DISCUSSION_URI = BASE_URI + "discussions/{}.json"
 CREATE_PROPOSAL_URI = BASE_URI + "proposals.json"
+MOVE_DISCUSSION_URI = BASE_URI + "discussions/{}/move"
 PROPOSAL_URI = BASE_URI + "proposals/{}.json"
 
 
@@ -76,7 +77,7 @@ def _make_request(method, uri, data=dict()):
 
 
 def create_discussion(title, content):
-	return _make_request("post", CREATE_DISCUSSION_URI, {
+	return _make_request("post", DISCUSSIONS_URI, {
 		"discussion": {
 			"title": title,
 			"description": content,
@@ -109,16 +110,30 @@ def create_proposal(discussion_id, title, datetime, description=""):
 		}})['proposals'][0]
 
 
+def get_vote_ended():
+	return filter(lambda x: not x['active_proposal_id'],
+			_make_request("get", DISCUSSIONS_URI + "?group_id={}&per=1000".format(settings.LOOMIO_INCOMING_GROUP)
+		)['discussions'])
+
+
+def move_discussion(discussion_id, target_group_id):
+	return _make_request("patch", MOVE_DISCUSSION_URI.format(discussion_id), 
+						{"group_id": target_group_id})
+
+
+
 def calc_result(proposal):
 	vc = proposal["vote_counts"]
 	no = vc["block"] + vc["no"]
 	abstain = vc["abstain"]
 	yes = vc["yes"]
 
-	if (yes + no) < abstain:
-		return "abstain"
 	if yes >= no:
+		if abstain >= yes:
+			return "abstain"
 		return "yes"
+	if abstain >= no:
+		return "abstain"
 	return "no"
 
 
