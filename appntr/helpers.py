@@ -1,6 +1,7 @@
 
 from .models import Application
 from django.conf import settings
+from datetime import datetime, timedelta
 from . import loomio
 
 def update_application(app, force=False):
