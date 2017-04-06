@@ -40,6 +40,8 @@ class Application(models.Model):
         INBOX = "inbox"
         ANON_VOTE = "anon_vote"
         PERSON_VOTE = "person_vote"
+        TO_INVITE = "to_invite"
+        INVITED = "invited"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
         BACKBURNER = "backburner"
@@ -51,6 +53,8 @@ class Application(models.Model):
         (STATES.INBOX, "Incoming"),
         (STATES.ANON_VOTE, "In Voting (anon)"),
         (STATES.PERSON_VOTE, "In Voting (person)"),
+        (STATES.TO_INVITE, "To invite"),
+        (STATES.INVITED, "INVITED"),
         (STATES.ACCEPTED, "Accepted"),
         (STATES.REJECTED, "Rejected"),
         (STATES.BACKBURNER, "on Backburner")
@@ -68,7 +72,13 @@ class Application(models.Model):
     loomio_cur_proposal_id = models.CharField(max_length=25, blank=True, null=True)
 
     def __str__(self):
-        return "{}@{}".format(self.anon_name, self.state)
+        return "{}@{}".format(self.name, self.state)
+
+    @property
+    def name(self):
+        if self.state in (Application.STATES.ANON_VOTE, Application.STATES.INBOX):
+            return self.anon_name
+        return self.actual_name
 
 
 class Timeslot(models.Model):
@@ -133,12 +143,3 @@ def send_invite(sender, instance, **kwargs):
             [instance.email],
             reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
         ).send()
-
-
-from django.contrib import admin
-admin.site.register(Interviewer)
-admin.site.register(Application)
-admin.site.register(Invite)
-admin.site.register(Timeslot)
-admin.site.register(Appointment)
-admin.site.register(CfgOption)
