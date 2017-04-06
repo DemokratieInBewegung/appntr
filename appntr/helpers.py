@@ -26,7 +26,7 @@ def update_application(app, force=False):
 	if result == 'yes':
 		if app.state == Application.STATES.ANON_VOTE:
 			# flip the card:
-			loomio.update_discussion(app.loomio_discussion_id, app.actual_name, app.personal_content)
+			loomio.update_discussion(app.loomio_discussion_id, app.actual_name[:149], app.personal_content)
 			prp = loomio.create_proposal(app.loomio_discussion_id,
 										"{} interviewen".format(app.actual_name),
 										datetime.utcnow() + timedelta(hours=24))
