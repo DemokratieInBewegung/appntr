@@ -6,6 +6,7 @@ import json
 
 import requests
 import logging
+import time
 
 # These two lines enable debugging at httplib level (requests->urllib3->http.client)
 # You will see the REQUEST, including HEADERS and DATA, and RESPONSE with HEADERS but without DATA.
@@ -55,8 +56,13 @@ def get_client():
 		model.value = json.dumps(token)
 		model.save()
 
+	token = json.loads(model.value)
+	token['expires_in'] = int(token['created_at']) + int(token['expires_in']) - time.time()
+
+	print(token)
+
 	return OAuth2Session(settings.LOOMIO_CLIENT_ID, 
-			token=json.loads(model.value),
+			token=token,
 			auto_refresh_url="https://www.loomio.org/oauth/token",
 			auto_refresh_kwargs={
 				"client_id": settings.LOOMIO_CLIENT_ID,
