@@ -2,6 +2,7 @@ from django.conf import settings
 import requests
 from requests_oauthlib import OAuth2Session
 from .models import CfgOption
+from django.utils.dateparse import parse_datetime
 import json
 
 import requests
@@ -30,7 +31,8 @@ requests_log.propagate = True
 BASE_URI = "https://www.loomio.org/api/v1/"
 DISCUSSIONS_URI = BASE_URI + "discussions.json"
 DISCUSSION_URI = BASE_URI + "discussions/{}.json"
-CREATE_PROPOSAL_URI = BASE_URI + "proposals.json"
+PROPOSALS_URI = BASE_URI + "proposals.json"
+PROPOSAL_URI = BASE_URI + "proposals/{}.json"
 MOVE_DISCUSSION_URI = BASE_URI + "discussions/{}/move"
 PROPOSAL_URI = BASE_URI + "proposals/{}.json"
 
@@ -102,16 +104,22 @@ def update_discussion(discussion_id, title, content):
 			"description": content
 		}})['discussions'][0]
 
+def postpone_proposal(proposal_id, datetime):
+	return _make_request('patch', PROPOSAL_URI.format(proposal_id), {
+		"motion": {
+			"closing_at": datetime.replace(minute=0, second=0, microsecond=0).isoformat() + "Z",
+			}
+		})
+
 
 def create_proposal(discussion_id, title, datetime, description=""):
-	return _make_request("post", CREATE_PROPOSAL_URI, {
+	return _make_request("post", PROPOSALS_URI, {
 		"motion": {
 			"name": title,
 			"description": description,
 			"discussion_id": discussion_id,
 			"attachments_ids": [],
-			"closing_at": datetime.replace(minute=0, second=0, microsecond=0).isoformat() 
-			+ "Z",
+			"closing_at": datetime.replace(minute=0, second=0, microsecond=0).isoformat() + "Z",
 			"outcome": ""
 		}})['proposals'][0]
 
@@ -120,6 +128,22 @@ def get_vote_ended():
 	return filter(lambda x: not x['active_proposal_id'],
 			_make_request("get", DISCUSSIONS_URI + "?group_id={}&per=1000".format(settings.LOOMIO_INCOMING_GROUP)
 		)['discussions'])
+
+
+def get_votes_need_postponing(max_end_time):
+	resp = _make_request("get", DISCUSSIONS_URI + "?group_id={}&per=1000".format(settings.LOOMIO_INCOMING_GROUP))
+	props = { x['id'] : x for x in resp['proposals'] }
+	for dc in resp['discussions']:
+		if not dc['active_proposal_id']:
+			continue # not open
+
+		prop = props[dc['active_proposal_id']]
+
+		if int(prop['voters_count']) >= settings.MIN_VOTERS:
+			continue # enough votes
+
+		if parse_datetime(prop['closing_at']).replace(tzinfo=None) <= max_end_time:
+			yield (dc, prop)
 
 
 def move_discussion(discussion_id, target_group_id):
@@ -146,3 +170,4 @@ def calc_result(proposal):
 def get_proposal(proposal_id):
 	return _make_request("get", PROPOSAL_URI.format(proposal_id)
 			)["proposals"][0]
+
