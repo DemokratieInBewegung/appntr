@@ -84,6 +84,10 @@ def _make_request(method, uri, data=dict()):
 	return resp.json()
 
 
+def get_discussion(discussion_id): 
+	return _make_request("get", DISCUSSION_URI.format(discussion_id), {})['discussions'][0]
+
+
 def create_discussion(title, content):
 	return _make_request("post", DISCUSSIONS_URI, {
 		"discussion": {
