@@ -6,7 +6,13 @@ Um das Gespräch zu beginnen, klicken Sie dann einfach auf diesen Link:
 
 	{{apt.link}}
 
-Sie brauchen dafür eine Kamera und ein Mikrofon am Computer oder ein Android Smartphone, und müssen auf Nachfrage vom Browser beides freigeben.
+Sie brauchen dafür eine Kamera und ein Mikrofon am Computer und sowie einen Firefox oder Google Chrome Browser. Falls es probleme mit Bild und Ton geben sollten, versuchen Sie es nochmals nach abschalten von Adblocker-Plugins und etwaiger Firewall.
 
-Wir freuen uns.
+Desweiteren würden wir darum bitten sich die folgenden Dokumente in Vorebereitung zu dem Gespräch nochmals durchzulesen:
+
+ - Die Initiativ-Struktur: https://bewegung.jetzt/2017/04/03/so-funktioniert-das-initiativprinzip/
+ - Der Ethik-Kodex: https://tinyurl.com/bewegung-ethik-kodex-2017-4-4
+
+
+Wir freuen uns!
 Das Demokratie in Bewegung Team
