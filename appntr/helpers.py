@@ -39,7 +39,7 @@ def update_application(app, force=False):
 			loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_ACCEPTED_GROUP)
 			app.state = Application.STATES.TO_INVITE
 			app.save()
-			return "\n[✔] {name} accepted".format(app.name)
+			return "\n[✔] {} kann eingeladen werden".format(app.name)
 			# FIXME: send email to invite them for a discussion.
 
 	elif result == 'abstain':
