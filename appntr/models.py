@@ -81,7 +81,7 @@ class Application(models.Model):
     def priority(self):
         prio = (datetime.utcnow() - self.changed_at.replace(tzinfo=None)).days
         try:
-            bundesland = self.anon_content.split("für")[1]
+            bundesland = self.anon_content.split("für")[1].strip()
         except IndexError:
             pass
         else:
