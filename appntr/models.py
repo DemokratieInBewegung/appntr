@@ -8,6 +8,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from uuid import uuid4
 
+import re
+
 
 class CfgOption(models.Model):
     key = models.CharField(max_length=255, primary_key=True)
@@ -74,6 +76,29 @@ class Application(models.Model):
 
     def __str__(self):
         return "{}@{}".format(self.name, self.state)
+
+    @property
+    def priority(self):
+        prio = (datetime.utcnow() - self.changed_at.replace(tzinfo=None)).days
+        try:
+            bundesland = self.anon_content.split("für")[1]
+        except IndexError:
+            pass
+        else:
+            if bundesland in ('Bremen', 'Thüringen', 'Saarland'):
+                prio += 5
+            elif bundesland in ('Mecklenburg-Vorpommern', 'Sachsen-Anhalt', 'Brandenburg'):
+                prio += 3
+            elif bundesland in ('Sachsen', 'Rheinland-Pfalz', 'Schleswig-Holstein'):
+                prio += 2
+            elif bundesland in ('Hessen', 'Niedersachen', 'Bayern'):
+                prio += 1
+
+        if not re.search(r"^Geschlecht: Männlich$", self.personal_content, re.MULTILINE):
+            prio *= 2
+
+        return prio
+
 
     @property
     def name(self):
