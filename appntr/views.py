@@ -43,7 +43,8 @@ TIMES = [(6, 0), (6, 30),
 		 (22, 0), (22, 30)]
 
 
-def get_open_slots(minimum=24, tomorrow=None):
+def _get_open_slots(minimum=24, tomorrow=None):
+
 	if tomorrow is None:
 		tomorrow = datetime.utcnow() + timedelta(hours=minimum)
 
@@ -62,8 +63,18 @@ def get_open_slots(minimum=24, tomorrow=None):
 				slots[appt.datetime].remove(appt.interview_snd.id)
 			except ValueError:
 				pass
+	return slots
 
-	return {k: v for k, v in slots.items() if len(v) >= MINIMUM}
+
+def get_open_slots(minimum=24, tomorrow=None):
+	return {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
+			if len(v) >= MINIMUM}
+
+
+def get_recommended_slots(minimum=24, tomorrow=None):
+	return {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
+			if len(v) % MINIMUM != 0}
+
 
 
 def edit(request, id):
@@ -81,8 +92,9 @@ def edit(request, id):
 			Timeslot(interviewer=inter, datetime=slot, once=True).save()
 
 	availables = [s.datetime.replace(tzinfo=None) for s in inter.slots.all()]
-	tomorrow = (datetime.utcnow() + timedelta(days=1)).replace(minute=0, hour=0, second=0, microsecond=0)
+	tomorrow = (datetime.utcnow() + timedelta(days=1)).replace(minute=0, second=0, microsecond=0)
 
+	recoms = [x.replace(tzinfo=None) for x in get_recommended_slots().keys()]
 
 	frames = []
 	for x in range(14):
@@ -92,7 +104,8 @@ def edit(request, id):
 			slot = d.replace(hour=t[0], minute=t[1])
 			times.append({
 					"slot": slot,
-					"checked": slot in availables
+					"checked": slot in availables,
+					"recommended": slot in recoms
 				})
 
 		frames.append({"day": d, "times": times})

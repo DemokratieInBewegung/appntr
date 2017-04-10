@@ -7,7 +7,7 @@ LOOMIO_URL = "https://www.loomio.org/d/{key}/asdf"
 
 
 class ApplicationeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'state', 'changed_at']
+    list_display = ['priority', 'name', 'state', 'changed_at']
     ordering = ['changed_at', 'anon_name', 'state']
     actions = ['move_on', 'send_invite']
 
