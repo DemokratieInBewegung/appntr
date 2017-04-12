@@ -78,24 +78,37 @@ class Application(models.Model):
         return "{}@{}".format(self.name, self.state)
 
     @property
-    def priority(self):
-        prio = (datetime.utcnow() - self.changed_at.replace(tzinfo=None)).days
+    def bundesland(self):
         try:
-            bundesland = self.anon_content.split("für")[1].strip()
+            return self.anon_content.split("für")[1].strip()
         except IndexError:
-            pass
-        else:
-            if bundesland in ('Bremen', 'Thüringen', 'Saarland'):
-                prio += 5
-            elif bundesland in ('Mecklenburg-Vorpommern', 'Sachsen-Anhalt', 'Brandenburg'):
-                prio += 3
-            elif bundesland in ('Sachsen', 'Rheinland-Pfalz', 'Schleswig-Holstein'):
-                prio += 2
-            elif bundesland in ('Hessen', 'Niedersachen', 'Bayern'):
-                prio += 1
+            return None
+
+    @property
+    def vielfalt(self):
+        vielfalt = re.search(r"^Vielfalt: (.+)$", self.personal_content, re.MULTILINE)
+        if vielfalt:
+            return vielfalt.groups()[0]
+        return None
+
+    @property
+    def priority(self):
+        prio = (datetime.utcnow() - self.changed_at.replace(tzinfo=None)).days + 1
+        bundesland = self.bundesland;
+        if bundesland in ('Bremen', 'Thüringen', 'Saarland'):
+            prio += 5
+        elif bundesland in ('Mecklenburg-Vorpommern', 'Sachsen-Anhalt', 'Brandenburg'):
+            prio += 3
+        elif bundesland in ('Sachsen', 'Rheinland-Pfalz', 'Schleswig-Holstein'):
+            prio += 2
+        elif bundesland in ('Hessen', 'Niedersachen', 'Bayern'):
+            prio += 1
 
         if not re.search(r"^Geschlecht: Männlich$", self.personal_content, re.MULTILINE):
             prio *= 2
+
+        if self.vielfalt:
+            prio *= 3
 
         return prio
 
