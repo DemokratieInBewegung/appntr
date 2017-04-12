@@ -140,6 +140,13 @@ class Invite(models.Model):
     email = models.CharField(max_length=255)
     external_url = models.CharField(max_length=1024)
 
+    @property
+    def state(self):
+        try:
+            self.appointment.datetime
+            return "accepted"
+        except:
+            return "open"
 
     def __str__(self):
         try:

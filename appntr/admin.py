@@ -40,9 +40,13 @@ class ApplicationeAdmin(admin.ModelAdmin):
     move_on.short_description = "Move to next Step"
 
 
+class InviteAdmin(admin.ModelAdmin):
+    list_display = ['state', 'name', 'email', 'appointment']
+
+
 admin.site.register(Interviewer)
 admin.site.register(Application, ApplicationeAdmin)
-admin.site.register(Invite)
+admin.site.register(Invite, InviteAdmin)
 admin.site.register(Timeslot)
 admin.site.register(Appointment)
 admin.site.register(CfgOption)
