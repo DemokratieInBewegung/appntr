@@ -13,7 +13,7 @@ class Command(BaseCommand):
         print("Refreshing")
         for discussion, proposal in loomio.get_votes_need_postponing(max_end_time):
             loomio.postpone_proposal(proposal['id'], next_time)
-            print("{id} ({name}) postponed".format(**discussion))
+            print("{id} ({title}) postponed".format(**discussion))
 
         print("Done")
 
