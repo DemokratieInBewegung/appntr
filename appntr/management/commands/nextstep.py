@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from datetime import datetime, timedelta
 from django.conf import settings
 from appntr import loomio
+from appntr.models import Application
 from appntr.helpers import update_application
 
 class Command(BaseCommand):
