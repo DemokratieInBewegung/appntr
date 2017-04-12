@@ -276,6 +276,6 @@ def applications(request):
 
 	apps = [{"id": a.id, "name": a.anon_name, "form": AnonForm(instance=a)}
 		 for a in sorted(Application.objects.filter(state=Application.STATES.INBOX),
-		 				 key=lambda a: a.priority)]
+		 				 key=lambda a: a.priority, reverse=True)]
 	ctx["applications"] = apps
 	return render(request, "applications.html", context=ctx)
