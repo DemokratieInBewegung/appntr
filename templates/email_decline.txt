@@ -1,0 +1,11 @@
+Hallo {{app.real_name}},
+
+wir möchten uns ganz herzlich für Ihre Zeit und Engagement mit der Bewerbung bei Demokratie in Bewegung bedanken. Wir haben uns aber zu diesem Zeitpunkt trotzdem entschieden, den Weg zur Besetzung der ersten KandidatInnen-Liste mit anderen Menschen weiter zu gehen. 
+
+Es gibt viele weitere Möglichkeiten, sich bei DEMOKRATIE IN BEWEGUNG einzubringen und das Engagement fortzuführen. Wir brauchen UnterstützerInnen wie SIe, die sich mit Freude und politischem Denken engagieren und die Idee zur Wirklichkeit werden lassen. Wir hoffen daher sehr, dass Sich sich nach der Parteigründung in Ihrem Bundesland persönlich einbringen. Über unseren Newsletter bleiben Sie auf dem Laufenden über die nächsten Schritte und wo Sie später anknüpfen können: https://bewegung.jetzt/aktiv-werden/
+
+Desweitere können Sie sich schon auf unserer Diskussionsplattform https://bewegung.humhub.com/dashboard mit Ihren Ideen für Initiativen einbringen. 
+Wir hoffen, dass Sie sich weiter für DiB engagierem, mit anderen Menschen vernetzt und vielleicht sogar bald Programminitiativen einbringen werden. Bitte behalten Sie unsere Fortschritte im Auge und bleiben Sie DiB-UnterstützerIn! 
+
+Viele Grüße und bis bald
+Ihr Demokratie in Bewegung Team

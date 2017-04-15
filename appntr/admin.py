@@ -11,7 +11,31 @@ LOOMIO_URL = "https://www.loomio.org/d/{key}/asdf"
 class ApplicationeAdmin(admin.ModelAdmin):
     list_display = ['name', 'priority', 'vielfalt', 'state', 'changed_at']
     ordering = ['changed_at', 'anon_name', 'state']
-    actions = ['move_on', 'send_invite']
+    actions = ['move_on', 'send_invite', 'decline']
+
+
+    def decline(self, request, queryset):
+        for app in queryset:
+            if app.state != Application.STATES.REJECTED:
+                self.message_user(request, "{} not rejected".format(app))
+                continue
+
+            EmailMessage(
+                    'Ihre Bewerbung bei Demokratie in Bewegung',
+                    render_to_string('email_decline.txt', context=dict(app=app)),
+                    'robot@demokratie-in-bewegung.org',
+                    [app.email],
+                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+                ).send()
+
+            app.state = Application.STATES.DECLINED
+            app.save()
+
+            self.message_user(request, "{} abgelehnt".format(app))
+
+
+    decline.short_description = "Decline this application"
+
 
     def send_invite(self, request, queryset):
         for app in queryset:
@@ -21,7 +45,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
 
             dc = loomio.get_discussion(app.loomio_discussion_id)
 
-            name = app.actual_name.split("(")[0].strip()
+            name = app.real_name
             email = app.email
 
             invite = Invite(name=name, email=email,
@@ -49,6 +73,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
             self.message_user(request, update_application(app))
 
     move_on.short_description = "Move to next Step"
+
 
 
 class InviteAdmin(admin.ModelAdmin):

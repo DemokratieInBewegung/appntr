@@ -47,6 +47,7 @@ class Application(models.Model):
         INVITED = "invited"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
+        DECLINED = "declined"
         BACKBURNER = "backburner"
 
 
@@ -60,6 +61,7 @@ class Application(models.Model):
         (STATES.INVITED, "Invited"),
         (STATES.ACCEPTED, "Accepted"),
         (STATES.REJECTED, "Rejected"),
+        (STATES.DECLINED, "Declined"),
         (STATES.BACKBURNER, "on Backburner")
     ], default=STATES.INBOX)
     # actual application 
@@ -76,6 +78,10 @@ class Application(models.Model):
 
     def __str__(self):
         return "{}@{}".format(self.name, self.state)
+
+    @property
+    def real_name(self):
+        return self.actual_name.split("(")[0].strip()
 
     @property
     def bundesland(self):
