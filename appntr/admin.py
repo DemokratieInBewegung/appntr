@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 from .helpers import update_application
 from . import loomio
 from .models import *
@@ -22,10 +24,19 @@ class ApplicationeAdmin(admin.ModelAdmin):
             name = app.actual_name.split("(")[0].strip()
             email = app.email
 
-            Invite(name=name, email=email,
-                   external_url=LOOMIO_URL.format(**dc)).save()
+            invite = Invite(name=name, email=email,
+                            external_url=LOOMIO_URL.format(**dc))
+
+            EmailMessage(
+                    'Einladung zum Gespräch mit Demokratie in Bewegung',
+                    render_to_string('email_invite.txt', context=dict(invite=invite)),
+                    'robot@demokratie-in-bewegung.org',
+                    [invite.email],
+                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+                ).send()
 
             app.state = Application.STATES.INVITED
+            invite.save()
             app.save()
 
             self.message_user(request, "{} eingeladen".format(app))
@@ -41,7 +52,35 @@ class ApplicationeAdmin(admin.ModelAdmin):
 
 
 class InviteAdmin(admin.ModelAdmin):
-    list_display = ['state', 'name', 'email', 'appointment']
+    list_display = ['state', 'name', 'email', 'added_at', 'reminded_at', 'appointment']
+
+    actions = ['send_reminder']
+
+    def send_reminder(self, request, queryset):
+        for invite in queryset:
+            if invite.state != "open":
+                self.message_user(request, "{} already accepted".format(invite))
+                continue
+
+            if invite.reminded_at:
+                self.message_user(request, "{} already reminded".format(invite))
+                continue
+
+            EmailMessage(
+                    'Einladung zum Gespräch mit Demokratie in Bewegung',
+                    render_to_string('email_reminder.txt', context=dict(invite=invite)),
+                    'robot@demokratie-in-bewegung.org',
+                    [invite.email],
+                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+                ).send()
+
+            invite.reminded_at = datetime.utcnow()
+            invite.save()
+
+            self.message_user(request, "{} Erinnerung versand".format(invite))
+
+    send_reminder.short_description = "Send Reminder"
+
 
 
 admin.site.register(Interviewer)

@@ -139,6 +139,9 @@ class Invite(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     external_url = models.CharField(max_length=1024)
+    added_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now=True)
+    reminded_at = models.DateTimeField(blank=True, null=True, default=None)
 
     @property
     def state(self):
@@ -187,15 +190,3 @@ class Appointment(models.Model):
     @property
     def email(self):
         return self.invite.email
-
-
-@receiver(post_save, sender=Invite, dispatch_uid="send_invite")
-def send_invite(sender, instance, **kwargs):
-    
-    EmailMessage(
-            'Einladung zum Gespräch mit Demokratie in Bewegung',
-            render_to_string('email_invite.txt', context=dict(invite=instance)),
-            'robot@demokratie-in-bewegung.org',
-            [instance.email],
-            reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
-        ).send()

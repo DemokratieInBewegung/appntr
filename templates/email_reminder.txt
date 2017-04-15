@@ -1,0 +1,10 @@
+Hallo {{invite.name}},
+
+Wir haben Ihnen vor einigen Tage eine Einladung zum Gespräch gesandt, aber diese haben Sie bisher nicht angenommen. Es sind inzwischen weitere Termin frei geworden, vielleicht werden Sie diesmal fündig. 
+
+Wählen Sie bitte über folgenden Link einen Termin zu dem es Ihnen passt und wir schicken Ihnen die nötigen Zugangsdaten zu.
+
+	http://termine.demokratie-in-bewegung.org/einladung/{{invite.id}}
+
+Wir freuen uns.
+Das Demokratie in Bewegung Team
