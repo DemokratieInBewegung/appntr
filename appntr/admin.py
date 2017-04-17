@@ -16,8 +16,10 @@ class ApplicationeAdmin(admin.ModelAdmin):
 
     def decline(self, request, queryset):
         for app in queryset:
-            if app.state != Application.STATES.REJECTED:
-                self.message_user(request, "{} not rejected".format(app))
+            if app.state not in (Application.STATES.REJECTED,
+                                 Application.STATES.INVITED,
+                                 Application.STATES.BACKBURNER):
+                self.message_user(request, "{} can not be rejected".format(app))
                 continue
 
             EmailMessage(
