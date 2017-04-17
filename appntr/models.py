@@ -86,7 +86,7 @@ class Application(models.Model):
     @property
     def bundesland(self):
         try:
-            return self.anon_content.split("für")[1].strip()
+            return self.anon_name.split("für")[1].strip()
         except IndexError:
             return None
 
