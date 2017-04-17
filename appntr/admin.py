@@ -52,6 +52,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
 
             invite = Invite(name=name, email=email,
                             external_url=LOOMIO_URL.format(**dc))
+            invite.save()
 
             EmailMessage(
                     'Einladung zum Gespräch mit Demokratie in Bewegung',
@@ -62,7 +63,6 @@ class ApplicationeAdmin(admin.ModelAdmin):
                 ).send()
 
             app.state = Application.STATES.INVITED
-            invite.save()
             app.save()
 
             self.message_user(request, "{} eingeladen".format(app))
@@ -81,7 +81,29 @@ class ApplicationeAdmin(admin.ModelAdmin):
 class InviteAdmin(admin.ModelAdmin):
     list_display = ['state', 'name', 'email', 'added_at', 'reminded_at', 'appointment']
 
-    actions = ['send_reminder']
+    actions = ['send_reminder', 'resend']
+
+    def resend(self, request, queryset):
+        for invite in queryset:
+            if invite.state != "open":
+                self.message_user(request, "{} already accepted".format(invite))
+                continue
+
+            EmailMessage(
+                    'Einladung zum Gespräch mit Demokratie in Bewegung - Korrektur des Links',
+                    render_to_string('email_invite.txt', context=dict(invite=invite)),
+                    'robot@demokratie-in-bewegung.org',
+                    [invite.email],
+                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+                ).send()
+
+            # invite.reminded_at = datetime.utcnow()
+            # invite.save()
+
+            self.message_user(request, "{} Korrektur versand".format(invite))
+
+    resend.short_description = "Link Korrektur"
+
 
     def send_reminder(self, request, queryset):
         for invite in queryset:
