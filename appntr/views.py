@@ -205,42 +205,6 @@ def incoming(request):
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
-def refresh_votes(request):
-	vote_ended = loomio.get_vote_ended()
-	missing = []
-	def iterate():
-		maximum = int(request.GET.get("max", 1000))
-		yield "Refreshing..."
-		for discussion in vote_ended:
-			maximum -= 1
-			if maximum <= 0:
-				break
-			try:
-				app = Application.objects.get(loomio_discussion_id=discussion['id'])
-			except:
-				missing.append(discussion)
-				yield "\n[s] {id}, {title} -- unknown".format(**discussion)
-				continue
-
-			if not app.loomio_cur_proposal_id:
-				missing.append(discussion)
-				yield "\n[s] {id} {title} -- not managed by us".format(**discussion)
-				continue
-
-			yield update_application(app)
-
-
-		if missing:
-			yield "\n------------------------------ Missing ---------------------------"
-			for entry in missing:
-				yield "\n{id},{key},{title}".format(**entry)
-
-
-	return StreamingHttpResponse(iterate(), status=200, content_type="text/plain;utf-8")
-
-
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
 def set_state(request, state, id):
 	app = get_object_or_404(Application, pk=id)
 	app.state = state
@@ -249,7 +213,7 @@ def set_state(request, state, id):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_staff)
 def applications(request):
 	ctx = {}
 	if request.method == "POST":
