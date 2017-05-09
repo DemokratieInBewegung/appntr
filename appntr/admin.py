@@ -45,13 +45,21 @@ class ApplicationeAdmin(admin.ModelAdmin):
                 self.message_user(request, "{} not invitable".format(app))
                 continue
 
-            dc = loomio.get_discussion(app.loomio_discussion_id)
 
             name = app.real_name
             email = app.email
 
-            invite = Invite(name=name, email=email,
-                            external_url=LOOMIO_URL.format(**dc))
+            inv_info = dict(name=name, email=email, application=app)
+
+            if app.loomio_discussion_id:
+                dc = loomio.get_discussion(app.loomio_discussion_id)
+                inv_info['external_url'] = LOOMIO_URL.format(**dc)
+
+            else:
+                inv_info['extra_info'] = app.personal_content
+
+
+            invite = Invite(**inv_info)
             invite.save()
 
             EmailMessage(

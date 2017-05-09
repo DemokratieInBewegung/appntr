@@ -4,13 +4,22 @@ Hallo {{apt.interview_lead.name}}, hi {{apt.interview_snd.name}},
 
     {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}
 
+Um das Gespräch zu beginnen, klickt dann einfach hier Link:
+
+    {{apt.link}}
+
+{% if apt.invite.external_url%}
 Die Bewerbungsunterlagen (und etwaige Diskussion vom Team) findet ihr hier:
 
     {{apt.invite.external_url}}
+{% else %}
 
-Um das Gespräch zu beginnen, klickt dann einfach hier Link:
+Folgende Informationen sind zu diesem Interview mitgeliefert worden:
 
-	{{apt.link}}
+{{apt.invite.extra_info}}
+
+{% endif %}
+
 
 
 Cheerio!

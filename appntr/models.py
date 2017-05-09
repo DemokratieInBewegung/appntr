@@ -144,10 +144,12 @@ class Invite(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    external_url = models.CharField(max_length=1024)
+    external_url = models.CharField(max_length=1024, null=True, default=None)
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
     reminded_at = models.DateTimeField(blank=True, null=True, default=None)
+    extra_info = models.TextField(null=True, default=None)
+    application = models.ForeignKey(Application, null=True, default=None)
 
     @property
     def state(self):
