@@ -1,6 +1,6 @@
 Hallo {{invite.name}},
 
-Herzlichen Dank für Ihre Bewerbung zum Abgeordneten für Demokratie in Bewegung. Wir haben Ihre Unterlagen geprüft und würden gerne Sie gerne zu einem (online) Gespräch einladen.
+Herzlichen Dank für Ihre Bewerbung bei DEMOKRATIE IN BEWEGUNG. Wir haben Ihre Unterlagen geprüft und würden gerne Sie gerne zu einem (online) Gespräch einladen.
 
 Dazu wählen Sie bitte über folgenden Link einen Termin zu dem es Ihnen passt und wir schicken Ihnen die nötigen Zugangsdaten zu.
 

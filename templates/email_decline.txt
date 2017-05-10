@@ -1,8 +1,8 @@
 Hallo {{app.real_name}},
 
-wir möchten uns ganz herzlich für Ihre Zeit und Ihr Engagement für die Bewerbung bei Demokratie in Bewegung bedanken. Wir haben sehr gerne von Ihnen gelesen! Für die gerade anstehende Aufgabe der Parteigründung passt es jedoch unserer Ansicht nach in der aktuellen Teamkonstellation noch nicht. 
+wir möchten uns ganz herzlich für Ihre Zeit und Ihr Engagement für die Bewerbung bei bei DEMOKRATIE IN BEWEGUNG bedanken. Wir haben sehr gerne von Ihnen gelesen! Für die gerade anstehende Aufgabe der Parteigründung passt es jedoch unserer Ansicht nach in der aktuellen Teamkonstellation noch nicht. 
 
-Es gibt viele Möglichkeiten, sich bei DEMOKRATIE IN BEWEGUNG einzubringen und mit dem Engagement anzufangen. Wir brauchen UnterstützerInnen wie Sie, die sich mit Freude und politischem Denken engagieren und die Idee zur Wirklichkeit werden lassen. Wir hoffen daher sehr, dass Sie sich nach der Parteigründung in Ihrem Bundesland persönlich einbringen. Über unseren Newsletter -- https://bewegung.jetzt/aktiv-werden/ -- bleiben Sie auf dem Laufenden über die nächsten Schritte. Sie können sich auch auf unserer Diskussionsplattform https://bewegung.humhub.com/dashboard mit Ihren inhatlichen Ideen für Initiativen einbringen. 
+Es gibt viele Möglichkeiten, sich bei DEMOKRATIE IN BEWEGUNG einzubringen und mit dem Engagement anzufangen. Wir brauchen UnterstützerInnen wie Sie, die sich mit Freude und politischem Denken engagieren und die Idee zur Wirklichkeit werden lassen. Wir hoffen daher sehr, dass Sie sich nach der Parteigründung in Ihrem Bundesland persönlich einbringen. Über unseren Newsletter -- https://bewegung.jetzt/aktiv-werden/ -- bleiben Sie auf dem Laufenden über die nächsten Schritte. Sie können sich auch auf unserer Markplatz der ideen https://marktplatz.bewegung.jetzt/ mit Ihren inhatlichen Ideen für Initiativen einbringen. 
 
 Bitte haben Sie Verständnis, wenn wir Ihnen kein persönlicheres Feedback geben können. Es ist kein Ausdruck mangelnder Wertschätzung, nur Ausdruck mangelnder Ressourcen! Wir hoffen sehr, dass Sie DiB trotzdem verbunden bleiben.  
 
@@ -10,4 +10,4 @@ Wir hoffen, dass Sie sich weiter für DiB engagieren, mit anderen Menschen verne
 
 Mit den besten Grüßen
 Ihr
-Team von Demokratie in Bewegung
+Team von DEMOKRATIE IN BEWEGUNG
