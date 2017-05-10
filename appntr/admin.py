@@ -12,6 +12,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
     list_display = ['name', 'priority', 'vielfalt', 'state', 'changed_at']
     ordering = ['changed_at', 'anon_name', 'state']
     actions = ['move_on', 'send_invite', 'decline']
+    search_fields = ['actual_name', 'personal_content']
 
 
     def decline(self, request, queryset):
