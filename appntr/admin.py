@@ -141,9 +141,16 @@ class InviteAdmin(admin.ModelAdmin):
 
 
 
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ['datetime', 'name', 'email', 'interview_lead', 'interview_snd']
+
+    search_fields = ["invite__name", "invite__email"]
+
+
+
 admin.site.register(Interviewer)
 admin.site.register(Application, ApplicationeAdmin)
 admin.site.register(Invite, InviteAdmin)
 admin.site.register(Timeslot)
-admin.site.register(Appointment)
+admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(CfgOption)
