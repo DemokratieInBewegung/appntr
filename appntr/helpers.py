@@ -11,7 +11,7 @@ def update_application(app, force=False):
 	if not proposal['closed_at']:
 		return "\n[s] {} noch nicht abgeschlossen".format(app.name)
 
-	if proposal['voters_count'] < settings.MIN_VOTERS and not force:
+	if proposal['stances_count'] < settings.MIN_VOTERS and not force:
 		prp = loomio.create_proposal(app.loomio_discussion_id,
 									"{} interviewen".format(app.name),
 									datetime.utcnow() + timedelta(hours=24),

@@ -28,13 +28,13 @@ requests_log.propagate = True
 
 
 
-BASE_URI = "https://www.loomio.org/api/v1/"
+BASE_URI = "https://loomio.bewegung.jetzt/api/v1/"
 DISCUSSIONS_URI = BASE_URI + "discussions.json"
 DISCUSSION_URI = BASE_URI + "discussions/{}.json"
-PROPOSALS_URI = BASE_URI + "proposals.json"
-PROPOSAL_URI = BASE_URI + "proposals/{}.json"
+PROPOSALS_URI = BASE_URI + "polls.json"
+PROPOSAL_URI = BASE_URI + "polls/{}.json"
 MOVE_DISCUSSION_URI = BASE_URI + "discussions/{}/move"
-PROPOSAL_URI = BASE_URI + "proposals/{}.json"
+PROPOSAL_URI = BASE_URI + "polls/{}.json"
 
 
 class LoomioError(Exception):
@@ -110,7 +110,7 @@ def update_discussion(discussion_id, title, content):
 
 def postpone_proposal(proposal_id, datetime):
 	return _make_request('patch', PROPOSAL_URI.format(proposal_id), {
-		"motion": {
+		"poll": {
 			"closing_at": datetime.replace(minute=0, second=0, microsecond=0).isoformat() + "Z",
 			}
 		})
@@ -118,14 +118,15 @@ def postpone_proposal(proposal_id, datetime):
 
 def create_proposal(discussion_id, title, datetime, description=""):
 	return _make_request("post", PROPOSALS_URI, {
-		"motion": {
-			"name": title,
-			"description": description,
+		"poll": {
+			"title": title,
+			"details": description,
 			"discussion_id": discussion_id,
+			"poll_type": "proposal",
 			"attachments_ids": [],
 			"closing_at": datetime.replace(minute=0, second=0, microsecond=0).isoformat() + "Z",
-			"outcome": ""
-		}})['proposals'][0]
+			"poll_option_names": ["agree", "abstain", "disagree"]
+		}})['polls'][0]
 
 
 def get_vote_ended():
@@ -136,18 +137,17 @@ def get_vote_ended():
 
 def get_votes_need_postponing(max_end_time):
 	resp = _make_request("get", DISCUSSIONS_URI + "?group_id={}&per=1000".format(settings.LOOMIO_INCOMING_GROUP))
-	props = { x['id'] : x for x in resp['proposals'] }
+	props = { x['id'] : x for x in resp['polls'] }
 	for dc in resp['discussions']:
-		if not dc['active_proposal_id']:
-			continue # not open
+		for pid in dc['active_poll_ids']:
 
-		prop = props[dc['active_proposal_id']]
+			prop = props[pid]
 
-		if int(prop['voters_count']) >= settings.MIN_VOTERS:
-			continue # enough votes
+			if int(prop['stances_count']) >= settings.MIN_VOTERS:
+				continue # enough votes
 
-		if parse_datetime(prop['closing_at']).replace(tzinfo=None) <= max_end_time:
-			yield (dc, prop)
+			if parse_datetime(prop['closing_at']).replace(tzinfo=None) <= max_end_time:
+				yield (dc, prop)
 
 
 def move_discussion(discussion_id, target_group_id):
@@ -157,10 +157,10 @@ def move_discussion(discussion_id, target_group_id):
 
 
 def calc_result(proposal):
-	vc = proposal["vote_counts"]
-	no = vc["block"] + vc["no"]
+	vc = proposal["stances_data"]
+	no = vc["disagree"]
 	abstain = vc["abstain"]
-	yes = vc["yes"]
+	yes = vc["agree"]
 
 	if yes >= no:
 		if abstain >= yes:
@@ -173,5 +173,5 @@ def calc_result(proposal):
 
 def get_proposal(proposal_id):
 	return _make_request("get", PROPOSAL_URI.format(proposal_id)
-			)["proposals"][0]
+			)["polls"][0]
 
