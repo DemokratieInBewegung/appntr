@@ -65,7 +65,7 @@ def get_client():
 
 	return OAuth2Session(settings.LOOMIO_CLIENT_ID, 
 			token=token,
-			auto_refresh_url="https://www.loomio.org/oauth/token",
+			auto_refresh_url="https://loomio.bewegung.jetzt/oauth/token",
 			auto_refresh_kwargs={
 				"client_id": settings.LOOMIO_CLIENT_ID,
 				"client_secret": settings.LOOMIO_CLIENT_SECRET

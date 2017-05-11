@@ -5,7 +5,7 @@ from .helpers import update_application
 from . import loomio
 from .models import *
 
-LOOMIO_URL = "https://www.loomio.org/d/{key}/asdf"
+LOOMIO_URL = "https://loomio.bewegung.jetzt/{key}/asdf"
 
 
 class ApplicationeAdmin(admin.ModelAdmin):
