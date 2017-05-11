@@ -107,7 +107,7 @@ if ON_DOKKU:
     # EMAIL_USE_TLS = True
     EMAIL_USE_SSL = True
     DEFAULT_FROM_EMAIL = 'robot@demokratie-in-bewegung.org'
-    EMAIL_HOST = "smtp.zoho.eu"
+    EMAIL_HOST = os.environ.get("SMTP_SERVER", "smtp.mailgun.org")
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
     EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD", 'password')
     EMAIL_PORT = 465
