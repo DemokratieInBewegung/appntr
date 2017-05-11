@@ -13,8 +13,9 @@
               {{app.form}}
           </div>
           <div class="panel-footer">
-            <button type="submit" class="btn btn-primary">Publish</button>
-            <a href="/applications/{{app.id}}/set_state/backburner" class="btn btn-danger">Backburner</a>
+            <button type="submit" class="btn btn-primary">Veröffentlichen</button>
+            <a href="/applications/{{app.id}}/set_state/backburner" class="btn btn-default">Backburner</a>
+            <a href="/applications/decline/{{app.id}}" class="btn btn-danger">Ablehnen</a>
           </div>
         </div>
       </form>

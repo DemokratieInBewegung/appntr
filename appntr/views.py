@@ -210,7 +210,7 @@ def incoming(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_staff)
 def set_state(request, state, id):
     app = get_object_or_404(Application, pk=id)
     app.state = state
@@ -255,6 +255,24 @@ def direct_invite(request):
             ctx["form"] = form
 
     return render(request, 'direct_invite.html', ctx)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def decline(request, id):
+    app = get_object_or_404(Application, pk=id)
+
+    EmailMessage(
+            'Ihre Bewerbung bei Demokratie in Bewegung',
+            render_to_string('email_decline.txt', context=dict(app=app)),
+            'robot@demokratie-in-bewegung.org',
+            [app.email],
+            reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+        ).send()
+
+    app.state = Application.STATES.DECLINED
+    app.save()
+    return redirect("/applications/")
 
 
 @login_required
