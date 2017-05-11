@@ -19,7 +19,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
         for app in queryset:
             if app.state not in (Application.STATES.REJECTED,
                                  Application.STATES.INVITED,
-                                 Application.STATES.INCOMING,
+                                 Application.STATES.INBOX,
                                  Application.STATES.BACKBURNER):
                 self.message_user(request, "{} can not be rejected".format(app))
                 continue
