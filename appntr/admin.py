@@ -89,9 +89,15 @@ class ApplicationeAdmin(admin.ModelAdmin):
 
 
 class InviteAdmin(admin.ModelAdmin):
-    list_display = ['state', 'name', 'email', 'added_at', 'reminded_at', 'appointment']
+    list_display = ['name', 'email', 'bundesland','when', 'state',  'added_at', 'reminded_at', 'appointment']
 
     actions = ['send_reminder', 'resend']
+
+    def when(self, item):
+        return item.appointment.datetime if item.appointment else None
+
+    def bundesland(self, item):
+        return item.application.bundesland if item.application else None
 
     def resend(self, request, queryset):
         for invite in queryset:
