@@ -104,8 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 if ON_DOKKU:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    # EMAIL_USE_TLS = True
-    EMAIL_USE_SSL = True
+    EMAIL_USE_TLS = True
+    # EMAIL_USE_SSL = True
     DEFAULT_FROM_EMAIL = 'robot@demokratie-in-bewegung.org'
     EMAIL_HOST = os.environ.get("SMTP_SERVER", "smtp.mailgun.org")
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
