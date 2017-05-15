@@ -72,7 +72,7 @@ class InviteAdmin(admin.ModelAdmin):
             EmailMessage(
                     'Einladung zum Gespräch mit Demokratie in Bewegung - Korrektur des Links',
                     render_to_string('email_invite.txt', context=dict(invite=invite)),
-                    'robot@demokratie-in-bewegung.org',
+                    'robot@bewegung.jetzt',
                     [invite.email],
                     reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
                 ).send()
@@ -98,7 +98,7 @@ class InviteAdmin(admin.ModelAdmin):
             EmailMessage(
                     'Einladung zum Gespräch mit Demokratie in Bewegung',
                     render_to_string('email_reminder.txt', context=dict(invite=invite)),
-                    'robot@demokratie-in-bewegung.org',
+                    'robot@bewegung.jetzt',
                     [invite.email],
                     reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
                 ).send()

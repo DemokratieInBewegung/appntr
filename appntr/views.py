@@ -148,7 +148,7 @@ def invite(request, id):
             EmailMessage(
                 'Termin für Bewerbungsgespräch mit Demokratie in Bewegung',
                 render_to_string('email.txt', context=dict(apt=apt)),
-                'robot@demokratie-in-bewegung.org',
+                'robot@bewegung.jetzt',
                 [apt.invite.email],
                 headers={
                     'Message-Id': "X-{}".format(invite.id),
@@ -161,7 +161,7 @@ def invite(request, id):
             EmailMessage(
                 'Termin mit {} (Bewerbungsgespräch)'.format(apt.name),
                 render_to_string('email_interviewers.txt', context=dict(apt=apt)),
-                'robot@demokratie-in-bewegung.org',
+                'robot@bewegung.jetzt',
                 [lead.email, snd.email]
             ).send()
 
@@ -244,7 +244,7 @@ def direct_invite(request):
             EmailMessage(
                     'Einladung zum Gespräch mit Demokratie in Bewegung',
                     render_to_string('email_invite.txt', context=dict(invite=invite)),
-                    'robot@demokratie-in-bewegung.org',
+                    'robot@bewegung.jetzt',
                     [invite.email],
                     reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
                 ).send()
@@ -265,7 +265,7 @@ def decline(request, id):
     EmailMessage(
             'Ihre Bewerbung bei Demokratie in Bewegung',
             render_to_string('email_decline.txt', context=dict(app=app)),
-            'robot@demokratie-in-bewegung.org',
+            'robot@bewegung.jetzt',
             [app.email],
             reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
         ).send()

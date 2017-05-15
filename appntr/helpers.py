@@ -57,7 +57,7 @@ def decline_application(app):
     EmailMessage(
             'Ihre Bewerbung bei Demokratie in Bewegung',
             render_to_string('email_decline.txt', context=dict(app=app)),
-            'robot@demokratie-in-bewegung.org',
+            'robot@bewegung.jetzt',
             [app.email],
             reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
         ).send()
@@ -88,7 +88,7 @@ def invite_application(app):
     EmailMessage(
             'Einladung zum Gespräch mit Demokratie in Bewegung',
             render_to_string('email_invite.txt', context=dict(invite=invite)),
-            'robot@demokratie-in-bewegung.org',
+            'robot@bewegung.jetzt',
             [invite.email],
             reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
         ).send()

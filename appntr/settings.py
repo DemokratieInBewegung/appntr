@@ -106,7 +106,7 @@ if ON_DOKKU:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
     # EMAIL_USE_SSL = True
-    DEFAULT_FROM_EMAIL = 'robot@demokratie-in-bewegung.org'
+    DEFAULT_FROM_EMAIL = 'robot@bewegung.jetzt'
     EMAIL_HOST = os.environ.get("SMTP_SERVER", "smtp.mailgun.org")
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
     EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD", 'password')
