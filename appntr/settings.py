@@ -110,7 +110,7 @@ if ON_DOKKU:
     EMAIL_HOST = os.environ.get("SMTP_SERVER", "smtp.mailgun.org")
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
     EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD", 'password')
-    EMAIL_PORT = 465
+    EMAIL_PORT = int(os.environ.get("SMTP_PORT", 587))
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
