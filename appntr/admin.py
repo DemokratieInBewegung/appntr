@@ -55,7 +55,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
 class InviteAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'bundesland','when', 'state',  'added_at', 'reminded_at', 'appointment']
 
-    actions = ['send_reminder', 'resend']
+    actions = ['send_reminder', 'reset']
 
     def when(self, item):
         return item.appointment.datetime if item.appointment else None
@@ -63,14 +63,12 @@ class InviteAdmin(admin.ModelAdmin):
     def bundesland(self, item):
         return item.application.bundesland if item.application else None
 
-    def resend(self, request, queryset):
+    def reset(self, request, queryset):
         for invite in queryset:
-            if invite.state != "open":
-                self.message_user(request, "{} already accepted".format(invite))
-                continue
+            invite.appointment.delete()
 
             EmailMessage(
-                    'Einladung zum Gespräch mit Demokratie in Bewegung - Korrektur des Links',
+                    'Einladung zum Gespräch mit Demokratie in Bewegung - Bitte neuen Termin wählen',
                     render_to_string('email_invite.txt', context=dict(invite=invite)),
                     'robot@bewegung.jetzt',
                     [invite.email],
@@ -80,9 +78,9 @@ class InviteAdmin(admin.ModelAdmin):
             # invite.reminded_at = datetime.utcnow()
             # invite.save()
 
-            self.message_user(request, "{} Korrektur versand".format(invite))
+            self.message_user(request, "{} Neue Terminanfrage versand".format(invite))
 
-    resend.short_description = "Link Korrektur"
+    reset.short_description = "Neuen Termin ausmachen"
 
 
     def send_reminder(self, request, queryset):
