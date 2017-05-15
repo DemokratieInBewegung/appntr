@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from .helpers import update_application, invite_application
+from .helpers import update_application, invite_application, decline_application
 from . import loomio
 from .models import *
 
@@ -24,16 +24,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
                 self.message_user(request, "{} can not be rejected".format(app))
                 continue
 
-            EmailMessage(
-                    'Ihre Bewerbung bei Demokratie in Bewegung',
-                    render_to_string('email_decline.txt', context=dict(app=app)),
-                    'robot@demokratie-in-bewegung.org',
-                    [app.email],
-                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
-                ).send()
-
-            app.state = Application.STATES.DECLINED
-            app.save()
+            decline_application(app);
 
             self.message_user(request, "{} abgelehnt".format(app))
 

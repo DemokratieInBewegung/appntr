@@ -44,16 +44,27 @@ def update_application(app, force=False):
 			return "\n[✔] {} eingeladen".format(app.name)
 
 	elif result == 'abstain':
-		loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_BACKBURNER_GROUP)
-		app.state = Application.STATES.BACKBURNER
-		app.save()
-		return "\n[⭕] {} warm gehalten".format(app.name)
+		loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_REJECTED_GROUP)
+		decline_application(app)
+		return "\n[❌] {} abgelehnt".format(app.name)
 
 	else:
 		loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_REJECTED_GROUP)
-		app.state = Application.STATES.REJECTED
-		app.save()
-		return "\n[❌] {} fliegt raus".format(app.name)
+		decline_application(app)
+		return "\n[❌] {} abgelehnt".format(app.name)
+
+def decline_application(app):
+    EmailMessage(
+            'Ihre Bewerbung bei Demokratie in Bewegung',
+            render_to_string('email_decline.txt', context=dict(app=app)),
+            'robot@demokratie-in-bewegung.org',
+            [app.email],
+            reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+        ).send()
+
+    app.state = Application.STATES.DECLINED
+    app.save()
+    return app
 
 
 def invite_application(app):
