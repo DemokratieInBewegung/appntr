@@ -2,6 +2,9 @@
 from .models import Application
 from django.conf import settings
 from datetime import datetime, timedelta
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from .models import *
 from . import loomio
 
 def update_application(app, force=False):
@@ -37,10 +40,8 @@ def update_application(app, force=False):
 		else:
 			# We've been in the personal vote. Let's accept them
 			loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_ACCEPTED_GROUP)
-			app.state = Application.STATES.TO_INVITE
-			app.save()
-			return "\n[✔] {} kann eingeladen werden".format(app.name)
-			# FIXME: send email to invite them for a discussion.
+			invite_application(app)
+			return "\n[✔] {} eingeladen".format(app.name)
 
 	elif result == 'abstain':
 		loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_BACKBURNER_GROUP)
@@ -53,3 +54,34 @@ def update_application(app, force=False):
 		app.state = Application.STATES.REJECTED
 		app.save()
 		return "\n[❌] {} fliegt raus".format(app.name)
+
+
+def invite_application(app):
+
+    name = app.real_name
+    email = app.email
+
+    inv_info = dict(name=name, email=email, application=app)
+
+    if app.loomio_discussion_id:
+        dc = loomio.get_discussion(app.loomio_discussion_id)
+        inv_info['external_url'] = LOOMIO_URL.format(**dc)
+
+    else:
+        inv_info['extra_info'] = app.personal_content
+
+
+    invite = Invite(**inv_info)
+    invite.save()
+
+    EmailMessage(
+            'Einladung zum Gespräch mit Demokratie in Bewegung',
+            render_to_string('email_invite.txt', context=dict(invite=invite)),
+            'robot@demokratie-in-bewegung.org',
+            [invite.email],
+            reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
+        ).send()
+
+    app.state = Application.STATES.INVITED
+    app.save()
+    return app

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from .helpers import update_application
+from .helpers import update_application, invite_application
 from . import loomio
 from .models import *
 
@@ -47,34 +47,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
                 self.message_user(request, "{} not invitable".format(app))
                 continue
 
-
-            name = app.real_name
-            email = app.email
-
-            inv_info = dict(name=name, email=email, application=app)
-
-            if app.loomio_discussion_id:
-                dc = loomio.get_discussion(app.loomio_discussion_id)
-                inv_info['external_url'] = LOOMIO_URL.format(**dc)
-
-            else:
-                inv_info['extra_info'] = app.personal_content
-
-
-            invite = Invite(**inv_info)
-            invite.save()
-
-            EmailMessage(
-                    'Einladung zum Gespräch mit Demokratie in Bewegung',
-                    render_to_string('email_invite.txt', context=dict(invite=invite)),
-                    'robot@demokratie-in-bewegung.org',
-                    [invite.email],
-                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
-                ).send()
-
-            app.state = Application.STATES.INVITED
-            app.save()
-
+            invite_application(app)
             self.message_user(request, "{} eingeladen".format(app))
 
 
