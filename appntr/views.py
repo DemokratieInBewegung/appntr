@@ -282,24 +282,30 @@ def applications(request):
     if request.method == "POST":
         app = get_object_or_404(Application, pk=request.POST.get("id"))
 
-        if AnonForm(request.POST, instance=app).save(commit=False):
-            items = app.actual_name.split('"')
-            if len(items) == 3:
-                items[1] = app.anon_name
-                app.actual_name = '"'.join(items)
-            else:
-                app.actual_name += ' ehemals "{}"'.format(app.anon_name)
-
-
-            dsc = loomio.create_discussion(app.anon_name, app.anon_content)
-            app.loomio_discussion_id = dsc['id']
-            prp = loomio.create_proposal(app.loomio_discussion_id,
-                                        "{} interviewen".format(app.anon_name),
-                                        datetime.utcnow() + timedelta(hours=48))
-            app.loomio_cur_proposal_id = prp['id']
+        if app.state == Application.STATES.INBOX:
             app.state = Application.STATES.ANON_VOTE
             app.save()
-            ctx["message"] = "Bewerbung '{}' in anonyme Abstimmung verschoben".format(app.anon_name)
+
+            if AnonForm(request.POST, instance=app).save(commit=False):
+                items = app.actual_name.split('"')
+                if len(items) == 3:
+                    items[1] = app.anon_name
+                    app.actual_name = '"'.join(items)
+                else:
+                    app.actual_name += ' ehemals "{}"'.format(app.anon_name)
+
+
+                dsc = loomio.create_discussion(app.anon_name, app.anon_content)
+                app.loomio_discussion_id = dsc['id']
+                prp = loomio.create_proposal(app.loomio_discussion_id,
+                                            "{} interviewen".format(app.anon_name),
+                                            datetime.utcnow() + timedelta(hours=48))
+                app.loomio_cur_proposal_id = prp['id']
+                app.save()
+                ctx["message"] = "Bewerbung '{}' in anonyme Abstimmung verschoben".format(app.anon_name)
+        else:
+            ctx["message"] = "Bewerbung '{}' schon verschoben".format(app.anon_name)
+
 
     apps = [{"id": a.id, "name": a.anon_name, "form": AnonForm(instance=a)}
          for a in sorted(Application.objects.filter(state=Application.STATES.INBOX),
