@@ -157,7 +157,7 @@ def move_discussion(discussion_id, target_group_id):
 
 
 def calc_result(proposal):
-	vc = proposal["stances_data"]
+	vc = proposal["stance_data"]
 	no = vc["disagree"]
 	abstain = vc["abstain"]
 	yes = vc["agree"]
