@@ -137,11 +137,10 @@ def get_vote_ended():
 
 def get_votes_need_postponing(max_end_time):
 	resp = _make_request("get", DISCUSSIONS_URI + "?group_id={}&per=1000".format(settings.LOOMIO_INCOMING_GROUP))
-	props = { x['id'] : x for x in resp['polls'] }
 	for dc in resp['discussions']:
 		for pid in dc['active_poll_ids']:
 
-			prop = props[pid]
+			prop = get_proposal(pid)
 
 			if int(prop['stances_count']) >= settings.MIN_VOTERS:
 				continue # enough votes
