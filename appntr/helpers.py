@@ -7,6 +7,8 @@ from django.core.mail import EmailMessage
 from .models import *
 from . import loomio
 
+LOOMIO_URL = "https://loomio.bewegung.jetzt/d/{key}/asdf"
+
 def update_application(app, force=False):
 	
 	proposal = loomio.get_proposal(app.loomio_cur_proposal_id)

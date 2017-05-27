@@ -5,8 +5,6 @@ from .helpers import update_application, invite_application, decline_application
 from . import loomio
 from .models import *
 
-LOOMIO_URL = "https://loomio.bewegung.jetzt/{key}/asdf"
-
 
 class ApplicationeAdmin(admin.ModelAdmin):
     list_display = ['name', 'priority', 'vielfalt', 'state', 'changed_at']
