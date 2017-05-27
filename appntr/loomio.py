@@ -128,7 +128,7 @@ def create_proposal(discussion_id, title, datetime, description=""):
 
 
 def get_vote_ended():
-	return filter(lambda x: not x['active_proposal_ids'],
+	return filter(lambda x: not x['active_poll_ids'],
 			_make_request("get", DISCUSSIONS_URI + "?group_id={}&per=1000".format(settings.LOOMIO_INCOMING_GROUP)
 		)['discussions'])
 
