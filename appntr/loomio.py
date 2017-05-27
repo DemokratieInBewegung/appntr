@@ -61,8 +61,6 @@ def get_client():
 	token = json.loads(model.value)
 	token['expires_in'] = int(token['created_at']) + int(token['expires_in']) - time.time()
 
-	print(token)
-
 	return OAuth2Session(settings.LOOMIO_CLIENT_ID, 
 			token=token,
 			auto_refresh_url="https://loomio.bewegung.jetzt/oauth/token",
