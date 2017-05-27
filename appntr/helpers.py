@@ -10,6 +10,9 @@ from . import loomio
 LOOMIO_URL = "https://loomio.bewegung.jetzt/d/{key}/asdf"
 
 def update_application(app, force=False):
+
+	if  app.state not in (Application.STATES.ANON_VOTE, Application.STATES.PERSON_VOTE):
+		return "\n[s] {} ignored: bad state {}".format(app.name, app.state)
 	
 	proposal = loomio.get_proposal(app.loomio_cur_proposal_id)
 
