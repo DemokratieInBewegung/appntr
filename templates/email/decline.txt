@@ -1,4 +1,4 @@
-Hallo {{app.real_name}},
+Hallo {{app.first_name}},
 
 wir möchten uns ganz herzlich für Ihre Zeit und Ihr Engagement für die Bewerbung bei Demokratie in Bewegung bedanken. Wir haben sehr gerne von Ihnen gelesen! Für die gerade anstehende Aufgabe der Parteigründung passt es jedoch unserer Ansicht nach in der aktuellen Teamkonstellation noch nicht. 
 

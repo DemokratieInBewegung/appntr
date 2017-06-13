@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import index, applyform
+from .views import index, applyform, inbox, all_applications, vote
 # , invite, edit, applications, incoming, set_state, direct_invite, decline
 
 urlpatterns = [
@@ -29,7 +29,8 @@ urlpatterns = [
     # url(r'^applications/(?P<id>.*)/set_state/(?P<state>.*)', set_state),
     # url(r'^applications/decline/(?P<id>.*)', decline),
     # url(r'^einladen/', direct_invite),
-    # url(r'^applications/', applications),
+    url(r'^applications/inbox', inbox),
+    url(r'^vote/(?P<id>.*)$', vote),
     url(r'^', index)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

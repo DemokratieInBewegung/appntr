@@ -25,22 +25,23 @@ ON_DOKKU = os.environ.get('DOKKU_APP_TYPE', False)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', '$g4n7bmd#7aw(t-uu=))h#k@u9u$u_u*&2grwzyg9=&t32o4%-')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not ON_DOKKU
+DEBUG = not os.environ.get('VIRTUAL_HOST', False)
 
-ALLOWED_HOSTS = os.environ.get('DOMAINS', 'localhost').split(',')
+ALLOWED_HOSTS = os.environ.get('VIRTUAL_HOST', 'localhost').split(',')
+
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'django.contrib.admin',
+
     'bootstrapform',
     'appntr'
 ]
@@ -104,16 +105,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+REPLY_TO_EMAIL = "mitgliedsantrag@bewegung.jetzt"
+
 if ON_DOKKU:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
     # EMAIL_USE_SSL = True
-    DEFAULT_FROM_EMAIL = 'robot@bewegung.jetzt'
+    DEFAULT_FROM_EMAIL = 'keine-antwort@bewegung.jetzt'
     EMAIL_HOST = os.environ.get("SMTP_SERVER", "smtp.mailgun.org")
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
     EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD", 'password')
     EMAIL_PORT = int(os.environ.get("SMTP_PORT", 587))
 else:
+    DEFAULT_FROM_EMAIL = "root@localhost"
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
@@ -128,6 +133,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+SITE_ID = 1
 
 
 # Static files (CSS, JavaScript, Images)
@@ -146,19 +153,6 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join( BASE_DIR, 'public', 'static')
 MEDIA_ROOT = os.path.join( BASE_DIR, 'public', 'media')
-
-
-#### LOOMIO
-
-LOOMIO_INCOMING_GROUP = int(os.environ.get("LOOMIO_INCOMING_GROUP", "3"))
-LOOMIO_REJECTED_GROUP = int(os.environ.get("LOOMIO_REJECTED_GROUP", "4"))
-LOOMIO_ACCEPTED_GROUP = int(os.environ.get("LOOMIO_ACCEPTED_GROUP", "2"))
-LOOMIO_BACKBURNER_GROUP = int(os.environ.get("LOOMIO_BACKBURNER_GROUP", "5"))
-LOOMIO_CLIENT_ID = os.environ.get("LOOMIO_CLIENT_ID")
-LOOMIO_CLIENT_SECRET = os.environ.get("LOOMIO_CLIENT_SECRET")
-
-LOOMIO_POSTPONE_BY_HOURS = 6
-
 
 # app specific
 MIN_VOTERS = 5

@@ -14,8 +14,6 @@ from collections import defaultdict
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, StreamingHttpResponse
 
-from . import loomio
-from .helpers import update_application
 import re
 
 import random
@@ -23,7 +21,6 @@ from uuid import uuid4
 
 URL_BUILDER = "https://talky.io/dib-bw-{}"
 from .models import *
-from . import admin
 
 
 MINIMUM = 2
@@ -121,6 +118,7 @@ def edit(request, id):
 def invite(request, id):
 
     invite = get_object_or_404(Invite, pk=id)
+    app = invite.application
 
     try:
         return render(request, "confirm.html", context=dict(apt=invite.appointment))
@@ -149,10 +147,10 @@ def invite(request, id):
             apt.save()
 
             EmailMessage(
-                'Termin für Bewerbungsgespräch mit Demokratie in Bewegung',
-                render_to_string('email.txt', context=dict(apt=apt)),
-                'robot@bewegung.jetzt',
-                [apt.invite.email],
+                'Termin für Gespräch mit Demokratie in Bewegung',
+                render_to_string('email/confirm_appointment.txt', context=dict(apt=apt, app=app)),
+                settings.DEFAULT_FROM_EMAIL,
+                [app.email],
                 headers={
                     'Message-Id': "X-{}".format(invite.id),
                     'Cc': ','.join([lead.email, snd.email])
@@ -162,9 +160,9 @@ def invite(request, id):
 
             
             EmailMessage(
-                'Termin mit {} (Bewerbungsgespräch)'.format(apt.name),
-                render_to_string('email_interviewers.txt', context=dict(apt=apt)),
-                'robot@bewegung.jetzt',
+                'Termin mit {} {} (Mitgliedsantragsgespräch)'.format(app.first_name, app.last_name),
+                render_to_string('email/interviewers.txt', context=dict(apt=apt)),
+                settings.DEFAULT_FROM_EMAIL,
                 [lead.email, snd.email]
             ).send()
 
@@ -175,13 +173,14 @@ def invite(request, id):
             ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen auswählen."
 
     else:
-        ctx = dict(name=invite.name, slots=sorted(get_open_slots().keys()))
+        ctx = dict(name=app.name, slots=sorted(get_open_slots().keys()))
 
     return render(request, "invite.html", context=ctx)
 
 
 def index(request):
     return HttpResponse("🎉")
+
 
 def min_length(value):
     if len(value) < 50:
@@ -278,105 +277,24 @@ def applyform(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
-def set_state(request, state, id):
+def all_applications(request):
+    ctx = dict(apps=Application.objects.order_by("-added_at"))
+    return render(request, "apps/all.html", context=ctx)
+
+@login_required
+@require_POST
+def vote(request, id):
     app = get_object_or_404(Application, pk=id)
-    app.state = state
-    app.save()
-    return redirect("/applications/")
+    UserVote(application=app, user=request.user,
+             comment=request.POST.get('comment'), vote=request.POST.get('vote')).save()
 
+    messages.success(request, "Deine Abstimmung wurde aufgenommen.")
+    return redirect(request, request.META.get('HTTP_REFERER') or '/applications/inbox')
 
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def direct_invite(request):
-    ctx = {"form": DirectInvite()}
-
-    if request.method == "POST":
-
-        form = DirectInvite(request.POST)
-        if form.is_valid():
-            invite = form.save()
-
-            try:
-                app = Application.objects.get(email=invite.email)
-            except Application.DoesNotExist:
-                pass
-            else:
-                invite.app = app
-                invite.extra_info += "\n\n\n" + app.personal_content
-                app.state = Application.STATES.INVITED
-
-                invite.save()
-                app.save()
-
-            EmailMessage(
-                    'Einladung zum Gespräch mit Demokratie in Bewegung',
-                    render_to_string('email_invite.txt', context=dict(invite=invite)),
-                    'robot@bewegung.jetzt',
-                    [invite.email],
-                    reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
-                ).send()
-
-
-            ctx["message"] = "Invite an {} ({}) geschickt".format(invite.name, invite.email)
-        else:
-            ctx["form"] = form
-
-    return render(request, 'direct_invite.html', ctx)
-
+    pass
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
-def decline(request, id):
-    app = get_object_or_404(Application, pk=id)
-
-    EmailMessage(
-            'Ihre Bewerbung bei Demokratie in Bewegung',
-            render_to_string('email_decline.txt', context=dict(app=app)),
-            'robot@bewegung.jetzt',
-            [app.email],
-            reply_to=("bewerbungs-hilfe@demokratie-in-bewegung.org",)
-        ).send()
-
-    app.state = Application.STATES.DECLINED
-    app.save()
-    return redirect("/applications/")
-
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def applications(request):
-    ctx = {}
-    if request.method == "POST":
-        app = get_object_or_404(Application, pk=request.POST.get("id"))
-
-        if app.state == Application.STATES.INBOX:
-            app.state = Application.STATES.ANON_VOTE
-            app.save()
-
-            if AnonForm(request.POST, instance=app).save(commit=False):
-                items = app.actual_name.split('"')
-                if len(items) == 3:
-                    items[1] = app.anon_name
-                    app.actual_name = '"'.join(items)
-                else:
-                    app.actual_name += ' ehemals "{}"'.format(app.anon_name)
-
-
-                dsc = loomio.create_discussion(app.anon_name, app.anon_content)
-                app.loomio_discussion_id = dsc['id']
-                prp = loomio.create_proposal(app.loomio_discussion_id,
-                                            "{} interviewen".format(app.anon_name),
-                                            datetime.utcnow() + timedelta(hours=48))
-                app.loomio_cur_proposal_id = prp['id']
-                app.save()
-                ctx["message"] = "Bewerbung '{}' in anonyme Abstimmung verschoben".format(app.anon_name)
-        else:
-            ctx["message"] = "Bewerbung '{}' schon verschoben".format(app.anon_name)
-
-
-    apps = [{"id": a.id, "name": a.anon_name, "form": AnonForm(instance=a)}
-         for a in sorted(Application.objects.filter(state=Application.STATES.INBOX),
-                         key=lambda a: a.priority, reverse=True)]
-    ctx["applications"] = apps
-    return render(request, "applications.html", context=ctx)
+def inbox(request):
+    ctx = dict(apps=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
+                ).filter(state=Application.STATES.NEW))
+    return render(request, "apps/inbox.html", context=ctx)

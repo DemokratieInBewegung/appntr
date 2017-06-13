@@ -1,0 +1,38 @@
+{% extends "apps/_base.html" %}
+{% block inner %}
+
+  <h1>Eingang</h1>
+  <div class="form-group">
+    {% for app in apps %}
+
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">{{app.first_name}} {{app.last_name}}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">für {{app.country}}</h6>
+        <p class="card-text"><strong>Motivation</strong></p>
+        <p class="card-text">{{app.motivation}}</p>
+        <p class="card-text"><strong>Fähigkeiten</strong></p>
+        <p class="card-text">{{app.skills}}</p>
+        <p class="card-text"><strong>Ethik-Frage</strong></p>
+        <p class="card-text">{{app.ethical_dilemma}}</p>
+        <p class="card-text"><strong>Internet Profile</strong></p>
+        <p class="card-text">{{app.internet_profiles}}</p>
+      </div>
+
+      <div class="card-block">
+        <form action="/vote/{{app.id}}" method="POST">
+          {% csrf_token %}
+          <textarea name="comment" placeholder="Kommentar (optional)"></textarea>
+          <button class="btn btn-success" type="submit" name="vote" value="y">y</button>
+          <button class="btn" type="submit" name="vote" value="a">a</button>
+          <button class="btn btn-danger" type="submit" name="vote" value="n">n</button>
+        </form>
+      </div>
+    </div>
+      {% empty %}
+    <div class="alert alert-success" role="alert">
+      <h1>Alles erledigt! 🎉</h1>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
