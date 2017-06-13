@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+
+{% block head_title}Gesprächstermin{% endblock %}
+
+{% block custom_head %}
+<style type="text/css">
+  body {
+    padding-top: 2em;
+  }
+  input[type=radio] {
+    display: none;
+  }
+
+  label > span {
+    background: #62388E;
+    color: white;
+    padding: 0.5em;
+    cursor: pointer;
+  }
+
+  label > span:hover {
+    background: #274F9E;
+  }
+
+  input:checked + span {
+    background: #EB564A;
+  }
+</style>
+
+{% endblock %}

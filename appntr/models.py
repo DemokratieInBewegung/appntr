@@ -65,13 +65,13 @@ class Application(models.Model):
     # actual application 
 
     # personal data
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=30)
-    email = models.CharField(max_length=255)
-    phone = models.CharField(max_length=255)
-    country = models.CharField(max_length=25)
-    internet_profiles = models.TextField(null=True, blank=True)
+    first_name = models.CharField(max_length=255, verbose_name="Vorname")
+    last_name = models.CharField(max_length=255, verbose_name="Nachname")
+    gender = models.CharField(max_length=30, verbose_name="Geschlecht")
+    email = models.CharField(max_length=255, verbose_name="E-Mail Adresse", help_text="Unter welcher E-Mail Adresse können wir Dich persönlich erreichen?")
+    phone = models.CharField(max_length=255, verbose_name="Telefonnummer", help_text="Unter welcher Telefonnummer können wir Dich persönlich erreichen?")
+    country = models.CharField(max_length=25, verbose_name="Bundesland", help_text="In welchem Bundesland hast du deinen Erstwohnsitz?")
+    internet_profiles = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)")
 
     # application
     motivation = models.TextField()

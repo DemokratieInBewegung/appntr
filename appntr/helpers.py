@@ -42,7 +42,7 @@ def update_application(app, force=False):
 			app.state = Application.STATES.PERSON_VOTE
 			app.save()
 			return "\n[➰] {} -> {}".format(app.anon_name, app.actual_name)
-		else:
+		elif app.state == Application.STATES.PERSONAL_VOTE:
 			# We've been in the personal vote. Let's accept them
 			loomio.move_discussion(app.loomio_discussion_id, settings.LOOMIO_ACCEPTED_GROUP)
 			invite_application(app)

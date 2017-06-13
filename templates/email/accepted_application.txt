@@ -1,0 +1,13 @@
+Hallo {{application.first_name}},
+
+herzlichen Dank für Deinen Mitgliedsantrag bei DEMOKRATIE IN BEWEGUNG. Wir befinden uns noch in der Aufbauphase und haben uns deshalb für dieses Verfahren entschieden. Denn wir wollen Mitglieder behutsam aufnehmen und streben ein überschaubares, gesundes Wachstum an. Warum?
+
+Weil wir die Menschen kennenlernen möchten, die bei uns aktiv werden. Weil wir eine vertrauensvolle, wertebasierte Team- und Kommunikationskultur schaffen wollen. Weil wir keine inaktiven Karteileichen wollen, sondern eine starke Vernetzung der Mitglieder untereinander. Weil wir jedes Mitglied aktiv an Bord holen und begleiten wollen. Wir wollen einen sicheren Ort der Vielfalt schaffen, an dem auch besondere und benachteiligte Menschen und Gruppen ein Zuhause finden. Das alles geht nur, wenn wir behutsam und persönlich wachsen. Da wir DiB bisher komplett ehrenamtlich und in unserer Freizeit entwickeln, braucht es dafür etwas Zeit.
+
+Daher bitten wir um ein bisschen Geduld. Wir werden uns so schnell wie möglich melden.
+
+Mit herzlichen Grüßen
+Das DEMOKRATIE IN BEWEGUNG Team
+
+
+P.S.: Wusstest Du schon, dass wir ein eigenes Soziales Netzwerk zur Organisation und Koordination der Mitstreiter/innen betreiben? https://marktplatz.bewegung.jetzt

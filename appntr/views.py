@@ -2,9 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils.dateparse import parse_datetime
+from django.contrib import messages
 from django.conf import settings
 from django.forms import ModelForm
+from django import forms
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from collections import defaultdict
@@ -180,6 +183,98 @@ def invite(request, id):
 def index(request):
     return HttpResponse("🎉")
 
+def min_length(value):
+    if len(value) < 50:
+        raise ValidationError('Geht es auch etwas ausführlicher?')
+
+
+FB_GENDER = ['Mann', 'Frau', "androgyner Mensch","androgyn","bigender","weiblich","Frau zu Mann (FzM)",
+             "gender variabel","genderqueer","intersexuell (auch inter*)","männlich","Mann zu Frau (MzF)",
+             "weder noch","geschlechtslos","nicht-binär","weitere","Pangender","Pangeschlecht","trans",
+             "transweiblich","transmännlich","Transmann","Transmensch","Transfrau","trans*","trans*weiblich",
+             "trans*männlich","Trans*Mann","Trans*Mensch","Trans*Frau","transfeminin","Transgender",
+             "transgender weiblich","transgender männlich","Transgender Mann","Transgender Mensch",
+             "Transgender Frau","transmaskulin","transsexuell","weiblich-transsexuell","männlich-transsexuell",
+             "transsexueller Mann","transsexuelle Person","transsexuelle Frau","Inter*","Inter*weiblich",
+             "Inter*männlich","Inter*Mann","Inter*Frau","Inter*Mensch","intergender","intergeschlechtlich",
+             "zweigeschlechtlich","Zwitter","Hermaphrodit","Two Spirit drittes Geschlecht","Viertes Geschlecht",
+             "XY-Frau","Butch","Femme","Drag","Transvestit","Cross-Gender"]
+
+STATES = ["Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen",
+          "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz",
+          "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen"]
+
+
+class ListTextWidget(forms.TextInput):
+    def __init__(self, data_list, name, *args, **kwargs):
+        super(ListTextWidget, self).__init__(*args, **kwargs)
+        self._name = name
+        self._list = data_list
+        self.attrs.update({'list':'list__%s' % self._name})
+
+    def render(self, name, value, attrs=None):
+        text_html = super(ListTextWidget, self).render(name, value, attrs=attrs)
+        data_list = '<datalist id="list__%s">' % self._name
+        for item in self._list:
+            data_list += '<option value="%s">' % item
+        data_list += '</datalist>'
+
+        return (text_html + data_list)
+
+
+class ApplicationForm(ModelForm):
+
+    motivation = forms.CharField(validators=[min_length],
+                                 label="Was ist Deine Motivation Dich bei DiB zu engagieren?",
+                                 widget=forms.Textarea)
+    skills = forms.CharField(validators=[min_length],
+                                 label="Welche Fähigkeiten, Erfahrungen und Ideen willst Du als Mitglied einbringen, die DiB nach vorne bringen werden?",
+                                 widget=forms.Textarea)
+    ethical_dilemma = forms.CharField(validators=[min_length],
+                                 label="Was würdest Du tun, wenn die Beweger/innen und Mitglieder von Demokratie in Bewegung nach dem Initiativprinzip eine Programmentscheidung herbeiführen, die Du persönlich nicht unterstützt?",
+                                 widget=forms.Textarea)
+
+    class Meta:
+        model = Application
+        fields = ['motivation', 'skills', 'ethical_dilemma',
+        'first_name', 'last_name', 'gender', 'country', 'email', 'phone', 'internet_profiles']
+
+        widgets = {
+            'gender': ListTextWidget(FB_GENDER, 'gender'),
+            'country': ListTextWidget(STATES, 'country'),
+            'email': forms.EmailInput()
+        }
+
+
+def applyform(request):
+    ctx = dict()
+
+    if request.method == "POST":
+
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.state = Application.STATES.NEW
+            application.save()
+
+
+            EmailMessage(
+                    'Eingangsbestätigung des Mitgliedsantrag bei Demokratie in Bewegung',
+                    render_to_string('email/accepted_application.txt', context=dict(application=application)),
+                    'keine-antwort@bewegung.jetzt',
+                    [application.email],
+                    reply_to=("mitgliedsantrag@bewegung.jetzt",)
+                ).send()
+
+            messages.success(request, "Danke sehr. Dein Antrag ist bei uns eingegangen.")
+
+            form = ApplicationForm()
+
+    else:
+        form = ApplicationForm()
+
+    ctx['form'] = form
+    return render(request, "apply.html", context=ctx)
 
 
 @login_required

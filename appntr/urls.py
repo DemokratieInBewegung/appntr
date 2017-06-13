@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import index
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import index, applyform
 # , invite, edit, applications, incoming, set_state, direct_invite, decline
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^apply/', applyform),
     # url(r'^interviewer/(?P<id>.*)$', edit),
     # url(r'^einladung/(?P<id>.*)', invite),
     # url(r'^incoming/EXTERNAL', incoming),
@@ -28,4 +31,5 @@ urlpatterns = [
     # url(r'^einladen/', direct_invite),
     # url(r'^applications/', applications),
     url(r'^', index)
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
