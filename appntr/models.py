@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
 from django.db.models import Q
+from django.conf import settings
 from django.db import models, IntegrityError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -35,95 +36,61 @@ class Interviewer(models.Model):
                 ).filter(datetime__gte=just_before).order_by("-datetime").all()
 
 
+STATES = [
+]
+
 class Application(models.Model):
     class Meta:
         app_label = 'appntr'
 
     class STATES:
-        INBOX = "inbox"
-        ANON_VOTE = "anon_vote"
-        PERSON_VOTE = "person_vote"
+        NEW = "new"
         TO_INVITE = "to_invite"
         INVITED = "invited"
+        INTERVIEWING = "interview"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
-        DECLINED = "declined"
-        BACKBURNER = "backburner"
 
 
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
     state = models.CharField(max_length=25, choices= [
-        (STATES.INBOX, "Incoming"),
-        (STATES.ANON_VOTE, "In Voting (anon)"),
-        (STATES.PERSON_VOTE, "In Voting (person)"),
+        (STATES.NEW, "new"),
         (STATES.TO_INVITE, "To invite"),
         (STATES.INVITED, "Invited"),
+        (STATES.INTERVIEWING, "Being interviewed"),
         (STATES.ACCEPTED, "Accepted"),
-        (STATES.REJECTED, "Rejected"),
-        (STATES.DECLINED, "Declined"),
-        (STATES.BACKBURNER, "on Backburner")
-    ], default=STATES.INBOX)
+        (STATES.REJECTED, "Rejected")
+    ], default=STATES.NEW)
     # actual application 
-    anon_name = models.CharField(max_length=255)
-    anon_content = models.TextField()
-    actual_name = models.CharField(max_length=255)
-    personal_content = models.TextField()
-    contact_details = models.TextField()
-    email = models.CharField(max_length=255)
 
-    # external tracking
-    loomio_discussion_id = models.CharField(max_length=25, blank=True, null=True)
-    loomio_cur_proposal_id = models.CharField(max_length=25, blank=True, null=True)
+    # personal data
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    gender = models.CharField(max_length=30)
+    email = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+    country = models.CharField(max_length=25)
+    internet_profiles = models.TextField(null=True, blank=True)
+
+    # application
+    motivation = models.TextField()
+    skills = models.TextField()
+    ethical_dilemma = models.TextField()
 
     def __str__(self):
         return "{}@{}".format(self.name, self.state)
 
-    @property
-    def real_name(self):
-        return self.actual_name.split("(")[0].strip()
 
-    @property
-    def bundesland(self):
-        try:
-            return self.anon_name.split("für")[1].strip()
-        except IndexError:
-            return None
+class UserVote(models.Model):
+    added_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes")
+    application = models.ForeignKey(Application, related_name="votes")
+    vote = models.CharField(max_length=1, choices=[('y', 'yay'), ('n', 'nay'), ('a', 'abstain')])
 
-    @property
-    def vielfalt(self):
-        vielfalt = re.search(r"^Vielfalt: (.+)$", self.personal_content, re.MULTILINE)
-        if vielfalt:
-            return vielfalt.groups()[0]
-        return None
-
-    @property
-    def priority(self):
-        prio = (datetime.utcnow() - self.changed_at.replace(tzinfo=None)).days + 1
-        bundesland = self.bundesland;
-        if bundesland in ('Bremen', 'Thüringen', 'Saarland'):
-            prio += 5
-        elif bundesland in ('Mecklenburg-Vorpommern', 'Sachsen-Anhalt', 'Brandenburg'):
-            prio += 3
-        elif bundesland in ('Sachsen', 'Rheinland-Pfalz', 'Schleswig-Holstein'):
-            prio += 2
-        elif bundesland in ('Hessen', 'Niedersachen', 'Bayern'):
-            prio += 1
-
-        if not re.search(r"^Geschlecht: Männlich$", self.personal_content, re.MULTILINE):
-            prio *= 2
-
-        if self.vielfalt:
-            prio *= 3
-
-        return prio
-
-
-    @property
-    def name(self):
-        if self.state in (Application.STATES.ANON_VOTE, Application.STATES.INBOX):
-            return self.anon_name
-        return self.actual_name
+    class Meta:
+        unique_together = (("user", "application"),)
 
 
 class Timeslot(models.Model):
@@ -131,10 +98,7 @@ class Timeslot(models.Model):
         app_label = 'appntr'
     once = models.BooleanField(default=True)
     datetime = models.DateTimeField()
-    interviewer = models.ForeignKey(Interviewer, related_name="slots")
-
-    def __str__(self):
-        return "Slot: {}@{}".format(self.interviewer.name, self.datetime)
+    interviewer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="slots")
 
 
 class Invite(models.Model):
@@ -142,14 +106,11 @@ class Invite(models.Model):
         app_label = 'appntr'
 
     id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    external_url = models.CharField(max_length=1024, null=True, default=None)
+    application = models.ForeignKey(Application, null=True, default=None)
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
     reminded_at = models.DateTimeField(blank=True, null=True, default=None)
     extra_info = models.TextField(null=True, default=None)
-    application = models.ForeignKey(Application, null=True, default=None)
 
     @property
     def state(self):
@@ -185,8 +146,8 @@ class Appointment(models.Model):
     link = models.CharField(max_length=255)
     datetime = models.DateTimeField()
     invite = models.OneToOneField(Invite, related_name="appointment")
-    interview_lead = models.ForeignKey(Interviewer, related_name="leading")
-    interview_snd = models.ForeignKey(Interviewer, related_name="second")  
+    interview_lead = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="leading")
+    interview_snd = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="second")  
 
     def __str__(self):
         return "Termin: {}@{}".format(self.name, self.datetime)

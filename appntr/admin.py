@@ -7,10 +7,10 @@ from .models import *
 
 
 class ApplicationeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'priority', 'vielfalt', 'state', 'changed_at']
-    ordering = ['changed_at', 'anon_name', 'state']
+    list_display = ['first_name', 'last_name', 'state', 'changed_at']
+    ordering = ['state', 'first_name']
     actions = ['move_on', 'send_invite', 'decline']
-    search_fields = ['actual_name', 'personal_content']
+    search_fields = ['first_name', 'last_name']
 
 
     def decline(self, request, queryset):
@@ -51,7 +51,7 @@ class ApplicationeAdmin(admin.ModelAdmin):
 
 
 class InviteAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'bundesland','when', 'state',  'added_at', 'reminded_at', 'appointment']
+    list_display = ['when', 'state',  'added_at', 'reminded_at', 'appointment']
 
     actions = ['send_reminder', 'reset']
 

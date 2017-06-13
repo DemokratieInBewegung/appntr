@@ -182,33 +182,6 @@ def index(request):
 
 
 
-class AnonForm(ModelForm):
-    class Meta:
-        model = Application
-        fields = ['anon_name', 'anon_content']
-
-
-class IncomingForm(ModelForm):
-    class Meta:
-        model = Application
-        fields = ['anon_name', 'anon_content', 'actual_name', 'personal_content', 'contact_details', 'email']
-
-
-class DirectInvite(ModelForm):
-    class Meta:
-        model = Invite
-        fields = ['name', 'email', 'extra_info']
-
-
-@csrf_exempt
-def incoming(request):
-    form = IncomingForm(request.POST)
-    if form.save():
-        return HttpResponse("ok")
-    else:
-        raise ValueError()
-
-
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def set_state(request, state, id):
