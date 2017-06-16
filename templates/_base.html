@@ -30,7 +30,7 @@
             <a class="navbar-brand" href="/">
                 <img src="/static/img/dib_logo.svg" height="40" class="d-inline-block align-middle" alt="Demokratie in Bewegung">
             </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href='https://bewegung.jetzt/impressum/'>Impressum</a>
@@ -56,6 +56,25 @@
         </div>
     {% endif %}
     <div class="main">
+
+        {% if user.is_authenticated %}
+        <div class="container">
+            <ul class="nav  nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link {% if menu == 'inbox' %} active{%endif%}" href='/applications/inbox'>Antragseingang{% if inbox_count %} <span class="badge badge-danger">{{inbox_count}}</span>{% endif %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if menu == 'appointments' %} active{%endif%}" href='/applications/inbox'>Meine Termine</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if menu == 'all' %} active{%endif%}" href='/applications/inbox'>Alle Anträge</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  {% if menu == 'avail' %} active{%endif%}" href='/applications/inbox'>Meine Verfügbarkeit</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
         {% block content %} {% endblock %}
     </div>
     <!-- Needed by Bootstrap 4.0 -->

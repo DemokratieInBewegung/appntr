@@ -280,10 +280,21 @@ def applyform(request):
     return render(request, "apply.html", context=ctx)
 
 
+def _make_context(request, menu='all', **kwargs):
+  kwargs.update(dict(
+      menu=menu,
+      inbox_count=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
+                ).filter(state=Application.STATES.NEW).count()
+    ))
+  return kwargs
+
+
+
 @login_required
 def all_applications(request):
-    ctx = dict(apps=Application.objects.order_by("-added_at"))
+    ctx = _make_context(request, menu='inbox', apps=Application.objects.order_by("-added_at"))
     return render(request, "apps/all.html", context=ctx)
+
 
 @login_required
 @require_POST
@@ -293,12 +304,14 @@ def vote(request, id):
              comment=request.POST.get('comment'), vote=request.POST.get('vote')).save()
 
     messages.success(request, "Deine Abstimmung wurde aufgenommen.")
-    return redirect(request, request.META.get('HTTP_REFERER') or '/applications/inbox')
+    return redirect(request.META.get('HTTP_REFERER') or '/applications/inbox')
 
-    pass
+
 
 @login_required
 def inbox(request):
-    ctx = dict(apps=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
+    ctx = _make_context(request,
+        menu='inbox',
+        apps=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
                 ).filter(state=Application.STATES.NEW))
     return render(request, "apps/inbox.html", context=ctx)
