@@ -181,6 +181,8 @@ def invite(request, id):
 
 
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('inbox') 
     return HttpResponse("🎉")
 
 
