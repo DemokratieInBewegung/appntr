@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
 
+    # 3rd party
     'bootstrapform',
+    'account',
+
     'appntr'
 ]
 
@@ -54,9 +57,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "account.middleware.LocaleMiddleware",
+    "account.middleware.TimezoneMiddleware",
 ]
 
 ROOT_URLCONF = 'appntr.urls'
+LOGIN_URL = "/account/login/"
+LOGIN_REDIRECT_URL = "/"
+
+ACCOUNT_OPEN_SIGNUP = False
 
 TEMPLATES = [
     {
@@ -70,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                "account.context_processors.account",
                 'django.contrib.messages.context_processors.messages',
             ],
         },
