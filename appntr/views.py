@@ -289,6 +289,17 @@ def _make_context(request, menu='all', **kwargs):
   return kwargs
 
 
+@login_required
+def show_application(request, id):
+    app = get_object_or_404(Application, pk=id)
+    ctx = _make_context(request, menu='all', app=app, my_vote=None)
+    try:
+      ctx['my_vote'] = app.votes.get(user__id=request.user.id).vote
+    except UserVote.DoesNotExist:
+      pass
+    ctx['show_contact_details'] = request.user.is_staff or app.state in [Application.STATE.TO_INVITE, Application.INVITED, Application.STATE.INTERVIEWING]
+    return render(request, "apps/show.html", context=ctx)
+
 
 @login_required
 def all_applications(request):
@@ -300,12 +311,33 @@ def all_applications(request):
 @require_POST
 def vote(request, id):
     app = get_object_or_404(Application, pk=id)
-    UserVote(application=app, user=request.user,
-             comment=request.POST.get('comment'), vote=request.POST.get('vote')).save()
+
+    if app.state != Application.STATES.NEW:
+      messages.error(request, "Es kann nicht mehr abgestimmt werden.")
+      return redirect(request.META.get('HTTP_REFERER') or '/applications/inbox')
+
+    try:
+      vote = UserVote.objects.get(application=app, user=request.user)
+      vote.vote = request.POST.get('vote')
+      vote.save()
+    except UserVote.DoesNotExist:
+      UserVote(application=app, user=request.user,vote=request.POST.get('vote')).save()
+
+    if request.POST.get('comment'):
+      Comment(application=app, user=request.user, comment=request.POST.get('comment')).save()
 
     messages.success(request, "Deine Abstimmung wurde aufgenommen.")
     return redirect(request.META.get('HTTP_REFERER') or '/applications/inbox')
 
+
+@login_required
+@require_POST
+def comment(request, id):
+    app = get_object_or_404(Application, pk=id)
+    Comment(application=app, user=request.user, comment=request.POST.get('comment')).save()
+
+    messages.success(request, "Kommentar erstellt.")
+    return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
 
 @login_required

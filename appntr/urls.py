@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import index, applyform, inbox, all_applications, vote
+from .views import index, applyform, inbox, comment, show_application, all_applications, vote
 # , invite, edit, applications, incoming, set_state, direct_invite, decline
 
 urlpatterns = [
@@ -30,9 +30,11 @@ urlpatterns = [
     # url(r'^applications/(?P<id>.*)/set_state/(?P<state>.*)', set_state),
     # url(r'^applications/decline/(?P<id>.*)', decline),
     # url(r'^einladen/', direct_invite),
+    url(r'^applications/(?P<id>\d+)$', show_application, name="show_application"),
+    url(r'^applications/(?P<id>\d+)/comment$', comment, name="comment"),
     url(r'^applications/inbox', inbox, name="inbox"),
     url(r'^applications/all', all_applications, name="all_applications"),
-    url(r'^vote/(?P<id>.*)$', vote),
+    url(r'^vote/(?P<id>.*)$', vote, name="vote"),
     url(r'^', index)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

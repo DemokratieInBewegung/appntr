@@ -1,0 +1,100 @@
+{% extends "apps/_base.html" %}
+
+{% block inner %}
+  <div class="form-group">
+
+    <div class="card">
+      <div class="row">
+        <div class="col-8">
+          <div class="card-block">
+            <h4 class="card-title"> <span class="badge badge-default">{{app.state}}</span> 
+            {{app.first_name}} {{app.last_name}}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
+            <p class="card-text"><strong>Motivation</strong></p>
+            <p class="card-text">{{app.motivation}}</p>
+            <p class="card-text"><strong>Fähigkeiten</strong></p>
+            <p class="card-text">{{app.skills}}</p>
+            <p class="card-text"><strong>Ethik-Frage</strong></p>
+            <p class="card-text">{{app.ethical_dilemma}}</p>
+            <p class="card-text"><strong>Internet Profile</strong></p>
+            <p class="card-text">{{app.internet_profiles}}</p>
+            {% if show_contact_details %}
+              <p class="card-text"><strong>Kontakt</strong></p>
+              <ul class="card-text">
+                <li>Email: {{app.email}}</li>
+                <li>Telefon: {{app.phone}}</li>
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card-block">
+          {% if app.state == 'new' %}
+            <div class="card-block text-center">
+              <h4>Meine Wertung </h4>
+              <form action="{% url 'vote' app.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}" type="submit" name="vote" value="y"><i class="material-icons">thumb_up</i></button>
+                <button class="btn btn-lg {% if my_vote == 'a' %}btn-warning{% else %}btn-outline-warning{% endif %}" type="submit" name="vote" value="a"><i class="material-icons">thumbs_up_down</i></button>
+                <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}" type="submit" name="vote" value="n"><i class="material-icons">thumb_down</i></button>
+              </form>
+            </div>
+            <br />
+          {% endif %}
+
+              <h3 class="text-center">Gesamtwertung: <br />
+              {% if app.winner == 'yay' %}
+                <span class="badge badge-pill badge-success"><i class="material-icons">thumb_up</i></span>
+              {% elif app.winner == 'abstain' %}
+                <span class="badge badge-pill badge-warning"><i class="material-icons">thumbs_up_down</i></span>
+              {% elif app.winner == 'nay' %}
+                <span class="badge badge-pill badge-danger"><i class="material-icons">thumb_down</i></span>
+              {% else %}
+                <span class="badge badge-pill badge-info" title="still voting"><i class="material-icons">play_for_work</i></span>
+              {% endif %}
+            </h3>
+          </div>
+
+            <div class="card-block">
+              <h3>Wertungen </h3>
+                {% for uv in app.votes.all %}
+                  <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}} {{uv.changed_at|timesince}}: 
+                    {% if uv.vote == 'y' %}
+                      <span class="badge badge-pill badge-success"><i class="material-icons">thumb_up</i></span>
+                    {% elif uv.vote == 'a' %}
+                      <span class="badge badge-pill badge-warning"><i class="material-icons">thumbs_up_down</i></span>
+                    {% elif uv.vote == 'n' %}
+                      <span class="badge badge-pill badge-danger"><i class="material-icons">thumb_down</i></span>
+                    {% endif %}
+                  </p>
+                {% endfor %}
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">Kommentare</h4>
+    </div>
+    <div class="card-block">
+      <form action="{% url 'comment' app.id %}" method="POST">
+        {% csrf_token %}
+        <textarea name="comment" placeholder="Hier neuen Kommentar eingeben"></textarea>
+        <button type="submit" class="btn btn-primary">Abschicken</button>
+      </form>
+    </div>
+
+    <div class="card-block">
+      {% for comment in app.comments.all %}
+        <h6 class="card-subtitle mb-2 text-muted">{{comment.user.get_full_name|default:comment.user.username}} {{comment.added_at|timesince}}</h6>
+        <p>{{comment.comment}}</p>
+      {% empty %}
+        <p>bisher keine Kommentare abgegeben</p>
+      {% endfor %}
+    </div>
+  </div>
+  <br />
+{% endblock %}

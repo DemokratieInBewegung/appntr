@@ -79,8 +79,6 @@ class Application(models.Model):
         return "nay" 
 
 
-
-
 class UserVote(models.Model):
     class Meta:
         app_label = 'appntr'
@@ -89,10 +87,19 @@ class UserVote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes")
     application = models.ForeignKey(Application, related_name="votes")
     vote = models.CharField(max_length=1, choices=[('y', 'yay'), ('n', 'nay'), ('a', 'abstain')])
-    comment = models.TextField(blank=True, null=True)
 
     class Meta:
         unique_together = (("user", "application"),)
+
+
+class Comment(models.Model):
+    class Meta:
+        app_label = 'appntr'
+    added_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="comments")
+    application = models.ForeignKey(Application, related_name="comments")
+    comment = models.TextField(blank=True, null=True)
 
 
 class Invite(models.Model):

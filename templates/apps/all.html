@@ -14,16 +14,16 @@
         <div class="card-block">
           <p class="card-title">
           {% if app.winner == 'yay' %}
-            <span class="btn btn-sm btn-outline-success"><i class="material-icons">thumb_up</i></span>
+            <span class="badge badge-pill badge-success"><i class="material-icons">thumb_up</i></span>
           {% elif app.winner == 'abstain' %}
-            <span class="btn btn-sm btn-outline-warning"><i class="material-icons">thumbs_up_down</i></span>
+            <span class="badge badge-pill badge-warning"><i class="material-icons">thumbs_up_down</i></span>
           {% elif app.winner == 'nay' %}
-            <span class="btn btn-sm btn-outline-danger"><i class="material-icons">thumb_down</i></span>
+            <span class="badge badge-pill badge-danger"><i class="material-icons">thumb_down</i></span>
           {% else %}
-            <span class="btn btn-sm btn-outline-info" title="still voting"><i class="material-icons">play_for_work</i></span>
+            <span class="badge badge-pill badge-info" title="still voting"><i class="material-icons">play_for_work</i></span>
           {% endif %}
 
-          {{app.first_name}} {{app.last_name}} </p>
+          <a href="{% url 'show_application' app.id %}">{{app.first_name}} {{app.last_name}}</a></p>
           <h6 class="card-subtitle mb-2 text-muted">
             <span class="badge badge-default">{{app.state}}</span> {{app.gender}}  für {{app.country}}
             
