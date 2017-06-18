@@ -7,7 +7,7 @@
     <div class="card">
       <div class="card-block">
         <h4 class="card-title">{{app.first_name}} {{app.last_name}}</h4>
-        <h6 class="card-subtitle mb-2 text-muted">für {{app.country}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
         <p class="card-text"><strong>Motivation</strong></p>
         <p class="card-text">{{app.motivation}}</p>
         <p class="card-text"><strong>Fähigkeiten</strong></p>
@@ -22,9 +22,9 @@
         <form action="/vote/{{app.id}}" method="POST">
           {% csrf_token %}
           <textarea name="comment" placeholder="Kommentar (optional)"></textarea>
-          <button class="btn btn-success" type="submit" name="vote" value="y">y</button>
-          <button class="btn" type="submit" name="vote" value="a">a</button>
-          <button class="btn btn-danger" type="submit" name="vote" value="n">n</button>
+          <button class="btn btn-success" type="submit" name="vote" value="y"><i class="material-icons">thumb_up</i></button>
+          <button class="btn btn-warning" type="submit" name="vote" value="a"><i class="material-icons">thumbs_up_down</i></button>
+          <button class="btn btn-danger" type="submit" name="vote" value="n"><i class="material-icons">thumb_down</i></button>
         </form>
       </div>
     </div>

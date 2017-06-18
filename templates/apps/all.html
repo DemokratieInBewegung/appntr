@@ -12,10 +12,25 @@
 
       <div class="card">
         <div class="card-block">
-          <p class="card-title"><span class="badge badge-default">{{app.state}}</span> {{app.first_name}} {{app.last_name}}</p>
-          <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
+          <p class="card-title">
+          {% if app.winner == 'yay' %}
+            <span class="btn btn-sm btn-outline-success"><i class="material-icons">thumb_up</i></span>
+          {% elif app.winner == 'abstain' %}
+            <span class="btn btn-sm btn-outline-warning"><i class="material-icons">thumbs_up_down</i></span>
+          {% elif app.winner == 'nay' %}
+            <span class="btn btn-sm btn-outline-danger"><i class="material-icons">thumb_down</i></span>
+          {% else %}
+            <span class="btn btn-sm btn-outline-info" title="still voting"><i class="material-icons">play_for_work</i></span>
+          {% endif %}
+
+          {{app.first_name}} {{app.last_name}} </p>
+          <h6 class="card-subtitle mb-2 text-muted">
+            <span class="badge badge-default">{{app.state}}</span> {{app.gender}}  für {{app.country}}
+            
+          </h6>
         </div>
       </div>
+      <br />
     {% empty %}
       <div class="alert alert-default" style="text-align: center" role="alert">
         <h1>Nichts gefunden für die Suche.</h1>

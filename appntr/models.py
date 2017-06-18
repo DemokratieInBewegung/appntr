@@ -60,6 +60,25 @@ class Application(models.Model):
     skills = models.TextField()
     ethical_dilemma = models.TextField()
 
+    @property
+    def winner(self):
+        votes = dict(y=0, n=0, a=0)
+        for v in self.votes.all():
+            votes[v.vote] += 1
+
+        tally = sum(dict.values())
+        if tally < 5:
+            # None yet
+            return None
+
+        if votes['y'] > votes['n']:
+            if votes['y'] <= votes['a']:
+                return 'abstain'
+            
+            return "yay"
+        return "nay" 
+
+
 
 
 class UserVote(models.Model):
@@ -95,3 +114,4 @@ class Appointment(models.Model):
     application = models.OneToOneField(Application, related_name="appointment")
     interview_lead = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="leading")
     interview_snd = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="second")  
+
