@@ -292,7 +292,7 @@ def _make_context(request, menu='all', **kwargs):
 
 @login_required
 def all_applications(request):
-    ctx = _make_context(request, menu='inbox', apps=Application.objects.order_by("-added_at"))
+    ctx = _make_context(request, menu='all', apps=Application.objects.order_by("-added_at"))
     return render(request, "apps/all.html", context=ctx)
 
 

@@ -1,0 +1,25 @@
+{% extends "apps/_base.html" %}
+
+{% block inner %}
+  <div>
+      <form method="GET">
+        <input type="search" name="q" placeHolder="Suche (noch in arbeit)">
+      </form>
+  </div>
+  <br />
+  <div class="form-group">
+    {% for app in apps %}
+
+      <div class="card">
+        <div class="card-block">
+          <p class="card-title"><span class="badge badge-default">{{app.state}}</span> {{app.first_name}} {{app.last_name}}</p>
+          <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
+        </div>
+      </div>
+    {% empty %}
+      <div class="alert alert-default" style="text-align: center" role="alert">
+        <h1>Nichts gefunden für die Suche.</h1>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

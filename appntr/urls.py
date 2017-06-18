@@ -31,6 +31,7 @@ urlpatterns = [
     # url(r'^applications/decline/(?P<id>.*)', decline),
     # url(r'^einladen/', direct_invite),
     url(r'^applications/inbox', inbox, name="inbox"),
+    url(r'^applications/all', all_applications, name="all_applications"),
     url(r'^vote/(?P<id>.*)$', vote),
     url(r'^', index)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT

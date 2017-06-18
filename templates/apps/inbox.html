@@ -1,7 +1,6 @@
 {% extends "apps/_base.html" %}
-{% block inner %}
 
-  <h1>Eingang</h1>
+{% block inner %}
   <div class="form-group">
     {% for app in apps %}
 
@@ -29,10 +28,10 @@
         </form>
       </div>
     </div>
-      {% empty %}
-    <div class="alert alert-success" role="alert">
-      <h1>Alles erledigt! 🎉</h1>
-    </div>
+    {% empty %}
+      <div class="alert alert-success" style="text-align: center" role="alert">
+        <h1>Alles erledigt! 🎉</h1>
+      </div>
     {% endfor %}
   </div>
 {% endblock %}
