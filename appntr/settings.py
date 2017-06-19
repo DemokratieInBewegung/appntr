@@ -17,8 +17,6 @@ import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ON_DOKKU = os.environ.get('DOKKU_APP_TYPE', False)
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -28,7 +26,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '$g4n7bmd#7aw(t-uu=))h#k@u9u$u_u*&2grw
 DEBUG = not os.environ.get('VIRTUAL_HOST', False)
 
 ALLOWED_HOSTS = os.environ.get('VIRTUAL_HOST', 'localhost').split(',')
-
 
 
 # Application definition
@@ -45,6 +42,7 @@ INSTALLED_APPS = [
     # 3rd party
     'bootstrapform',
     'account',
+    'mailer',
 
     'appntr'
 ]
@@ -89,6 +87,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'appntr.wsgi.application'
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+
+
+
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -118,18 +134,28 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REPLY_TO_EMAIL = "mitgliedsantrag@bewegung.jetzt"
 
-if ON_DOKKU:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'keine-antwort@bewegung.jetzt'
+EMAIL_BACKEND = "mailer.backend.DbBackend"
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+elif os.environ.get('SPARKPOST_API_KEY', None):
+    SPARKPOST_API_KEY = os.environ.get('SPARKPOST_API_KEY')
+    MAILER_EMAIL_BACKEND = 'sparkpost.django.email_backend.SparkPostEmailBackend'
+    SPARKPOST_OPTIONS = {
+        'track_opens': False,
+        'track_clicks': False,
+        'transactional': True,
+    }
+
+else:
+    MAILER_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
-    # EMAIL_USE_SSL = True
-    DEFAULT_FROM_EMAIL = 'keine-antwort@bewegung.jetzt'
     EMAIL_HOST = os.environ.get("SMTP_SERVER", "smtp.mailgun.org")
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME", 'mymail@gmail.com')
     EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD", 'password')
     EMAIL_PORT = int(os.environ.get("SMTP_PORT", 587))
-else:
-    DEFAULT_FROM_EMAIL = "root@localhost"
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
