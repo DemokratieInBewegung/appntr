@@ -309,7 +309,7 @@ def _make_context(request, menu='all', **kwargs):
       menu=menu,
       appointments_base_query=base_query.order_by('-datetime'),
       appointments_count=base_query.filter(datetime__gte=datetime.today()).count(),
-      inbox_count=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
+      inbox_count=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user).values('application_id')).order_by("added_at"
                 ).filter(state=Application.STATES.NEW).count()
     ))
   return kwargs
@@ -459,6 +459,6 @@ def direct_decline(request, id):
 def inbox(request):
     ctx = _make_context(request,
         menu='inbox',
-        apps=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
+        apps=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user).values('application_id')).order_by("added_at"
                 ).filter(state=Application.STATES.NEW))
     return render(request, "apps/inbox.html", context=ctx)
