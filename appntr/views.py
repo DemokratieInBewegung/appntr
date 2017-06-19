@@ -83,10 +83,13 @@ def get_recommended_slots(minimum=24, tomorrow=None):
 
 @login_required
 def my_appointments(request):
-    return render(request, 'interviews/my_appointments.html', context=_make_context(request,
-        menu='appointments',
-        upcoming=request.user.appointments.filter(datetime__gte=datetime.today()),
-        past=request.user.appointments.filter(datetime__lt=datetime.today())))
+    ctx = _make_context(request, menu='appointments')
+    base_query = ctx['appointments_base_query']
+    ctx.update(dict(
+        upcoming=base_query.filter(datetime__gte=datetime.today()),
+        past=base_query.filter(datetime__lt=datetime.today())
+        ))
+    return render(request, 'interviews/my_appointments.html', context=ctx)
 
 
 
@@ -296,8 +299,12 @@ def applyform(request):
 
 
 def _make_context(request, menu='all', **kwargs):
+  base_query = Appointment.objects.filter(Q(interview_lead=request.user) | Q(interview_snd=request.user))
+    
   kwargs.update(dict(
       menu=menu,
+      appointments_base_query=base_query.order_by('-datetime'),
+      appointments_count=base_query.filter(datetime__gte=datetime.today()).count(),
       inbox_count=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user)).order_by("added_at"
                 ).filter(state=Application.STATES.NEW).count()
     ))
@@ -312,7 +319,7 @@ def show_application(request, id):
       ctx['my_vote'] = app.votes.get(user__id=request.user.id).vote
     except UserVote.DoesNotExist:
       pass
-    ctx['show_contact_details'] = request.user.is_staff or app.state in [Application.STATE.TO_INVITE, Application.INVITED, Application.STATE.INTERVIEWING]
+    ctx['show_contact_details'] = request.user.is_staff or app.state in [Application.STATES.TO_INVITE, Application.STATES.INVITED, Application.STATES.INTERVIEWING]
     
     try:
         ctx['can_reset_appointment'] = request.user.is_staff or \
@@ -348,6 +355,15 @@ def vote(request, id):
 
     if request.POST.get('comment'):
       Comment(application=app, user=request.user, comment=request.POST.get('comment')).save()
+
+
+    winner = app.winner
+    if winner:
+        if winner == 'yay':
+            invite_application(app)
+        elif winner == 'nay':
+            decline_application(app)
+        # on abstain we wait for more votes for now...
 
     messages.success(request, "Deine Abstimmung wurde aufgenommen.")
     return redirect(request.META.get('HTTP_REFERER') or '/applications/inbox')

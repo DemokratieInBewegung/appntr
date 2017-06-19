@@ -61,10 +61,10 @@
         <div class="container">
             <ul class="nav  nav-pills justify-content-center">
                 <li class="nav-item">
-                    <a class="nav-link {% if menu == 'inbox' %} active{%endif%}" href='/applications/inbox'>Antragseingang{% if inbox_count %} <span class="badge badge-danger">{{inbox_count}}</span>{% endif %}</a>
+                    <a class="nav-link {% if menu == 'inbox' %} active{%endif%}" href="{% url 'inbox' %}">Antragseingang{% if inbox_count %} <span class="badge badge-danger">{{inbox_count}}</span>{% endif %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if menu == 'appointments' %} active{%endif%}" href='/applications/inbox'>Meine Termine</a>
+                    <a class="nav-link {% if menu == 'appointments' %} active{%endif%}" href="{% url 'my_appointments' %}">Meine Termine{% if appointments_count %} <span class="badge badge-danger">{{appointments_count}}</span>{% endif %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if menu == 'all' %} active{%endif%}" href='/applications/all'>Alle Anträge</a>

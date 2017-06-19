@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (index, applyform, inbox, direct_invite, comment, invite,
-                    direct_decline, trash_app, reset_appointment,
+                    direct_decline, trash_app, reset_appointment, my_appointments,
                     show_application, manage_slots, all_applications, vote)
 # , invite, edit, applications, incoming, set_state, direct_invite, decline
 
@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^applications/(?P<id>\d+)/comment$', comment, name="comment"),
     url(r'^applications/inbox', inbox, name="inbox"),
     url(r'^applications/all', all_applications, name="all_applications"),
+    url(r'^appointments$', my_appointments, name="my_appointments"),
     url(r'^vote/(?P<id>.*)$', vote, name="vote"),
     url(r'^', index)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT

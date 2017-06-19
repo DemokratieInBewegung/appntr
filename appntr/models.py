@@ -11,7 +11,7 @@ from django.core.mail import EmailMessage
 import re
 
 URL_BUILDER = "https://talky.io/dib-ma-{}"
-
+MIN_VOTES = 5
 
 class Timeslot(models.Model):
     class Meta:
@@ -71,8 +71,8 @@ class Application(models.Model):
         for v in self.votes.all():
             votes[v.vote] += 1
 
-        tally = sum(dict.values())
-        if tally < 5:
+        tally = sum(votes.values())
+        if tally < MIN_VOTES:
             # None yet
             return None
 
