@@ -388,8 +388,12 @@ def comment(request, id):
 @user_passes_test(lambda u: u.is_staff)
 def direct_invite(request, id):
     app = get_object_or_404(Application, pk=id)
-    invite_application(app)
-    messages.success(request, "Eingeladen.")
+    resp = invite_application(app)
+
+    if app.state == Application.STATES.INVITED:
+        messages.success(request, resp)
+    else:
+        messages.warning(request, resp)
     return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
 
