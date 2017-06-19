@@ -1,12 +1,12 @@
-Hallo {{apt.name}},
+Hallo {{apt.application.first_name}},
 
-Wir freuen uns Sie kennen zu lernen. Sie haben einen Termin mit {{apt.interview_lead.name}} und {{apt.interview_snd.name}} (beide auch auf CC in dieser Email) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte planen Sie 25min für das Gespräch ein. 
+Wir freuen uns Dich persönlich kennen zu lernen. Du hast einen Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} (beide auch auf CC in dieser Email) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte plane 25min für das Gespräch ein. 
 
-Um das Gespräch zu beginnen, klicken Sie dann einfach auf diesen Link:
+Um das Gespräch zu beginnen, klicke dann einfach auf diesen Link:
 
 	{{apt.link}}
 
-Sie brauchen dafür eine Kamera und ein Mikrofon am Computer und sowie einen Firefox oder Google Chrome Browser. Falls es probleme mit Bild und Ton geben sollten, versuchen Sie es nochmals nach abschalten von Adblocker-Plugins und etwaiger Firewall.
+Du brauchst dafür eine Kamera und ein Mikrofon am Computer und sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollten, versuchen Sie es nochmals nach abschalten von Adblocker-Plugins und etwaiger Firewall.
 
 Desweiteren würden wir darum bitten sich die folgenden Dokumente in Vorebereitung zu dem Gespräch nochmals durchzulesen:
 

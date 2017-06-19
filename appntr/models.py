@@ -7,9 +7,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from uuid import uuid4
 
 import re
+
+URL_BUILDER = "https://talky.io/dib-ma-{}"
 
 
 class Timeslot(models.Model):
@@ -59,6 +60,10 @@ class Application(models.Model):
     motivation = models.TextField()
     skills = models.TextField()
     ethical_dilemma = models.TextField()
+
+    @property
+    def is_open_state(self):
+        return self.state not in [self.STATES.ACCEPTED, self.STATES.REJECTED]
 
     @property
     def winner(self):
@@ -122,3 +127,7 @@ class Appointment(models.Model):
     interview_lead = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="leading")
     interview_snd = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="second")  
 
+
+    @property
+    def link(self):
+        return URL_BUILDER.format(self.application.invite.id)

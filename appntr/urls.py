@@ -17,20 +17,26 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import index, applyform, inbox, comment, show_application, all_applications, vote
+from .views import (index, applyform, inbox, direct_invite, comment, invite,
+                    direct_decline, trash_app, reset_appointment,
+                    show_application, manage_slots, all_applications, vote)
 # , invite, edit, applications, incoming, set_state, direct_invite, decline
 
 urlpatterns = [
+    url(r'^account/manage_slots$', manage_slots, name="manage_slots"),
     url(r"^account/", include("account.urls")),
     url(r'^admin/', admin.site.urls),
     url(r'^apply/', applyform),
-    # url(r'^interviewer/(?P<id>.*)$', edit),
-    # url(r'^einladung/(?P<id>.*)', invite),
+    url(r'^einladung/(?P<id>.*)', invite, name="invite"),
     # url(r'^incoming/EXTERNAL', incoming),
     # url(r'^applications/(?P<id>.*)/set_state/(?P<state>.*)', set_state),
     # url(r'^applications/decline/(?P<id>.*)', decline),
     # url(r'^einladen/', direct_invite),
     url(r'^applications/(?P<id>\d+)$', show_application, name="show_application"),
+    url(r'^applications/(?P<id>\d+)/invite$', direct_invite, name="direct_invite"),
+    url(r'^applications/(?P<id>\d+)/reset$', reset_appointment, name="reset_appointment"),
+    url(r'^applications/(?P<id>\d+)/decline$', direct_decline, name="direct_decline"),
+    url(r'^applications/(?P<id>\d+)/trash$', trash_app, name="trash_app"),
     url(r'^applications/(?P<id>\d+)/comment$', comment, name="comment"),
     url(r'^applications/inbox', inbox, name="inbox"),
     url(r'^applications/all', all_applications, name="all_applications"),

@@ -29,6 +29,39 @@
         </div>
         <div class="col-4">
           <div class="card-block">
+
+          {% if app.appointment %}
+
+            <div class="card-block">
+              <h4>Termin</h4>
+              <div class="card-text">
+                Termin mit {{app.appointment.interview_lead.get_full_name}} und {{app.appointment.interview_snd.get_full_name}} für <strong>{{app.appointment.datetime|date:"l, j. F Y"}} um {{app.appointment.datetime|time:"TIME_FORMAT"}}</strong> (in {{app.appointment.datetime|timeuntil}}) vereinbart.
+              </div>
+              {% if can_reset_appointment %}
+
+                  <form method="POST" onsubmit="return confirm('Termin wirklich zurück setzen?')" action="{% url 'reset_appointment' app.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Termin zurück setzen.</button>
+                  </form>
+              {% endif %}
+            </div>
+          <hr />
+          {% endif %}
+
+          {% if app.invite %}
+
+            <div class="card-block">
+              <h4>Einladung </h4>
+              <div class="card-text">
+                {% if app.invite.reminded_at %}
+                erinnert vor {{app.invite.reminded_at|timesince}} <br />
+                {% endif %}
+                versandt vor {{app.invite.added_at|timesince}}
+              </div>
+            </div>
+          <hr />
+          {% endif %}
+
           {% if app.state == 'new' %}
             <div class="card-block text-center">
               <h4>Meine Wertung </h4>
@@ -70,6 +103,35 @@
                 {% endfor %}
             </div>
 
+          {% if user.is_staff %}
+            <hr />
+              <div class="card-block">
+                <h4 class="card-title">Admin Actions</h4>
+              </div>
+              <div class="card-block">
+                {% if not app.invite %}
+                <form method="POST" action="{% url 'direct_invite' app.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-outline-success"><i class="material-icons">mail</i> Direkt einladen</button>
+                </form>
+                {% endif %}
+
+
+                {% if app.is_open_state %}
+                  <br>
+                  <form method="POST" onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich ablehnen?')" action="{% url 'direct_decline' app.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger"><i class="material-icons">error</i> Direkt ablehnen</button>
+                  </form>
+                {% else %}
+                  <form method="POST" onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich unwiederruflich löschen?')" action="{% url 'trash_app' app.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-danger"><i class="material-icons">delete_forever</i> löschen</button>
+                  </form>
+
+                {% endif %}
+              </div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -82,8 +144,8 @@
     <div class="card-block">
       <form action="{% url 'comment' app.id %}" method="POST">
         {% csrf_token %}
-        <textarea name="comment" placeholder="Hier neuen Kommentar eingeben"></textarea>
-        <button type="submit" class="btn btn-primary">Abschicken</button>
+        <textarea name="comment" cols="100" placeholder="Hier neuen Kommentar eingeben"></textarea>
+        <button type="submit" class="btn btn-outline-primary"><i class="material-icons">send</i> kommentieren</button>
       </form>
     </div>
 

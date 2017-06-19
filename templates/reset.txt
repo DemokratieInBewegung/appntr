@@ -1,0 +1,8 @@
+Hallo {{app.first_name}},
+
+Dein Gesprächstermin wurde zurück gesetzt. Bitte wähle einen neuen Gesprächstermin über den folgenden Link:
+
+    https://{{domain}}{% url 'invite' invite.id %}
+
+Wir freuen uns.
+Das Demokratie in Bewegung Team

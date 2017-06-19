@@ -4,7 +4,7 @@ Herzlichen Dank für Dein Interesse an DEMOKRATIE IN BEWEGUNG. Wir haben Deine U
 
 Dazu wähle bitte über folgenden Link einen Termin zu dem es Dir passt und wir schicken Dir die nötigen Zugangsdaten zu.
 
-	https://{{domain}}/einladung/{{invite.id}}
+    https://{{domain}}{% url 'invite' invite.id %}
 
 Wir freuen uns.
 Das Demokratie in Bewegung Team

@@ -1,6 +1,6 @@
-Hallo {{apt.interview_lead.name}}, hi {{apt.interview_snd.name}},
+Hallo {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}}, hi  {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}}!
 
-{{apt.name}} ({{apt.email}}) hat sich einen Termin ausgesucht und ihr beide seit als frei und damit zuständig eingestuft worden. Der Termin ist:
+{{apt.application.first_name}} {{apt.application.last_name}} ({{apt.application.gender}} für {{apt.application.country}}) hat sich einen Termin ausgesucht und ihr beide seid als frei und damit zuständig eingestuft worden. Der Termin ist:
 
     {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}
 
@@ -8,18 +8,9 @@ Um das Gespräch zu beginnen, klickt dann einfach hier Link:
 
     {{apt.link}}
 
-{% if apt.invite.external_url%}
 Die Bewerbungsunterlagen (und etwaige Diskussion vom Team) findet ihr hier:
 
-    {{apt.invite.external_url}}
-{% else %}
-
-Folgende Informationen sind zu diesem Interview mitgeliefert worden:
-
-{{apt.invite.extra_info}}
-
-{% endif %}
-
+    https://{{domain}}{% url 'show_application' apt.application.id %}
 
 
 Cheerio!

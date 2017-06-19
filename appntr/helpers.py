@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib.sites.models import Site
 from .models import *
+from uuid import uuid4
 
 
 def decline_application(app):
@@ -17,17 +18,17 @@ def decline_application(app):
             reply_to=(settings.REPLY_TO_EMAIL,)
         ).send()
 
-    app.state = Application.STATES.DECLINED
+    app.state = Application.STATES.REJECTED
     app.save()
 
 
 def invite_application(app):
 
-    if app.state != Application.STATES.TO_INVITE:
+    if app.state not in [Application.STATES.TO_INVITE, Application.STATES.NEW]:
     	raise NotImplemented
 
     site = Site.objects.get_current()
-    invite = Invite(application=app)
+    invite = Invite(application=app, id=uuid4().hex[:10])
     invite.save()
 
     EmailMessage(
