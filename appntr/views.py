@@ -72,8 +72,9 @@ def _get_open_slots(minimum=24, tomorrow=None):
 
 
 def get_open_slots(minimum=24, tomorrow=None):
-    return {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
-            if len(v) >= MINIMUM}
+    leads = [x['user_id'] for x in UserConfig.objects.filter(can_lead=True).values('user_id')]
+    return (leads, {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
+            if len(v) >= MINIMUM and next(i for i in v if i in leads)})
 
 
 def get_recommended_slots(minimum=24, tomorrow=None):
@@ -149,12 +150,15 @@ def invite(request, id):
 
         dt = parse_datetime(request.POST.get("slot", ''))
 
-        slots = get_open_slots()
+        leads, slots = get_open_slots()
         site = Site.objects.get_current()
 
         try:
-            lead = get_user_model().objects.get(pk=slots[dt][0])
-            snd = get_user_model().objects.get(pk=slots[dt][1])
+            lead_id = next(i for i in slots[dt] if i in leads)
+            # second preference is non-leads, but we take any otherwise
+            snd_id = next(i for i in slots[dt] if i not in leads) or next(i for i in slots[dt] if i != lead_id)
+            lead = get_user_model().objects.get(pk=lead_id)
+            snd = get_user_model().objects.get(pk=snd_id)
             id = uuid4().hex[:6]
             apt = Appointment(interview_lead=lead,
                               interview_snd=snd,
@@ -194,14 +198,14 @@ def invite(request, id):
             ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen auswählen."
 
     else:
-        ctx = dict(name=app.first_name, slots=sorted(get_open_slots().keys()))
+        ctx = dict(name=app.first_name, slots=sorted(get_open_slots()[1].keys()))
 
     return render(request, "interviews/invite.html", context=ctx)
 
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('inbox') 
+        return redirect('inbox')
     return HttpResponse("🎉")
 
 

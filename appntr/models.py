@@ -131,3 +131,8 @@ class Appointment(models.Model):
     @property
     def link(self):
         return URL_BUILDER.format(self.application.invite.id)
+
+
+class UserConfig(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="config", on_delete=models.CASCADE)
+    can_lead = models.BooleanField(default=False)
