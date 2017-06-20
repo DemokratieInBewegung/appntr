@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.safestring import mark_safe
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -260,11 +261,21 @@ class ApplicationForm(ModelForm):
                                  label="Was würdest Du tun, wenn die Beweger/innen und Mitglieder von Demokratie in Bewegung nach dem Initiativprinzip eine Programmentscheidung herbeiführen, die Du persönlich nicht unterstützt?",
                                  widget=forms.Textarea)
 
+    diversity = forms.BooleanField(required=True,
+                    label=mark_safe('Wir leben in leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass sich DiB strukturelle Maßnahmen gibt, dem gegen zu wirken und will diese voll und ganz unterstützen.'))
+
+    ethic_codex = forms.BooleanField(required=True,
+                    label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
+
+    comm_rules = forms.BooleanField(required=True,
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregel</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregel</a> vernommen und bin bereit mich daran zu halten.'))
+
     class Meta:
         model = Application
         fields = ['motivation', 'skills', 'ethical_dilemma',
                   'first_name', 'last_name', 'gender', 'country', 'email', 'phone',
-                  'internet_profiles', 'affiliations']
+                  'internet_profiles', 'affiliations',
+                  'ethic_codex', 'diversity', 'comm_rules']
 
         widgets = {
             'gender': ListTextWidget(FB_GENDER, 'gender'),
