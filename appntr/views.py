@@ -263,7 +263,8 @@ class ApplicationForm(ModelForm):
     class Meta:
         model = Application
         fields = ['motivation', 'skills', 'ethical_dilemma',
-        'first_name', 'last_name', 'gender', 'country', 'email', 'phone', 'internet_profiles']
+                  'first_name', 'last_name', 'gender', 'country', 'email', 'phone',
+                  'internet_profiles', 'affiliations']
 
         widgets = {
             'gender': ListTextWidget(FB_GENDER, 'gender'),

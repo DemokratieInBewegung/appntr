@@ -55,6 +55,7 @@ class Application(models.Model):
     phone = models.CharField(max_length=255, verbose_name="Telefonnummer", help_text="Unter welcher Telefonnummer können wir Dich persönlich erreichen?")
     country = models.CharField(max_length=25, verbose_name="Bundesland", help_text="In welchem Bundesland hast du deinen Erstwohnsitz?")
     internet_profiles = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)")
+    affiliations = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: (ehemalige) Parteimitgliedschaft oder Interessenvertretungen")
 
     # application
     motivation = models.TextField()

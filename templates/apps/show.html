@@ -16,8 +16,14 @@
             <p class="card-text">{{app.skills}}</p>
             <p class="card-text"><strong>Ethik-Frage</strong></p>
             <p class="card-text">{{app.ethical_dilemma}}</p>
-            <p class="card-text"><strong>Internet Profile</strong></p>
-            <p class="card-text">{{app.internet_profiles}}</p>
+            {% if app.internet_profiles %}
+              <p class="card-text"><strong>Internet Profile</strong></p>
+              <p class="card-text">{{app.internet_profiles}}</p>
+            {% endif %}
+            {% if app.affiliations %}
+              <p class="card-text"><strong>Partei- oder Interessenangehörigkeit</strong></p>
+              <p class="card-text">{{app.affiliations}}</p>
+            {% endif %}
             {% if show_contact_details %}
               <p class="card-text"><strong>Kontakt</strong></p>
               <ul class="card-text">

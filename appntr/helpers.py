@@ -27,10 +27,12 @@ def decline_application(app):
     app.state = Application.STATES.REJECTED
     app.save()
 
+
 def _calc_ratio():
 	base_query = Application.objects.filter(state__in=[Application.STATES.INVITED, Application.STATES.INTERVIEWING])
 	gender_query = base_query.filter(gender__in=BALANCE_GENDERS)
 	return gender_query.count() / (base_query.count() or 1)
+
 
 def invite_application(app):
 
