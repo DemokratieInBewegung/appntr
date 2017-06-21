@@ -9,18 +9,18 @@
         <h4 class="card-title"><a href="{% url 'show_application' app.id %}">{{app.first_name}} {{app.last_name}}</a></h4>
         <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
         <p class="card-text"><strong>Motivation</strong></p>
-        <p class="card-text">{{app.motivation}}</p>
+        <p class="card-text">{{app.motivation|linebreaks }}</p>
         <p class="card-text"><strong>Fähigkeiten</strong></p>
-        <p class="card-text">{{app.skills}}</p>
+        <p class="card-text">{{app.skills|linebreaks }}</p>
         <p class="card-text"><strong>Ethik-Frage</strong></p>
-        <p class="card-text">{{app.ethical_dilemma}}</p>
+        <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
         {% if app.internet_profiles %}
           <p class="card-text"><strong>Internet Profile</strong></p>
-          <p class="card-text">{{app.internet_profiles}}</p>
+          <p class="card-text">{{app.internet_profiles|linebreaks }}</p>
         {% endif %}
         {% if app.affiliations %}
           <p class="card-text"><strong>Partei- oder Interessenangehörigkeit</strong></p>
-          <p class="card-text">{{app.affiliations}}</p>
+          <p class="card-text">{{app.affiliations|linebreaks }}</p>
         {% endif %}
       </div>
 

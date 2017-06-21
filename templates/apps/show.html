@@ -11,18 +11,18 @@
             {{app.first_name}} {{app.last_name}}</h4>
             <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
             <p class="card-text"><strong>Motivation</strong></p>
-            <p class="card-text">{{app.motivation}}</p>
+            <p class="card-text">{{app.motivation|linebreaks }}</p>
             <p class="card-text"><strong>Fähigkeiten</strong></p>
-            <p class="card-text">{{app.skills}}</p>
+            <p class="card-text">{{app.skills|linebreaks }}</p>
             <p class="card-text"><strong>Ethik-Frage</strong></p>
-            <p class="card-text">{{app.ethical_dilemma}}</p>
+            <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
             {% if app.internet_profiles %}
               <p class="card-text"><strong>Internet Profile</strong></p>
-              <p class="card-text">{{app.internet_profiles}}</p>
+              <p class="card-text">{{app.internet_profiles|linebreaks }}</p>
             {% endif %}
             {% if app.affiliations %}
               <p class="card-text"><strong>Partei- oder Interessenangehörigkeit</strong></p>
-              <p class="card-text">{{app.affiliations}}</p>
+              <p class="card-text">{{app.affiliations|linebreaks }}</p>
             {% endif %}
             {% if show_contact_details %}
               <p class="card-text"><strong>Kontakt</strong></p>
@@ -158,7 +158,7 @@
     <div class="card-block">
       {% for comment in app.comments.all %}
         <h6 class="card-subtitle mb-2 text-muted">{{comment.user.get_full_name|default:comment.user.username}} {{comment.added_at|timesince}}</h6>
-        <p>{{comment.comment}}</p>
+        <p>{{comment.comment|linebreaks }}</p>
       {% empty %}
         <p>bisher keine Kommentare abgegeben</p>
       {% endfor %}
