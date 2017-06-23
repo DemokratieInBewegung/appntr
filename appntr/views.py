@@ -75,7 +75,7 @@ def _get_open_slots(minimum=24, tomorrow=None):
 def get_open_slots(minimum=24, tomorrow=None):
     leads = [x['user_id'] for x in UserConfig.objects.filter(can_lead=True).values('user_id')]
     return (leads, {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
-            if len(v) >= MINIMUM and next(i for i in v if i in leads)})
+            if len(v) >= MINIMUM and any(i for i in v if i in leads)} if leads else {})
 
 
 def get_recommended_slots(minimum=24, tomorrow=None):
