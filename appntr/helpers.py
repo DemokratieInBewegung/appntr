@@ -34,12 +34,12 @@ def _calc_ratio():
 	return gender_query.count() / (base_query.count() or 1)
 
 
-def invite_application(app):
+def invite_application(app, force=False):
 
     if app.state not in [Application.STATES.TO_INVITE, Application.STATES.NEW]:
     	raise NotImplemented
 
-    if app.gender in BALANCE_GENDERS and app.changed_at + MAX_WAIT > now():
+    if not force and app.gender in BALANCE_GENDERS and app.changed_at + MAX_WAIT > now():
     	cur_ratio = _calc_ratio()
     	if cur_ratio > ACCEPTED_RATIO:
     		if app.state == Application.STATES.NEW:

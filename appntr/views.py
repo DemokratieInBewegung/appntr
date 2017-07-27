@@ -400,7 +400,7 @@ def comment(request, id):
 @user_passes_test(lambda u: u.is_staff)
 def direct_invite(request, id):
     app = get_object_or_404(Application, pk=id)
-    resp = invite_application(app)
+    resp = invite_application(app, force=True)
 
     if app.state == Application.STATES.INVITED:
         messages.success(request, resp)
