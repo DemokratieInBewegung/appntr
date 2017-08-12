@@ -59,6 +59,22 @@ docker compose exec web bash /code/scripts/upgrade.sh
 ```
 
 
+### Troubleshooting
+
+Here are some common commands you might want to do to trouble shoot things:
+
+(if on `docker-compose`, prefix with `docker-compose exec web` and put command in `"`)
+
+#### Reset Date so you can invite immediately:
+
+Replace `NUM` with the `id` of the application when running:
+
+```
+python manage.py shell -c 'from appntr.models import Application; from datetime import datetime, timedelta; app = Application.objects.get(pk=116); app.changed_at = datetime.now() - timedelta(days=15); app.save()'
+```
+
+
+
 ## License
 
 This is released under AGPL-3.0. See the LICENSE-file for the full text.
