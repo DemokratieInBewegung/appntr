@@ -338,9 +338,7 @@ def show_application(request, id):
     ctx['show_contact_details'] = request.user.is_staff or app.state in [Application.STATES.TO_INVITE, Application.STATES.INVITED, Application.STATES.INTERVIEWING]
     
     try:
-        ctx['can_reset_appointment'] = request.user.is_staff or \
-                                       app.appointment.interview_lead == request.user or \
-                                      app.appointment.interview_snd == request.user
+        ctx['can_reset_appointment'] = request.user.is_staff
     except Application.appointment.RelatedObjectDoesNotExist:
         ctx['can_reset_appointment'] = False
 
