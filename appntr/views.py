@@ -205,9 +205,9 @@ def invite(request, id):
 
 
 def index(request):
-    if request.user.is_authenticated:
-        return redirect('inbox')
-    return HttpResponse("🎉")
+    # if request.user.is_authenticated:
+    return redirect('inbox')
+    # return HttpResponse("🎉")
 
 
 def min_length(value):
