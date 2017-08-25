@@ -4,9 +4,13 @@ Hallo {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}}, 
 
     {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}
 
-Um das Gespräch zu beginnen, klickt dann einfach hier Link:
+Um das Gespräch zu beginnen, klickt dann den folgenden Link:
 
+{% if apt.interview_lead.config.zoom_id %}
+    https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}
+{% else %}
     {{apt.link}}
+{% endif %}
 
 Die Bewerbungsunterlagen (und etwaige Diskussion vom Team) findet ihr hier:
 

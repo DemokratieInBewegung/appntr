@@ -4,7 +4,7 @@
   <div class="jumbotron">
     <h1>Hallo {{name}}!</h1>
     <p>
-    Bitte wähle aus den unten gelisteten Terminen eine Zeit, die Dir passt. Bitte plane etwa 25 Minuten für das Gespräch ein. Das Gespräch wird über den <a href="https://talky.io/">talky.io</a>-Webdienst durchgeführt, Du brauchst von daher zum Zeitpunkt des Gesprächs einen Computer mit Kamera und Mikrofon (oder Android Smartphone) und eine Internetverbindung. Der Link zu dem Webdienst wird Dir per Email zugesandt. Den Link klickst Du dann einfach an.</p>
+    Bitte wähle aus den unten gelisteten Terminen eine Zeit, die Dir passt. Bitte plane etwa 25 Minuten für das Gespräch ein. Wir nutzen für das Gespräch einen Online-Telefon-Konferenz-Dienst, den du entweder über eine installierte Anwendung am Computer, per App auf einem Smartphone (oder Tablet) oder per Telefon-Anruf nutzen kannst. Eine Anleitung, sowie die Zugangsdaten werden Dir nach der Auswahl in der Termin-Bestätigungs-Email zugesandt.</p>
     {% regroup slots by day as slot_list %}
     <form method="POST" onsubmit="return confirm('Diesen Termin auswählen?')" class="form-inline">
     {% csrf_token %}
