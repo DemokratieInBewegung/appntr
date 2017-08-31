@@ -431,7 +431,7 @@ def reset_appointment(request, id):
 
     EmailMessage(
         'Termin für Gespräch mit Demokratie in Bewegung zurückgesetzt',
-        render_to_string('email/reset.txt', context=dict(domain=site.domain, apt=apt, app=app)),
+        render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app)),
         settings.DEFAULT_FROM_EMAIL,
         [app.email],
         headers={
