@@ -52,6 +52,19 @@
               {% endif %}
             </div>
           <hr />
+          {% elif can_reset_appointment %}
+            <div class="card-block">
+              <h4>Termin</h4>
+              <div class="card-text">
+                Noch keinen Termin
+
+                  <form method="POST" onsubmit="return confirm('Email wirklich erneut schicken?')" action="{% url 'reset_appointment' app.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Erneut einladen.</button>
+                  </form>
+                </div>
+              </div>
+            <hr />
           {% endif %}
 
           {% if app.invite %}

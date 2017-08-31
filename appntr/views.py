@@ -411,10 +411,8 @@ def direct_invite(request, id):
 @require_POST
 def reset_appointment(request, id):
     app = get_object_or_404(Application, pk=id)
-    apt = app.appointment
     site = Site.objects.get_current()
-    if not request.user.is_staff and not apt.interview_lead == request.user \
-        and not apt.interview_snd == request.user:
+    if not request.user.is_staff:
       messages.error(request, "Darfste nicht")
       return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
