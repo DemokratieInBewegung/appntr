@@ -416,6 +416,12 @@ def reset_appointment(request, id):
       messages.error(request, "Darfste nicht")
       return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
+    apt = None
+    try:
+      apt = app.appointment
+    except Exception:
+      pass
+
 
     # if apt.datetime > datetime.now():
     #     EmailMessage(
@@ -431,7 +437,7 @@ def reset_appointment(request, id):
 
     EmailMessage(
         'Termin für Gespräch mit Demokratie in Bewegung zurückgesetzt',
-        render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app)),
+        render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app, apt=apt)),
         settings.DEFAULT_FROM_EMAIL,
         [app.email],
         headers={
@@ -440,7 +446,8 @@ def reset_appointment(request, id):
     ).send()
 
 
-    app.appointment.delete()
+    if apt:
+      app.appointment.delete()
     app.state = Application.STATES.INVITED
     app.save()
     messages.success(request, "Termin zurückgesetzt")
