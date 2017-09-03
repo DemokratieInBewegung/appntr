@@ -335,7 +335,7 @@ def show_application(request, id):
       ctx['my_vote'] = app.votes.get(user__id=request.user.id).vote
     except UserVote.DoesNotExist:
       pass
-    ctx['show_contact_details'] = request.user.is_staff or app.state in [Application.STATES.TO_INVITE, Application.STATES.INVITED, Application.STATES.INTERVIEWING]
+    ctx['show_contact_details'] = request.user.is_staff
     
     try:
         ctx['can_reset_appointment'] = request.user.is_staff
