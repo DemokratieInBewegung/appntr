@@ -131,6 +131,9 @@ class Appointment(models.Model):
 
     @property
     def link(self):
+        if self.interview_lead.config.zoom_id:
+            return "https://zoom.us/j/{}".format(self.interview_lead.config.zoom_id)
+
         return URL_BUILDER.format(self.application.invite.id)
 
 
