@@ -1,6 +1,6 @@
 Hallo {{apt.application.first_name}},
 
-Wir freuen uns Dich persönlich kennen zu lernen. Du hast einen Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} (beide auch auf CC in dieser Email) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte plane etwa 25min für das Gespräch ein. 
+Wir freuen uns Dich persönlich kennen zu lernen. Du hast einen Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} ({{apt.interview_lead.email}}) und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} ({{apt.interview_snd.email}}) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte plane etwa 25min für das Gespräch ein.
 {% if apt.interview_lead.config.zoom_id %}
 
 Wir nutzen das Internet Konferenz-System der Firma Zoom. Dafür musst du vorher eine Software herunter laden und auf deinem Computer installieren. Diese findest du hier: https://zoom.us/download
