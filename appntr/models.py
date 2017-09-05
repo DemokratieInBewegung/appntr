@@ -11,7 +11,7 @@ from django.core.mail import EmailMessage
 import re
 
 URL_BUILDER = "https://talky.io/dib-ma-{}"
-MIN_VOTES = 5
+MIN_VOTES = 8
 
 class Timeslot(models.Model):
     class Meta:
