@@ -434,15 +434,19 @@ def reset_appointment(request, id):
     #         }
     #     ).send()
 
+    headers = {}
+    try:
+      headers['In-Reply-To'] ="X-{}".format(app.invite.id)
+    except Exception:
+      pass
+
 
     EmailMessage(
         'Termin für Gespräch mit Demokratie in Bewegung zurückgesetzt',
         render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app, apt=apt)),
         settings.DEFAULT_FROM_EMAIL,
         [app.email],
-        headers={
-            'In-Reply-To': "X-{}".format(app.invite.id)
-        }
+        headers=headers
     ).send()
 
 
