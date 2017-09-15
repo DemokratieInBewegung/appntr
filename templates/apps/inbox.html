@@ -22,6 +22,10 @@
           <p class="card-text"><strong>Partei- oder Interessenangehörigkeit</strong></p>
           <p class="card-text">{{app.affiliations|linebreaks }}</p>
         {% endif %}
+        {% if app.marktplatz_name %}
+          <p class="card-text"><strong>Marktplatz Konto</strong> <a href="https://marktplatz.bewegung.jetzt/u/{{app.marktplatz_name}}/summary">{{app.marktplatz_name}}</a></p>
+          <p class="card-text marktplatz-info"></p>
+        {% endif %}
       </div>
 
       <div class="card-block">

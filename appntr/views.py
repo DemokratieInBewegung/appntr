@@ -274,7 +274,7 @@ class ApplicationForm(ModelForm):
         model = Application
         fields = ['motivation', 'skills', 'ethical_dilemma',
                   'first_name', 'last_name', 'gender', 'country', 'email', 'phone',
-                  'internet_profiles', 'affiliations',
+                   'marktplatz_name', 'internet_profiles', 'affiliations',
                   'ethic_codex', 'diversity', 'comm_rules']
 
         widgets = {
