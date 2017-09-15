@@ -28,9 +28,8 @@
         <form action="/vote/{{app.id}}" method="POST">
           {% csrf_token %}
           <textarea name="comment" placeholder="Kommentar (optional)"></textarea>
-          <button class="btn btn-success" type="submit" name="vote" value="y"><i class="material-icons">thumb_up</i></button>
-          <button class="btn btn-warning" type="submit" name="vote" value="a"><i class="material-icons">thumbs_up_down</i></button>
-          <button class="btn btn-danger" type="submit" name="vote" value="n"><i class="material-icons">thumb_down</i></button>
+          <button class="btn btn-success" type="submit" name="vote" value="y">🙂</button>
+          <button class="btn btn-danger nope-button" type="submit" name="vote" value="n">😕</button>
         </form>
       </div>
     </div>
@@ -40,4 +39,19 @@
       </div>
     {% endfor %}
   </div>
+{% endblock %}
+
+
+{% block body-javascript %}
+<script>
+  $(function() {
+    $('.nope-button').click(function(e) {
+      var t = $(e.currentTarget).parent().find("textarea");
+      if (t.val().trim().length < 30) {
+        alert("Bitte begründe deine Ablehnung (etwas mehr)!");
+        return false;
+      }
+    });
+  });
+</script>
 {% endblock %}

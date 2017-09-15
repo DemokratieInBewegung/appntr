@@ -86,9 +86,9 @@
               <h4>Meine Wertung </h4>
               <form action="{% url 'vote' app.id %}" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}" type="submit" name="vote" value="y"><i class="material-icons">thumb_up</i></button>
-                <button class="btn btn-lg {% if my_vote == 'a' %}btn-warning{% else %}btn-outline-warning{% endif %}" type="submit" name="vote" value="a"><i class="material-icons">thumbs_up_down</i></button>
-                <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}" type="submit" name="vote" value="n"><i class="material-icons">thumb_down</i></button>
+                <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}" type="submit" name="vote" value="y">🙂</button>
+                <button class="btn btn-lg {% if my_vote == 'a' %}btn-warning{% else %}btn-outline-warning{% endif %}" type="submit" name="vote" value="a">😐</button>
+                <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}" type="submit" name="vote" value="n">😕</button>
               </form>
             </div>
             <br />
@@ -96,11 +96,11 @@
 
               <h3 class="text-center">Gesamtwertung: <br />
               {% if app.winner == 'yay' %}
-                <span class="badge badge-pill badge-success"><i class="material-icons">thumb_up</i></span>
+                <span class="badge badge-pill badge-success">🙂</span>
               {% elif app.winner == 'abstain' %}
-                <span class="badge badge-pill badge-warning"><i class="material-icons">thumbs_up_down</i></span>
+                <span class="badge badge-pill badge-warning">😐</span>
               {% elif app.winner == 'nay' %}
-                <span class="badge badge-pill badge-danger"><i class="material-icons">thumb_down</i></span>
+                <span class="badge badge-pill badge-danger">😕</span>
               {% else %}
                 <span class="badge badge-pill badge-info" title="still voting"><i class="material-icons">play_for_work</i></span>
               {% endif %}
@@ -112,11 +112,11 @@
                 {% for uv in app.votes.all %}
                   <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}} {{uv.changed_at|timesince}}: 
                     {% if uv.vote == 'y' %}
-                      <span class="badge badge-pill badge-success"><i class="material-icons">thumb_up</i></span>
+                      <span class="badge badge-pill badge-success">🙂</span>
                     {% elif uv.vote == 'a' %}
-                      <span class="badge badge-pill badge-warning"><i class="material-icons">thumbs_up_down</i></span>
+                      <span class="badge badge-pill badge-warning">😐</span>
                     {% elif uv.vote == 'n' %}
-                      <span class="badge badge-pill badge-danger"><i class="material-icons">thumb_down</i></span>
+                      <span class="badge badge-pill badge-danger">😕</span>
                     {% endif %}
                   </p>
                 {% endfor %}
