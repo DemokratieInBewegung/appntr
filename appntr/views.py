@@ -157,7 +157,11 @@ def invite(request, id):
         try:
             lead_id = next(i for i in slots[dt] if i in leads)
             # second preference is non-leads, but we take any otherwise
-            snd_id = next(i for i in slots[dt] if i not in leads) or next(i for i in slots[dt] if i != lead_id)
+            try:
+              snd_id = next(i for i in slots[dt] if i not in leads)
+            except StopIteration:
+              snd_id = next(i for i in slots[dt] if i != lead_id)
+
             lead = get_user_model().objects.get(pk=lead_id)
             snd = get_user_model().objects.get(pk=snd_id)
             id = uuid4().hex[:6]
@@ -194,7 +198,7 @@ def invite(request, id):
 
             return render(request, "interviews/confirm.html", context=dict(apt=apt))
 
-        except KeyError:
+        except (KeyError, StopIteration):
             ctx["slots"] = slots
             ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen auswählen."
 
