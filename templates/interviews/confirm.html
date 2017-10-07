@@ -3,10 +3,9 @@
   <div class="container">
     <div class="alert alert-success" role="alert">
       <h1>Dein Termin ist gebucht!</h1>
-      <p>Das Gespräch mit <strong>{{apt.interview_lead.get_full_name|default:apt.interview_lead.username}}</strong> und <strong>{{apt.interview_snd.get_full_name|default:apt.interview_snd.username}}</strong> ist geplant für <strong>{{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}</strong> Bitte plane 25min für das Gespräch ein.<p>
+      <p>Das Gespräch mit <strong>{{apt.interview_lead.get_full_name|default:apt.interview_lead.username}}</strong> und <strong>{{apt.interview_snd.get_full_name|default:apt.interview_snd.username}}</strong> ist geplant für <strong>{{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}</strong> Bitte plane 25 Minuten für das Gespräch ein.<p>
 
-      <p>Klicken dann einfach in Deinem Browser auf {% if apt.interview_lead.config.zoom_id %}<a href="https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}">diesen Link https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}</a>{% else %}<a href="{{apt.link}}">diesen Link {{apt.link}}</a>{% endif %}
+      <p>Klicke dann einfach in Deinem Browser auf {% if apt.interview_lead.config.zoom_id %}<a href="https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}">diesen Link https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}</a>{% else %}<a href="{{apt.link}}">diesen Link {{apt.link}}</a>{% endif %}
     </div>
-    </a>
   </div>
 {% endblock %}
