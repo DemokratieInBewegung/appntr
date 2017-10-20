@@ -266,7 +266,7 @@ class ApplicationForm(ModelForm):
                                  widget=forms.Textarea)
 
     diversity = forms.BooleanField(required=True,
-                    label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass sich DiB strukturelle Maßnahmen gibt, dem gegen zu wirken und will diese voll und ganz unterstützen.'))
+                    label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegen zu wirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
 
     ethic_codex = forms.BooleanField(required=True,
                     label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
