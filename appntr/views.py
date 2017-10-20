@@ -272,7 +272,7 @@ class ApplicationForm(ModelForm):
                     label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
 
     comm_rules = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregel</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregel</a> vernommen und bin bereit mich daran zu halten.'))
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregeln</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregel</a> von DIB wahrgenommen und bin bereit mich daran zu halten.'))
 
     class Meta:
         model = Application
