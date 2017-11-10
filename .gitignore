@@ -11,3 +11,4 @@ include
 lib
 pip-selfcheck.json
 data/
+.idea/
