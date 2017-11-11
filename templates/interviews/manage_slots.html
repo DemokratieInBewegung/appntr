@@ -6,50 +6,64 @@
   font-style: italic;
   color: darkgoldenrod;
 }
+
 </style>
 
 <div class="container">
-  {% regroup slots by day as slot_list %}
-  <form method="POST">
-  {% csrf_token %}
+    {% regroup slots by day as slot_list %}
+    <form method="POST">
+        {% csrf_token %}
 
-    <div class="card">
-      <div class="card-block">
+        <div class="card">
+            <div class="card-block">
 
-        <h2>Einstellungen</h2>
-          <p>Die folgenden Daten werden nach Terminvereinbarung an die Bewerber weiter gegeben.</p>
-          <label>Dein Vorname: <input type="text" name="first_name" required value="{{interviewer.first_name|default:""}}"></label> <br>
-          <label>Dein Nachname: <input type="text" name="last_name" required value="{{interviewer.last_name|default:""}}"></label><br>
-          <label>Deine Email: <input type="email" name="email" required value="{{interviewer.email|default:""}}"></label>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-block">
-          <h3>Hier bitte die Verfügbarkeit wählen</h3>
-            <button type="submit">Speichern</button>
-      </div>
-
-      <div class="card-block">
-
-      {% for entry in frames %}
-
-        <div class="card card-outline-info">
-          <div class="card-block">
-            <h4 class="card-title text-muted">{{ entry.day|date:"l, j. F Y" }}</h4>
-            <div class="card-text">
-              <div class="row">
-                {% for t in entry.times %}
-                  <label class="col-md-2 col-6 {% if t.recommended %}highlight{% endif %}"><input type="checkbox" {% if t.checked %}checked{% endif %} name="slot" value="{{t.slot|date:'c'}}"> {{ t.slot|time:"H:i" }} Uhr </label>
-                {% endfor %}
-              </div>
+                <h2>Einstellungen</h2>
+                <p>Die folgenden Daten werden nach Terminvereinbarung an die Bewerber weiter gegeben.</p>
+                <div class="form-group">
+                    <label for="txtFirstname">Dein Vorname: </label>
+                    <input id="txtFirstname" class="form-control" type="text" name="first_name" required
+                           value="{{interviewer.first_name|default:""}}">
+                </div>
+                <div class="form-group">
+                    <label for="txtFirstname">Dein Nachname: </label>
+                    <input type="text" class="form-control" name="last_name" required
+                           value="{{interviewer.last_name|default:""}}">
+                </div>
+                <div class="form-group">
+                    <label for="txtFirstname">Deine Email: </label>
+                    <input type="email" class="form-control" name="email" required value="{{interviewer.email|default:""}}">
+                </div>
             </div>
-          </div>
         </div>
-        <br />
-      {% endfor %}
-      <button type="submit">Speichern</button>
-    </div>
-  </form>
+
+        <div class="card">
+            <div class="card-block">
+                <h3>Hier bitte die Verfügbarkeit wählen</h3>
+                {% include "misc/buttons/save.html" %}
+            </div>
+
+            <div class="card-block">
+
+                {% for entry in frames %}
+
+                <div class="card card-outline-info">
+                    <div class="card-block">
+                        <h4 class="card-title text-muted">{{ entry.day|date:"l, j. F Y" }}</h4>
+                        <div class="card-text">
+                            <div class="row">
+                                {% for t in entry.times %}
+                                <label class="col-md-2 col-6 {% if t.recommended %}highlight{% endif %}"><input
+                                        type="checkbox" {% if t.checked %}checked{% endif %} name="slot"
+                                        value="{{t.slot|date:'c'}}"> {{ t.slot|time:"H:i" }} Uhr </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                {% endfor %}
+                {% include "misc/buttons/save.html" %}
+            </div>
+    </form>
 </div>
 {% endblock %}
