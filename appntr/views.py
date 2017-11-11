@@ -274,11 +274,13 @@ class ApplicationForm(ModelForm):
     comm_rules = forms.BooleanField(required=True,
                     label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregeln</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregel</a> von DIB wahrgenommen und bin bereit mich daran zu halten.'))
 
+
     class Meta:
         model = Application
         fields = ['motivation', 'skills', 'ethical_dilemma',
                   'first_name', 'last_name', 'gender', 'country', 'email', 'phone',
                    'marktplatz_name', 'internet_profiles', 'affiliations',
+                  'dib_participation', 'dib_participation_details', 'contacted_members',
                   'ethic_codex', 'diversity', 'comm_rules']
 
         widgets = {
