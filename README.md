@@ -7,7 +7,7 @@ This runs on Python Django. For Development, you'll need Python 3.0 and a virtua
 1. Set up your local Virtual environment
 
 ```
-virtualenv -P python3 .   # setup a new virtual environment locally
+virtualenv -p python3 .   # setup a new virtual environment locally
 source bin/activate       # enter that environment: needs to happen for every shell session!
 ```
 
