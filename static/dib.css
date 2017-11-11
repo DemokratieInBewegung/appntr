@@ -567,6 +567,12 @@ turquois: #47AB9D;
 orange: #D2892B;
 */
 
+.card-avatar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
 @media (max-width: 575px) {
   .container {
     padding-left: 0;

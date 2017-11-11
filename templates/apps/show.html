@@ -1,12 +1,20 @@
 {% extends "apps/_base.html" %}
 
+{% block body-javascript %}
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="/static/js/dib/apps.js"></script>
+  {% if app.marktplatz_name %}
+    <script type="text/javascript">$(document).ready(function () { Application.loadMarktplatzInfo('{{ app.marktplatz_name }}'); });</script>
+  {% endif %}
+{% endblock %}
+
 {% block inner %}
   <div class="form-group">
 
     <div class="card">
       <div class="row">
         <div class="col-8">
-          <div class="card-block">
+          <div class="card-block card-block-user">
             <h4 class="card-title"> <span class="badge badge-default">{{app.state}}</span> 
             {{app.first_name}} {{app.last_name}}</h4>
             <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
