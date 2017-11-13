@@ -87,7 +87,6 @@
               <form action="{% url 'vote' app.id %}" method="POST">
                 {% csrf_token %}
                 <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}" type="submit" name="vote" value="y">🙂</button>
-                <button class="btn btn-lg {% if my_vote == 'a' %}btn-warning{% else %}btn-outline-warning{% endif %}" type="submit" name="vote" value="a">😐</button>
                 <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}" type="submit" name="vote" value="n">😕</button>
               </form>
             </div>
