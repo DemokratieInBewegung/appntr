@@ -279,7 +279,7 @@ class ApplicationForm(ModelForm):
         check = self.cleaned_data['dib_participation']
 
         if check and not details:
-            raise ValidationError('Bitte teile uns mit, an welchen Aktionen du konkret mitgewirkt hast.')
+            raise ValidationError('Bitte teile uns mit, an welchen Aktionen Du konkret mitgewirkt hast.')
 
         return details
 
