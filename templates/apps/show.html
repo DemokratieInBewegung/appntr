@@ -1,180 +1,212 @@
 {% extends "apps/_base.html" %}
 
 {% block inner %}
-  <div class="form-group">
+<div class="form-group">
 
     <div class="card">
-      <div class="row">
-        <div class="col-8">
-          <div class="card-block">
-            <h4 class="card-title"> <span class="badge badge-default">{{app.state}}</span> 
-            {{app.first_name}} {{app.last_name}}</h4>
-            <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
-            <p class="card-text"><strong>Motivation</strong></p>
-            <p class="card-text">{{app.motivation|linebreaks }}</p>
-            <p class="card-text"><strong>Fähigkeiten</strong></p>
-            <p class="card-text">{{app.skills|linebreaks }}</p>
-            <p class="card-text"><strong>Ethik-Frage</strong></p>
-            <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
-            {% if app.internet_profiles %}
-              <p class="card-text"><strong>Internet Profile</strong></p>
-              <p class="card-text">{{app.internet_profiles|linebreaks }}</p>
-            {% endif %}
-            {% if app.affiliations %}
-              <p class="card-text"><strong>Partei- oder Interessenangehörigkeit</strong></p>
-              <p class="card-text">{{app.affiliations|linebreaks }}</p>
-            {% endif %}
-            {% if show_contact_details %}
-              <p class="card-text"><strong>Kontakt</strong></p>
-              <ul class="card-text">
-                <li>Email: {{app.email}}</li>
-                <li>Telefon: {{app.phone}}</li>
-              </ul>
-            {% endif %}
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card-block">
-
-          {% if app.appointment %}
-
-            <div class="card-block">
-              <h4>Termin</h4>
-              <div class="card-text">
-                Termin mit {{app.appointment.interview_lead.get_full_name}} und {{app.appointment.interview_snd.get_full_name}} für <strong>{{app.appointment.datetime|date:"l, j. F Y"}} um {{app.appointment.datetime|time:"TIME_FORMAT"}}</strong> (in {{app.appointment.datetime|timeuntil}}) vereinbart.
-              </div>
-              {% if can_reset_appointment %}
-
-                  <form method="POST" onsubmit="return confirm('Termin wirklich zurück setzen?')" action="{% url 'reset_appointment' app.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Termin zurück setzen.</button>
-                  </form>
-              {% endif %}
-            </div>
-          <hr />
-          {% elif can_reset_appointment %}
-            <div class="card-block">
-              <h4>Termin</h4>
-              <div class="card-text">
-                Noch keinen Termin
-
-                  <form method="POST" onsubmit="return confirm('Email wirklich erneut schicken?')" action="{% url 'reset_appointment' app.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Erneut einladen.</button>
-                  </form>
-                </div>
-              </div>
-            <hr />
-          {% endif %}
-
-          {% if app.invite %}
-
-            <div class="card-block">
-              <h4>Einladung </h4>
-              <div class="card-text">
-                {% if app.invite.reminded_at %}
-                erinnert vor {{app.invite.reminded_at|timesince}} <br />
-                {% endif %}
-                versandt vor {{app.invite.added_at|timesince}}
-              </div>
-            </div>
-          <hr />
-          {% endif %}
-
-          {% if app.state == 'new' %}
-            <div class="card-block text-center">
-              <h4>Meine Wertung </h4>
-              <form action="{% url 'vote' app.id %}" method="POST">
-                {% csrf_token %}
-                <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}" type="submit" name="vote" value="y">🙂</button>
-                <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}" type="submit" name="vote" value="n">😕</button>
-              </form>
-            </div>
-            <br />
-          {% endif %}
-
-              <h3 class="text-center">Gesamtwertung: <br />
-              {% if app.winner == 'yay' %}
-                <span class="badge badge-pill badge-success">🙂</span>
-              {% elif app.winner == 'abstain' %}
-                <span class="badge badge-pill badge-warning">😐</span>
-              {% elif app.winner == 'nay' %}
-                <span class="badge badge-pill badge-danger">😕</span>
-              {% else %}
-                <span class="badge badge-pill badge-info" title="still voting"><i class="material-icons">play_for_work</i></span>
-              {% endif %}
-            </h3>
-          </div>
-
-            <div class="card-block">
-              <h3>Wertungen </h3>
-                {% for uv in app.votes.all %}
-                  <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}} {{uv.changed_at|timesince}}: 
-                    {% if uv.vote == 'y' %}
-                      <span class="badge badge-pill badge-success">🙂</span>
-                    {% elif uv.vote == 'a' %}
-                      <span class="badge badge-pill badge-warning">😐</span>
-                    {% elif uv.vote == 'n' %}
-                      <span class="badge badge-pill badge-danger">😕</span>
+        <div class="row">
+            <div class="col-8">
+                <div class="card-block">
+                    <h4 class="card-title"><span class="badge badge-default">{{app.state}}</span>
+                        {{app.first_name}} {{app.last_name}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
+                    <p class="card-text"><strong>Motivation</strong></p>
+                    <p class="card-text">{{app.motivation|linebreaks }}</p>
+                    <p class="card-text"><strong>Fähigkeiten</strong></p>
+                    <p class="card-text">{{app.skills|linebreaks }}</p>
+                    <p class="card-text"><strong>Ethik-Frage</strong></p>
+                    <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
+                    {% if app.internet_profiles %}
+                    <p class="card-text"><strong>Internet Profile</strong></p>
+                    <p class="card-text">{{app.internet_profiles|linebreaks }}</p>
                     {% endif %}
-                  </p>
-                {% endfor %}
+                    {% if app.affiliations %}
+                    <p class="card-text"><strong>Partei- oder Interessenangehörigkeit</strong></p>
+                    <p class="card-text">{{app.affiliations|linebreaks }}</p>
+                    {% endif %}
+                    {% if show_contact_details %}
+                    <p class="card-text"><strong>Kontakt</strong></p>
+                    <ul class="card-text">
+                        <li>Email: {{app.email}}</li>
+                        <li>Telefon: {{app.phone}}</li>
+                    </ul>
+                    {% endif %}
+                    {% if app.dib_participation %}
+                    <p class="card-text"><strong>Bereits an Aktionen von DiB teilgenommen:</strong></p>
+                    <p class="card-text">{{ app.dib_participation_details }}</p>
+                    {% else %}
+                    <p class="card-text"><strong>Bereits an Aktionen von DiB teilgenommen:</strong> Nein</p>
+                    {% endif %}
+                    <p class="card-text">
+                        <strong>Kontak zu folgenden DiB-Aktiven:</strong>
+                        {% if app.contacted_members %} {{ app.contacted_members }} {% else %} Keine {% endif %}
+                    </p>
+
+                </div>
             </div>
+            <div class="col-4">
+                <div class="card-block">
 
-          {% if user.is_staff %}
-            <hr />
-              <div class="card-block">
-                <h4 class="card-title">Admin Actions</h4>
-              </div>
-              <div class="card-block">
-                {% if not app.invite %}
-                <form method="POST" action="{% url 'direct_invite' app.id %}">
-                  {% csrf_token %}
-                  <button class="btn btn-outline-success"><i class="material-icons">mail</i> Direkt einladen</button>
-                </form>
+                    {% if app.appointment %}
+
+                    <div class="card-block">
+                        <h4>Termin</h4>
+                        <div class="card-text">
+                            Termin mit {{app.appointment.interview_lead.get_full_name}} und
+                            {{app.appointment.interview_snd.get_full_name}} für <strong>{{app.appointment.datetime|date:"l,
+                            j. F Y"}} um {{app.appointment.datetime|time:"TIME_FORMAT"}}</strong> (in
+                            {{app.appointment.datetime|timeuntil}}) vereinbart.
+                        </div>
+                        {% if can_reset_appointment %}
+
+                        <form method="POST" onsubmit="return confirm('Termin wirklich zurück setzen?')"
+                              action="{% url 'reset_appointment' app.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Termin zurück
+                                setzen.
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <hr/>
+                    {% elif can_reset_appointment %}
+                    <div class="card-block">
+                        <h4>Termin</h4>
+                        <div class="card-text">
+                            Noch keinen Termin
+
+                            <form method="POST" onsubmit="return confirm('Email wirklich erneut schicken?')"
+                                  action="{% url 'reset_appointment' app.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Erneut
+                                    einladen.
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <hr/>
+                    {% endif %}
+
+                    {% if app.invite %}
+                        <div class="card-block">
+                            <h4>Einladung </h4>
+                            <div class="card-text">
+                                {% if app.invite.reminded_at %}
+                                erinnert vor {{app.invite.reminded_at|timesince}} <br/>
+                                {% endif %}
+                                versandt vor {{app.invite.added_at|timesince}}
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endif %}
+
+                    {% if app.state == 'new' %}
+                        <div class="card-block text-center">
+                            <h4>Meine Wertung </h4>
+                            <form action="{% url 'vote' app.id %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}"
+                                        type="submit" name="vote" value="y">🙂
+                                </button>
+                                <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}"
+                                        type="submit" name="vote" value="n">😕
+                                </button>
+                            </form>
+                        </div>
+                        <br/>
+                    {% endif %}
+
+                    <h3 class="text-center">Gesamtwertung: <br/>
+                        {% if app.winner == 'yay' %}
+                        <span class="badge badge-pill badge-success">🙂</span>
+                        {% elif app.winner == 'abstain' %}
+                        <span class="badge badge-pill badge-warning">😐</span>
+                        {% elif app.winner == 'nay' %}
+                        <span class="badge badge-pill badge-danger">😕</span>
+                        {% else %}
+                        <span class="badge badge-pill badge-info" title="still voting"><i class="material-icons">play_for_work</i></span>
+                        {% endif %}
+                    </h3>
+                </div>
+
+                <div class="card-block">
+                    <h3>Wertungen </h3>
+                    {% for uv in app.votes.all %}
+                        <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}}
+                            {{uv.changed_at|timesince}}:
+                            {% if uv.vote == 'y' %}
+                                <span class="badge badge-pill badge-success">🙂</span>
+                            {% elif uv.vote == 'a' %}
+                                <span class="badge badge-pill badge-warning">😐</span>
+                            {% elif uv.vote == 'n' %}
+                                <span class="badge badge-pill badge-danger">😕</span>
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                </div>
+
+                {% if user.is_staff %}
+                <hr/>
+                <div class="card-block">
+                    <h4 class="card-title">Admin Actions</h4>
+                </div>
+                <div class="card-block">
+                    {% if not app.invite %}
+                    <form method="POST" action="{% url 'direct_invite' app.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-success"><i class="material-icons">mail</i> Direkt einladen
+                        </button>
+                    </form>
+                    {% endif %}
+
+
+                    {% if app.is_open_state %}
+                    <br>
+                    <form method="POST"
+                          onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich ablehnen?')"
+                          action="{% url 'direct_decline' app.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger"><i class="material-icons">error</i> Direkt ablehnen
+                        </button>
+                    </form>
+                    {% else %}
+                    <form method="POST"
+                          onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich unwiederruflich löschen?')"
+                          action="{% url 'trash_app' app.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger"><i class="material-icons">delete_forever</i> löschen</button>
+                    </form>
+
+                    {% endif %}
+                </div>
                 {% endif %}
-
-
-                {% if app.is_open_state %}
-                  <br>
-                  <form method="POST" onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich ablehnen?')" action="{% url 'direct_decline' app.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger"><i class="material-icons">error</i> Direkt ablehnen</button>
-                  </form>
-                {% else %}
-                  <form method="POST" onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich unwiederruflich löschen?')" action="{% url 'trash_app' app.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-danger"><i class="material-icons">delete_forever</i> löschen</button>
-                  </form>
-
-                {% endif %}
-              </div>
-          {% endif %}
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
     <div class="card-block">
-      <h4 class="card-title">Kommentare</h4>
+        <h4 class="card-title">Kommentare</h4>
     </div>
     <div class="card-block">
-      <form action="{% url 'comment' app.id %}" method="POST">
-        {% csrf_token %}
-        <textarea name="comment" cols="100" placeholder="Hier neuen Kommentar eingeben"></textarea>
-        <button type="submit" class="btn btn-outline-primary"><i class="material-icons">send</i> kommentieren</button>
-      </form>
+        <form action="{% url 'comment' app.id %}" method="POST">
+            {% csrf_token %}
+            <textarea name="comment" cols="100" placeholder="Hier neuen Kommentar eingeben"></textarea>
+            <button type="submit" class="btn btn-outline-primary"><i class="material-icons">send</i> kommentieren
+            </button>
+        </form>
     </div>
 
     <div class="card-block">
-      {% for comment in app.comments.all %}
-        <h6 class="card-subtitle mb-2 text-muted">{{comment.user.get_full_name|default:comment.user.username}} {{comment.added_at|timesince}}</h6>
+        {% for comment in app.comments.all %}
+        <h6 class="card-subtitle mb-2 text-muted">{{comment.user.get_full_name|default:comment.user.username}}
+            {{comment.added_at|timesince}}</h6>
         <p>{{comment.comment|linebreaks }}</p>
-      {% empty %}
+        {% empty %}
         <p>bisher keine Kommentare abgegeben</p>
-      {% endfor %}
+        {% endfor %}
     </div>
-  </div>
-  <br />
+</div>
+<br/>
 {% endblock %}

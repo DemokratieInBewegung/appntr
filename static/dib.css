@@ -567,6 +567,27 @@ turquois: #47AB9D;
 orange: #D2892B;
 */
 
+.card-counter {
+    color: #636c72;
+    font-size: 0.8rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+span.help-block {
+    color: #AB4747;
+    font-style: italic;
+}
+
+p.help-block {
+    color: #868e96;
+    display: block;
+    font-size: 80%;
+    font-weight: 400;
+    margin-top: .25rem;
+}
+
 @media (max-width: 575px) {
   .container {
     padding-left: 0;

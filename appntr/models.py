@@ -62,6 +62,9 @@ class Application(models.Model):
     motivation = models.TextField()
     skills = models.TextField()
     ethical_dilemma = models.TextField()
+    dib_participation = models.BooleanField(default=False, verbose_name="Ich habe bereits an Aktionen von DiB teilgenommen")
+    dib_participation_details = models.TextField(null=True, blank=True, verbose_name="Wenn ja, welche Aktionen hat Du bereits mitgemacht:", help_text="Bitte zähle kurz auf: (z.B. Initiative eingereicht, Unterschriften gesammelt, Stände betreut, DiB-Tische besucht etc.)")
+    contacted_members = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: Ich bin bereits mit folgenden DiB-Aktiven im Kontakt:")
 
     @property
     def is_open_state(self):
