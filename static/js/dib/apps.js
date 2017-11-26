@@ -1,5 +1,6 @@
 var Application = {
     loadMarktplatzInfo: function (username) {
+        username = username.replace('@', '');
         $.ajax({
             url: "https://marktplatz.bewegung.jetzt/u/" + username + ".json?stats=true",
             type: "GET",
