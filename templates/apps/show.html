@@ -1,12 +1,25 @@
 {% extends "apps/_base.html" %}
 
+{% block body-javascript %}
+<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/static/js/ejs.min.js"></script>
+<script type="text/javascript" src="/static/js/dib/apps.js"></script>
+{% if app.marktplatz_name %}
+<script type="text/javascript">
+    $(document).ready(function () { Application.loadMarktplatzInfo('{{ app.marktplatz_name }}'); });
+
+</script>
+{% endif %}
+{% endblock %}
+
 {% block inner %}
 <div class="form-group">
 
     <div class="card">
         <div class="row">
             <div class="col-8">
-                <div class="card-block">
+                <div class="card-block card-block-user">
                     <h4 class="card-title"><span class="badge badge-default">{{app.state}}</span>
                         {{app.first_name}} {{app.last_name}}</h4>
                     <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
@@ -41,7 +54,23 @@
                         <strong>Kontak zu folgenden DiB-Aktiven:</strong>
                         {% if app.contacted_members %} {{ app.contacted_members }} {% else %} Keine {% endif %}
                     </p>
-
+                    <script type="text/plain" id="tmpl_marktplatz_info">
+                        <p class="card-text"><strong>Marktplatz-Info</strong></p>
+                        <div class="card w-75">
+                            <div class="card-block">
+                            <h3 class="card-title"><a href="https://marktplatz.bewegung.jetzt/u/<%= user.username %>"><%= user.username %></a></h3>
+                            <h6 class="card-subtitle mb-2 text-muted"><%= user.name %></h6>
+                            <img class="rounded-circle card-avatar" src="https://marktplatz.bewegung.jetzt<%= user.avatar_template %>" alt="Avatar">
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Hauptgruppe: <%= user.primary_group_name %></li>
+                                <li class="list-group-item">Vertrauensstufe: <%= user.trust_level %></li>
+                                <li class="list-group-item">Mitglied seit: <%= user.created_at %></li>
+                                <li class="list-group-item">Letzter Beitrag am: <%= user.last_posted_at %></li>
+                                <li class="list-group-item">Zuletzt gesehen am: <%= user.last_seen_at %></li>
+                            </ul>
+                        </div>
+                    </script>
                 </div>
             </div>
             <div class="col-4">
@@ -88,32 +117,33 @@
                     {% endif %}
 
                     {% if app.invite %}
-                        <div class="card-block">
-                            <h4>Einladung </h4>
-                            <div class="card-text">
-                                {% if app.invite.reminded_at %}
-                                erinnert vor {{app.invite.reminded_at|timesince}} <br/>
-                                {% endif %}
-                                versandt vor {{app.invite.added_at|timesince}}
-                            </div>
+
+                    <div class="card-block">
+                        <h4>Einladung </h4>
+                        <div class="card-text">
+                            {% if app.invite.reminded_at %}
+                            erinnert vor {{app.invite.reminded_at|timesince}} <br/>
+                            {% endif %}
+                            versandt vor {{app.invite.added_at|timesince}}
                         </div>
-                        <hr/>
+                    </div>
+                    <hr/>
                     {% endif %}
 
                     {% if app.state == 'new' %}
-                        <div class="card-block text-center">
-                            <h4>Meine Wertung </h4>
-                            <form action="{% url 'vote' app.id %}" method="POST">
-                                {% csrf_token %}
-                                <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}"
-                                        type="submit" name="vote" value="y">🙂
-                                </button>
-                                <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}"
-                                        type="submit" name="vote" value="n">😕
-                                </button>
-                            </form>
-                        </div>
-                        <br/>
+                    <div class="card-block text-center">
+                        <h4>Meine Wertung </h4>
+                        <form action="{% url 'vote' app.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-lg {% if my_vote == 'y' %}btn-success{% else %}btn-outline-success{% endif %}"
+                                    type="submit" name="vote" value="y">🙂
+                            </button>
+                            <button class="btn btn-lg  {% if my_vote == 'n' %}btn-danger{% else %}btn-outline-danger{% endif %}"
+                                    type="submit" name="vote" value="n">😕
+                            </button>
+                        </form>
+                    </div>
+                    <br/>
                     {% endif %}
 
                     <h3 class="text-center">Gesamtwertung: <br/>
@@ -132,16 +162,16 @@
                 <div class="card-block">
                     <h3>Wertungen </h3>
                     {% for uv in app.votes.all %}
-                        <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}}
-                            {{uv.changed_at|timesince}}:
-                            {% if uv.vote == 'y' %}
-                                <span class="badge badge-pill badge-success">🙂</span>
-                            {% elif uv.vote == 'a' %}
-                                <span class="badge badge-pill badge-warning">😐</span>
-                            {% elif uv.vote == 'n' %}
-                                <span class="badge badge-pill badge-danger">😕</span>
-                            {% endif %}
-                        </p>
+                    <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}}
+                        {{uv.changed_at|timesince}}:
+                        {% if uv.vote == 'y' %}
+                        <span class="badge badge-pill badge-success">🙂</span>
+                        {% elif uv.vote == 'a' %}
+                        <span class="badge badge-pill badge-warning">😐</span>
+                        {% elif uv.vote == 'n' %}
+                        <span class="badge badge-pill badge-danger">😕</span>
+                        {% endif %}
+                    </p>
                     {% endfor %}
                 </div>
 
