@@ -1,13 +1,16 @@
 {% extends "apps/_base.html" %}
 
 {% block body-javascript %}
-<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="/static/js/ejs.min.js"></script>
 <script type="text/javascript" src="/static/js/dib/apps.js"></script>
 {% if app.marktplatz_name %}
 <script type="text/javascript">
     $(document).ready(function () { Application.loadMarktplatzInfo('{{ app.marktplatz_name }}'); });
+
 
 </script>
 {% endif %}
@@ -70,6 +73,7 @@
                                 <li class="list-group-item">Zuletzt gesehen am: <%= user.last_seen_at %></li>
                             </ul>
                         </div>
+
                     </script>
                 </div>
             </div>
@@ -82,9 +86,11 @@
                         <h4>Termin</h4>
                         <div class="card-text">
                             Termin mit {{app.appointment.interview_lead.get_full_name}} und
-                            {{app.appointment.interview_snd.get_full_name}} für <strong>{{app.appointment.datetime|date:"l,
-                            j. F Y"}} um {{app.appointment.datetime|time:"TIME_FORMAT"}}</strong> (in
-                            {{app.appointment.datetime|timeuntil}}) vereinbart.
+                            {{app.appointment.interview_snd.get_full_name}} für
+                            <strong>
+                                {{app.appointment.datetime|date:"l,j. F Y"}} um
+                                {{app.appointment.datetime|time:"TIME_FORMAT"}}
+                            </strong> (in {{app.appointment.datetime|timeuntil}}) vereinbart.
                         </div>
                         {% if can_reset_appointment %}
 
