@@ -25,6 +25,9 @@ class Timeslot(models.Model):
 class Application(models.Model):
     class Meta:
         app_label = 'appntr'
+        index_together = [
+            ["state"]
+        ]
 
     class STATES:
         NEW = "new"
@@ -37,7 +40,7 @@ class Application(models.Model):
 
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
-    state = models.CharField(max_length=25, choices= [
+    state = models.CharField(db_index=True, max_length=25, choices= [
         (STATES.NEW, "new"),
         (STATES.TO_INVITE, "To invite"),
         (STATES.INVITED, "Invited"),
