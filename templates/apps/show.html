@@ -54,7 +54,7 @@
                     <p class="card-text"><strong>Bereits an Aktionen von DiB teilgenommen:</strong> Nein</p>
                     {% endif %}
                     <p class="card-text">
-                        <strong>Kontak zu folgenden DiB-Aktiven:</strong>
+                        <strong>Kontakt zu folgenden DiB-Aktiven:</strong>
                         {% if app.contacted_members %} {{ app.contacted_members }} {% else %} Keine {% endif %}
                     </p>
                     <script type="text/plain" id="tmpl_marktplatz_info">
@@ -245,4 +245,32 @@
     </div>
 </div>
 <br/>
+
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">Feedback</h4>
+    </div>
+    <div class="card-block">
+        <form method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-outline-primary"><i class="material-icons">send</i> Feedback abgeben</button>
+        </form>
+    </div>
+    <div class="card-block">
+        {% for feedback in app.feedbacks.all %}
+            <h6 class="card-subtitle mb-2 text-muted">
+                {{feedback.user.get_full_name|default:feedback.user.username}} {{feedback.added_at|timesince}}
+            </h6>
+            <p>Namen der beiden DiB-Gesprächspartner*innen: {{ feedback.interviewer_names }}</p>
+            <p>Rückmeldung: {{ feedback.feedback_type }}</p>
+            {% if feedback.statement_yes %}<p>BEI ZUSAGE - Kompetenzen für Mitarbeit: {{ feedback.statement_yes }}</p>{% endif %}
+            {% if feedback.statement_maybe %}<p>BEI UNSICHERHEIT/ UNEINIGKEIT - Kurze Begründung: {{ feedback.statement_maybe }}</p>{% endif %}
+            {% if feedback.statement_no %}<p>BEI ABSAGE - kurze, sachliche Begründung: {{ feedback.statement_no }}</p>{% endif %}
+        {% empty %}
+            <p>Bisher kein Feedback abgegeben</p>
+        {% endfor %}
+    </div>
+</div>
+<br>
 {% endblock %}
