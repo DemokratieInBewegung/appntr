@@ -17,7 +17,8 @@ from collections import defaultdict
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, StreamingHttpResponse
 
-from .helpers import invite_application, decline_application
+from appntr.helpers import invite_application, decline_application
+from appntr.forms.feedback import *
 
 
 import re
@@ -25,8 +26,8 @@ import re
 import random
 from uuid import uuid4
 
-from .models import *
-from .admin import *
+from appntr.models import *
+from appntr.admin import *
 
 
 MINIMUM = 2
@@ -345,6 +346,7 @@ def _make_context(request, menu='all', **kwargs):
 def show_application(request, id):
     app = get_object_or_404(Application, pk=id)
     ctx = _make_context(request, menu='all', app=app, my_vote=None)
+
     try:
       ctx['my_vote'] = app.votes.get(user__id=request.user.id).vote
     except UserVote.DoesNotExist:
@@ -356,8 +358,10 @@ def show_application(request, id):
     except Application.appointment.RelatedObjectDoesNotExist:
         ctx['can_reset_appointment'] = False
 
-    return render(request, "apps/show.html", context=ctx)
+    feedback_form = FeedbackForm()
+    ctx['feedback_form'] = feedback_form
 
+    return render(request, "apps/show.html", context=ctx)
 
 @login_required
 def all_applications(request):

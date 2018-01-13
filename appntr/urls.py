@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^applications/(?P<id>\d+)/decline$', direct_decline, name="direct_decline"),
     url(r'^applications/(?P<id>\d+)/trash$', trash_app, name="trash_app"),
     url(r'^applications/(?P<id>\d+)/comment$', comment, name="comment"),
+    url(r'^applications/(?P<id>\d+)/feedback$', comment, name="feedback"),
     url(r'^applications/inbox', inbox, name="inbox"),
     url(r'^applications/all', all_applications, name="all_applications"),
     url(r'^appointments$', my_appointments, name="my_appointments"),

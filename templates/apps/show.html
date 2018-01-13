@@ -249,16 +249,36 @@
 <div class="card">
     <div class="card-block">
         <h4 class="card-title">Feedback</h4>
+        <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseFeedback" role="button" aria-expanded="false" aria-controls="collapseFeedback">
+            <i class="material-icons">send</i> Neues Feedback anlegen
+        </a>
     </div>
-    <div class="card-block">
-        <form method="POST">
-            {% csrf_token %}
-
-            <button type="submit" class="btn btn-outline-primary"><i class="material-icons">send</i> Feedback abgeben</button>
-        </form>
+    <div class="collapse" id="collapseFeedback">
+        <div class="card-block">
+            {% load add_css %}
+            <form action="{% url 'feedback' app.id %}" method="post" class="form-table">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in feedback_form %}
+                    <div class="form-group">
+                        {{ field.errors }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field|add_css:"form-control" }}
+                        {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-outline-primary"><i class="material-icons">send</i> Feedback abgeben</button>
+                <a class="btn btn-default" data-toggle="collapse" href="#collapseFeedback" role="button" aria-expanded="false" aria-controls="collapseFeedback">
+                    Abbrechen
+                </a>
+            </form>
+        </div>
     </div>
     <div class="card-block">
         {% for feedback in app.feedbacks.all %}
+            <hr/>
             <h6 class="card-subtitle mb-2 text-muted">
                 {{feedback.user.get_full_name|default:feedback.user.username}} {{feedback.added_at|timesince}}
             </h6>
