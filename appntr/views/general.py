@@ -86,7 +86,7 @@ def get_recommended_slots(minimum=24, tomorrow=None):
 
 @login_required
 def my_appointments(request):
-    ctx = _make_context(request, menu='appointments')
+    ctx = make_context(request, menu='appointments')
     base_query = ctx['appointments_base_query']
     ctx.update(dict(
         upcoming=base_query.filter(datetime__gte=datetime.today()),
@@ -99,7 +99,7 @@ def my_appointments(request):
 @login_required
 def manage_slots(request):
     inter = request.user
-    ctx = _make_context(request, interviewer=inter, menu='slots')
+    ctx = make_context(request, interviewer=inter, menu='slots')
 
     if request.method == "POST":
         inter.first_name = request.POST.get("first_name", inter.first_name)
@@ -329,7 +329,7 @@ def applyform(request):
     return render(request, "apply.html", context=ctx)
 
 
-def _make_context(request, menu='all', **kwargs):
+def make_context(request, menu='all', **kwargs):
   base_query = Appointment.objects.filter(Q(interview_lead=request.user) | Q(interview_snd=request.user))
     
   kwargs.update(dict(
@@ -345,7 +345,7 @@ def _make_context(request, menu='all', **kwargs):
 @login_required
 def show_application(request, id):
     app = get_object_or_404(Application, pk=id)
-    ctx = _make_context(request, menu='all', app=app, my_vote=None)
+    ctx = make_context(request, menu='all', app=app, my_vote=None)
 
     try:
       ctx['my_vote'] = app.votes.get(user__id=request.user.id).vote
@@ -365,7 +365,7 @@ def show_application(request, id):
 
 @login_required
 def all_applications(request):
-    ctx = _make_context(request, menu='all', apps=Application.objects.order_by("-added_at"))
+    ctx = make_context(request, menu='all', apps=Application.objects.order_by("-added_at"))
     return render(request, "apps/all.html", context=ctx)
 
 
@@ -498,7 +498,7 @@ def direct_decline(request, id):
 
 @login_required
 def inbox(request):
-    ctx = _make_context(request,
+    ctx = make_context(request,
         menu='inbox',
         apps=Application.objects.exclude(id__in=UserVote.objects.filter(user=request.user).values('application_id')).order_by("added_at"
                 ).filter(state=Application.STATES.NEW))

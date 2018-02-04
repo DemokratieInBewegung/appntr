@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import (index, applyform, inbox, direct_invite, comment, invite,
                     direct_decline, trash_app, reset_appointment, my_appointments,
-                    show_application, manage_slots, all_applications, vote)
+                    show_application, manage_slots, all_applications, vote, feedback, feedbacks, feedback_done, feedback_reopen)
 # , invite, edit, applications, incoming, set_state, direct_invite, decline
 
 urlpatterns = [
@@ -38,7 +38,10 @@ urlpatterns = [
     url(r'^applications/(?P<id>\d+)/decline$', direct_decline, name="direct_decline"),
     url(r'^applications/(?P<id>\d+)/trash$', trash_app, name="trash_app"),
     url(r'^applications/(?P<id>\d+)/comment$', comment, name="comment"),
-    url(r'^applications/(?P<id>\d+)/feedback$', comment, name="feedback"),
+    url(r'^applications/(?P<id>\d+)/feedback$', feedback, name="feedback"),
+    url(r'^applications/feedbacks$', feedbacks, name="feedbacks"),
+    url(r'^applications/feedback_done/(?P<id>\d+)$', feedback_done, name="feedback_done"),
+    url(r'^applications/feedback_reopen/(?P<id>\d+)$', feedback_reopen, name="feedback_reopen"),
     url(r'^applications/inbox', inbox, name="inbox"),
     url(r'^applications/all', all_applications, name="all_applications"),
     url(r'^appointments$', my_appointments, name="my_appointments"),

@@ -13,10 +13,19 @@ class Feedback(models.Model):
         RECALL_NO = "recall_no"
         RECALL_MAYBE = "recall_maybe"
 
+    class STATUS:
+        OPEN = "open"
+        DONE = "done"
+
     added_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="feedbacks")
     application = models.ForeignKey(Application, related_name="feedbacks")
-
+    status = models.CharField(null=False, blank=False, default=STATUS.OPEN, max_length=255, verbose_name="Status", choices = [
+        (STATUS.OPEN, "offen"),
+        (STATUS.DONE, "erledigt")
+    ])
+    done_at = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    done_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     interviewer_names = models.CharField(null=False, blank=False, max_length=255, verbose_name="Namen der beiden DiB-Gesprächspartner*innen")
 
     feedback_type = models.CharField(db_index=True, max_length=25, verbose_name="Rückmeldung", choices= [

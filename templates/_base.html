@@ -70,6 +70,9 @@
                     <a class="nav-link {% if menu == 'all' %} active{%endif%}" href='/applications/all'>Alle Anträge</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% if menu == 'feedbacks' %} active{%endif%}" href='/applications/feedbacks'>Aufnahmen</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link  {% if menu == 'slots' %} active{%endif%}" href="{% url 'manage_slots' %}">Meine Verfügbarkeit</a>
                 </li>
 
