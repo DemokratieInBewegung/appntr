@@ -3,29 +3,29 @@ Hallo {{apt.application.first_name}},
 Wir freuen uns Dich persönlich kennen zu lernen. Du hast einen Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} ({{apt.interview_lead.email}}) und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} ({{apt.interview_snd.email}}) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte plane etwa 25min für das Gespräch ein.
 {% if apt.interview_lead.config.zoom_id %}
 
-Wir nutzen das Internet Konferenz-System der Firma Zoom. Dafür musst du vorher eine Software herunter laden und auf deinem Computer installieren. Diese findest du hier: https://zoom.us/download
+Wir nutzen das Internet-Konferenz-System der Firma Zoom. Dafür musst Du vorher eine Software herunterladen und auf Deinem Computer installieren. Diese findest Du hier: https://zoom.us/download
 
-Zu dem gegebenen Zeitpunkt kannst du dann einfach mit einem klick auf folgenden Link der Tele-konferenz beitreten:
+Zu dem gegebenen Zeitpunkt kannst Du dann einfach mit einem Klick auf folgenden Link der Telekonferenz beitreten:
 
     https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}
 
-Sollte es für dich nicht möglich sein die Software zu installieren und per Computer teil zu nehmen, kannst du dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188
+Sollte es für Dich nicht möglich sein die Software zu installieren und per Computer teilzunehmen, kannst Du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188.
 
-Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} gefolgt von dem "#". Dann wirst du automatisch in die Konferenz verbinden.
+Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} gefolgt von dem "#". Dann wirst Du automatisch in die Konferenz verbunden.
 {% else %}
 
 Um das Gespräch zu beginnen, klicke dann einfach auf diesen Link:
 
 	{{apt.link}}
 
-Du brauchst dafür eine Kamera und ein Mikrofon am Computer und sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollten, versuchen Sie es nochmals nach abschalten von Adblocker-Plugins und etwaiger Firewall.
+Du brauchst dafür eine Kamera und ein Mikrofon am Computer sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollte, versuch es noch mal nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
 {% endif %}
 
-Desweiteren würden wir Dich darum bitten dir die folgenden Dokumente in Vorebereitung zu dem Gespräch nochmals durchzulesen:
+Des Weiteren würden wir Dich darum bitten Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch noch mal durchzulesen:
 
  - Die Initiativ-Struktur: https://bewegung.jetzt/2017/04/03/so-funktioniert-das-initiativprinzip/
  - Der Ethik-Kodex: https://bewegung.jetzt/ethik-kodex/
 
 
 Wir freuen uns!
-Das Demokratie in Bewegung Team
+Dein Team Mitgliederaufbau von DEMOKRATIE IN BEWEGUNG

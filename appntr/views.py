@@ -262,17 +262,17 @@ class ApplicationForm(ModelForm):
                                  label="Welche Fähigkeiten, Erfahrungen und Ideen willst Du als Mitglied einbringen, die DiB nach vorne bringen werden?",
                                  widget=forms.Textarea)
     ethical_dilemma = forms.CharField(validators=[min_length],
-                                 label="Was würdest Du tun, wenn die Beweger/innen und Mitglieder von Demokratie in Bewegung nach dem Initiativprinzip eine Programmentscheidung herbeiführen, die Du persönlich nicht unterstützt?",
+                                 label="Was würdest Du tun, wenn die Beweger*innen und Mitglieder von Demokratie in Bewegung nach dem Initiativprinzip eine Programmentscheidung herbeiführen, die Du persönlich nicht unterstützt?",
                                  widget=forms.Textarea)
 
     diversity = forms.BooleanField(required=True,
-                    label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegen zu wirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
+                    label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegenzuwirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
 
     ethic_codex = forms.BooleanField(required=True,
                     label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
 
     comm_rules = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregeln</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregel</a> von DIB wahrgenommen und bin bereit mich daran zu halten.'))
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregeln</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregeln</a> von DiB wahrgenommen und bin bereit mich daran zu halten.'))
 
     def clean_dib_participation_details(self):
         details = self.cleaned_data['dib_participation_details']
@@ -310,7 +310,7 @@ def applyform(request):
             application.save()
 
             EmailMessage(
-                    'Eingangsbestätigung des Mitgliedsantrag bei Demokratie in Bewegung',
+                    'Eingangsbestätigung des Mitgliedsantrags bei Demokratie in Bewegung',
                     render_to_string('email/accepted_application.txt', context=dict(application=application)),
                     settings.DEFAULT_FROM_EMAIL,
                     [application.email],

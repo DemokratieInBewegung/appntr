@@ -56,8 +56,8 @@ class Application(models.Model):
     gender = models.CharField(max_length=30, verbose_name="Geschlecht")
     email = models.CharField(max_length=255, verbose_name="E-Mail Adresse", help_text="Unter welcher E-Mail Adresse können wir Dich persönlich erreichen?")
     phone = models.CharField(max_length=255, verbose_name="Telefonnummer", help_text="Unter welcher Telefonnummer können wir Dich persönlich erreichen?")
-    country = models.CharField(max_length=25, verbose_name="Bundesland", help_text="In welchem Bundesland hast du deinen Erstwohnsitz?")
-    marktplatz_name = models.CharField(max_length=120, null=True, blank=True, verbose_name="Marktplatz Nutzername", help_text="Falls gegeben: Nutzername auf dem Marktplatz der Ideen")
+    country = models.CharField(max_length=25, verbose_name="Bundesland", help_text="In welchem Bundesland hast Du Deinen Erstwohnsitz?")
+    marktplatz_name = models.CharField(max_length=120, null=True, blank=True, verbose_name="Marktplatz-Nutzer*innenname", help_text="Falls gegeben: Nutzer*innenname auf dem Marktplatz der Ideen")
     internet_profiles = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)")
     affiliations = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: (ehemalige) Parteimitgliedschaft oder Interessenvertretungen")
 

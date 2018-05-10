@@ -33,7 +33,7 @@
                     <p class="card-text"><strong>Ethik-Frage</strong></p>
                     <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
                     {% if app.internet_profiles %}
-                    <p class="card-text"><strong>Internet Profile</strong></p>
+                    <p class="card-text"><strong>Internet-Profile</strong></p>
                     <p class="card-text">{{app.internet_profiles|linebreaks }}</p>
                     {% endif %}
                     {% if app.affiliations %}
@@ -54,7 +54,7 @@
                     <p class="card-text"><strong>Bereits an Aktionen von DiB teilgenommen:</strong> Nein</p>
                     {% endif %}
                     <p class="card-text">
-                        <strong>Kontak zu folgenden DiB-Aktiven:</strong>
+                        <strong>Kontakt zu folgenden DiB-Aktiven:</strong>
                         {% if app.contacted_members %} {{ app.contacted_members }} {% else %} Keine {% endif %}
                     </p>
                     <script type="text/plain" id="tmpl_marktplatz_info">
@@ -94,7 +94,7 @@
                         </div>
                         {% if can_reset_appointment %}
 
-                        <form method="POST" onsubmit="return confirm('Termin wirklich zurück setzen?')"
+                        <form method="POST" onsubmit="return confirm('Termin wirklich zurücksetzen?')"
                               action="{% url 'reset_appointment' app.id %}">
                             {% csrf_token %}
                             <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Termin zurück
@@ -207,7 +207,7 @@
                     </form>
                     {% else %}
                     <form method="POST"
-                          onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich unwiederruflich löschen?')"
+                          onsubmit="return confirm('{{app.fist_name}} {{app.last_name}} wirklich unwiderruflich löschen?')"
                           action="{% url 'trash_app' app.id %}">
                         {% csrf_token %}
                         <button class="btn btn-danger"><i class="material-icons">delete_forever</i> löschen</button>
