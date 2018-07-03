@@ -262,7 +262,7 @@ class ApplicationForm(ModelForm):
                                  label="Welche Fähigkeiten, Erfahrungen und Ideen willst Du als Mitglied einbringen, die DiB nach vorne bringen werden?",
                                  widget=forms.Textarea)
     ethical_dilemma = forms.CharField(validators=[min_length],
-                                 label="Was würdest Du tun, wenn die Beweger/innen und Mitglieder von Demokratie in Bewegung nach dem Initiativprinzip eine Programmentscheidung herbeiführen, die Du persönlich nicht unterstützt?",
+                                 label="Was würdest Du tun, wenn basisdemokratisch (nach dem Initiativprinzip) eine inhaltliche Entscheidung getroffen wird, die Du persönlich nicht unterstützt?",
                                  widget=forms.Textarea)
 
     diversity = forms.BooleanField(required=True,
