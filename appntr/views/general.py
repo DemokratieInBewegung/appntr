@@ -315,7 +315,7 @@ def applyform(request):
                     render_to_string('email/accepted_application.txt', context=dict(application=application)),
                     settings.DEFAULT_FROM_EMAIL,
                     [application.email],
-                    reply_to=("mitgliedsantrag@bewegung.jetzt",)
+                    reply_to=(settings.REPLY_TO_EMAIL,)
                 ).send()
 
             messages.success(request, "Danke sehr. Dein Antrag ist bei uns eingegangen.")
