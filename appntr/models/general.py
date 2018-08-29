@@ -13,13 +13,13 @@ import re
 URL_BUILDER = "https://talky.io/dib-ma-{}"
 MIN_VOTES = 8
 
+
 class Timeslot(models.Model):
     class Meta:
         app_label = 'appntr'
     once = models.BooleanField(default=True)
     datetime = models.DateTimeField()
     interviewer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="slots")
-
 
 
 class Application(models.Model):
