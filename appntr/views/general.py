@@ -98,7 +98,7 @@ def get_recommended_slots(me, minimum=24, tomorrow=None):
         (leaders, non_leaders) = calc_balance_without_me(users)
         return leaders != non_leaders
 
-    def can_improve_balance(users):
+    def can_i_improve_balance(users):
         (leaders, non_leaders) = calc_balance_without_me(users)
         diff_without_me = leaders - non_leaders
         diff_with_me = (leaders + add_can_lead) - (non_leaders + add_cannot_lead)
