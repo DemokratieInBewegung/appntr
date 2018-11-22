@@ -98,7 +98,7 @@ def get_recommended_slots(me, minimum=24, tomorrow=None):
         (leaders, non_leaders) = calc_balance_without_me(users)
         return leaders != non_leaders
 
-    def i_can_improve_balance(users):
+    def can_improve_balance(users):
         (leaders, non_leaders) = calc_balance_without_me(users)
         diff_without_me = leaders - non_leaders
         diff_with_me = (leaders + add_can_lead) - (non_leaders + add_cannot_lead)
@@ -106,7 +106,7 @@ def get_recommended_slots(me, minimum=24, tomorrow=None):
 
     recommended_slots = {k: vs for k, vs in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
                          if slots_are_unbalanced_without_me(vs)
-                         and i_can_improve_balance(vs)}
+                         and can_i_improve_balance(vs)}
 
     return {k: [v.id for v in vs] for k, vs in recommended_slots.items()}
 
