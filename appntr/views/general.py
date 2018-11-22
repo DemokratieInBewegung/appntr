@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.safestring import mark_safe
@@ -30,7 +32,7 @@ from appntr.models import *
 from appntr.admin import *
 
 
-MINIMUM = 2
+MINIMUM_INTERVIEWERS = 2
 TIMES = [(6, 0), (6, 30),
          (7, 0), (7, 30),
          (8, 0), (8, 30),
@@ -57,17 +59,17 @@ def _get_open_slots(minimum=24, tomorrow=None):
 
     slots = defaultdict(list)
     for slot in Timeslot.objects.filter(once=True, datetime__gte=tomorrow):
-        slots[slot.datetime].append(slot.interviewer.id)
+        slots[slot.datetime].append(slot.interviewer)
 
     # filter out existing
     for appt in Appointment.objects.filter(datetime__gte=tomorrow):
         if slots[appt.datetime]:
             try:
-                slots[appt.datetime].remove(appt.interview_lead.id)
+                slots[appt.datetime].remove(appt.interview_lead)
             except ValueError:
                 pass
             try:
-                slots[appt.datetime].remove(appt.interview_snd.id)
+                slots[appt.datetime].remove(appt.interview_snd)
             except ValueError:
                 pass
     return slots
@@ -75,13 +77,38 @@ def _get_open_slots(minimum=24, tomorrow=None):
 
 def get_open_slots(minimum=24, tomorrow=None):
     leads = [x['user_id'] for x in UserConfig.objects.filter(can_lead=True).values('user_id')]
-    return (leads, {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
-            if len(v) >= MINIMUM and any(i for i in v if i in leads)} if leads else {})
+    slots_ids = {k: [v.id for v in vs] for k, vs in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()}
+    return (leads, {k: v for k, v in slots_ids.items()
+            if len(v) >= MINIMUM_INTERVIEWERS and any(i for i in v if i in leads)} if leads else {})
 
 
-def get_recommended_slots(minimum=24, tomorrow=None):
-    return {k: v for k, v in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
-            if len(v) % MINIMUM != 0}
+def get_recommended_slots(me, minimum=24, tomorrow=None):
+    def can_lead(user):
+        return hasattr(user, 'config') and user.config.can_lead
+
+    (add_can_lead, add_cannot_lead) = (1, 0) if can_lead(me) else (0, 1)
+
+    def calc_balance_without_me(users):
+        return (
+            len([u.id for u in users if u != me and can_lead(u)]),
+            len([u.id for u in users if u != me and not can_lead(u)])
+        )
+
+    def slots_are_unbalanced_without_me(users):
+        (leaders, non_leaders) = calc_balance_without_me(users)
+        return leaders != non_leaders
+
+    def i_can_improve_balance(users):
+        (leaders, non_leaders) = calc_balance_without_me(users)
+        diff_without_me = leaders - non_leaders
+        diff_with_me = (leaders + add_can_lead) - (non_leaders + add_cannot_lead)
+        return abs(diff_with_me) < abs(diff_without_me)
+
+    recommended_slots = {k: vs for k, vs in _get_open_slots(minimum=minimum, tomorrow=tomorrow).items()
+                         if slots_are_unbalanced_without_me(vs)
+                         and i_can_improve_balance(vs)}
+
+    return {k: [v.id for v in vs] for k, vs in recommended_slots.items()}
 
 
 @login_required
@@ -115,7 +142,7 @@ def manage_slots(request):
     availables = [s.datetime.replace(tzinfo=None) for s in inter.slots.all()]
     tomorrow = (datetime.utcnow() + timedelta(days=1)).replace(minute=0, second=0, microsecond=0)
 
-    recoms = [x.replace(tzinfo=None) for x in get_recommended_slots().keys()]
+    recoms = [x.replace(tzinfo=None) for x in get_recommended_slots(inter).keys()]
 
     frames = []
     for x in range(14):
@@ -183,7 +210,7 @@ def invite(request, id):
                 }
             ).send()
 
-            
+
             EmailMessage(
                 'Termin mit {} {} (Mitgliedsantragsgespräch)'.format(app.first_name, app.last_name),
                 render_to_string('email/interviewers.txt', context=dict(domain=site.domain, apt=apt, app=app)),
@@ -331,7 +358,7 @@ def applyform(request):
 
 def make_context(request, menu='all', **kwargs):
   base_query = Appointment.objects.filter(Q(interview_lead=request.user) | Q(interview_snd=request.user))
-    
+
   kwargs.update(dict(
       menu=menu,
       appointments_base_query=base_query.order_by('-datetime'),
@@ -352,7 +379,7 @@ def show_application(request, id):
     except UserVote.DoesNotExist:
       pass
     ctx['show_contact_details'] = request.user.is_staff or app.state in [Application.STATES.TO_INVITE, Application.STATES.INVITED, Application.STATES.INTERVIEWING]
-    
+
     try:
         ctx['can_reset_appointment'] = request.user.is_staff
     except Application.appointment.RelatedObjectDoesNotExist:
