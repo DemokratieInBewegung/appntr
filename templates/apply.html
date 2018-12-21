@@ -3,11 +3,15 @@
 
 {% block content %}
 <div class="container">
-	<h1>Mitgliedsantrag</h1>
-	<form method="post" class="mb-5">
+    <h1>Mitgliedsantrag</h1>
+    <form method="post" class="mb-5">
         {% csrf_token %}
-		{{form|bootstrap}}
-		<button type="submit" class="btn btn-primary">Antrag stellen</button>
-	</form>
+        {{form|bootstrap}}
+        <p>
+            Informationen zur Datenverarbeitung findest Du in unserer
+            <a href="https://bewegung.jetzt/datenschutz/">Datenschutzerklärung</a>.
+        </p>
+        <button type="submit" class="btn btn-primary">Antrag stellen</button>
+    </form>
 </div>
 {% endblock %}
