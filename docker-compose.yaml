@@ -1,26 +1,35 @@
- version: '2'
- services:
-   db:
-     image: postgres:9.6
-     environment:
+version: '2'
+
+services:
+  db:
+    image: postgres:9.6
+    restart: unless-stopped
+    environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_USER=apptnr
       - POSTGRES_PASSWORD=204rkmafd90-ad
-     env_file: secrects.env
-     volumes:
-       - ./data/db:/var/lib/postgresql/data
-   web:
-     build: .
-     environment:
+    env_file: secrects.env
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  web:
+    build: .
+    restart: unless-stopped
+    environment:
       - DATABASE_URL=postgres://apptnr:204rkmafd90-ad@db/apptnr
       - VIRTUAL_HOST=mitgliedsantrag.bewegung.jetzt
-      - LETSENCRYPT_DOMAIN=mitgliedsantrag.bewegung.jetzt
+      - LETSENCRYPT_HOST=mitgliedsantrag.bewegung.jetzt
       - LETSENCRYPT_EMAIL=benjamin.kampmann@bewegung.jetzt
-     env_file: secrects.env
-     command: gunicorn -w 3 -b 0.0.0.0 apptnr.wsgi
-     volumes:
-       - ./data/public:/code/public
-     expose:
-       - 8000
-     links:
-       - db
+    env_file: secrects.env
+    command: gunicorn -w 3 -b 0.0.0.0 appntr.wsgi
+    volumes:
+      - ./data/public:/code/public
+    expose:
+      - 8000
+    links:
+      - db
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
