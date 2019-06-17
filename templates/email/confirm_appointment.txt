@@ -5,27 +5,27 @@ Wir freuen uns Dich persönlich kennen zu lernen. Du hast einen Termin mit {{apt
 
 Wir nutzen das Internet Konferenz-System der Firma Zoom. Dafür musst du vorher eine Software herunter laden und auf deinem Computer installieren. Diese findest du hier: https://zoom.us/download
 
-Zu dem gegebenen Zeitpunkt kannst du dann einfach mit einem klick auf folgenden Link der Tele-konferenz beitreten:
+Zu dem gegebenen Zeitpunkt kannst du dann einfach mit einem Klick auf folgenden Link der Tele-Konferenz beitreten:
 
     https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}
 
-Sollte es für dich nicht möglich sein die Software zu installieren und per Computer teil zu nehmen, kannst du dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188
+Sollte es für Dich nicht möglich sein, die Software zu installieren und per Computer teil zu nehmen, kannst du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188
 
-Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} gefolgt von dem "#". Dann wirst du automatisch in die Konferenz verbinden.
+Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} gefolgt von dem "#". Dann wirst du automatisch in die Konferenz verbunden.
 {% else %}
 
 Um das Gespräch zu beginnen, klicke dann einfach auf diesen Link:
 
 	{{apt.link}}
 
-Du brauchst dafür eine Kamera und ein Mikrofon am Computer und sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollten, versuchen Sie es nochmals nach abschalten von Adblocker-Plugins und etwaiger Firewall.
+Du brauchst dafür eine Kamera (optional) und ein Mikrofon am Computer und sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollten, versuchen Sie es nochmals nach abschalten von Adblocker-Plugins und etwaiger Firewall.
 {% endif %}
 
-Desweiteren würden wir Dich darum bitten dir die folgenden Dokumente in Vorebereitung zu dem Gespräch nochmals durchzulesen:
+Desweiteren würden wir Dich darum bitten Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch nochmals durchzulesen:
 
- - Die Initiativ-Struktur: https://bewegung.jetzt/2017/04/03/so-funktioniert-das-initiativprinzip/
+ - Die Initiativ-Struktur: https://bewegung.jetzt/funktionsweise-initiativprinzip
  - Der Ethik-Kodex: https://bewegung.jetzt/ethik-kodex/
 
 
 Wir freuen uns!
-Das Demokratie in Bewegung Team
+Das DEMOKRATIE IN BEWEGUNG Mitglieder-Team

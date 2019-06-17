@@ -1,10 +1,10 @@
 Hallo {{app.first_name}},
 
-Wir haben Dir vor einigen Tage eine Einladung zum Gespräch geschickt, aber diese hast Du bisher nicht angenommen. Es sind inzwischen weitere Termin frei geworden, vielleicht ist diesmal was für Dich dabei. 
+Wir haben Dir vor einigen Tage eine Einladung zum Gespräch geschickt, aber diese hast Du bisher nicht angenommen. Es sind inzwischen weitere Termine frei geworden, vielleicht ist diesmal was für Dich dabei. 
 
 Wähle bitte über folgenden Link einen Termin zu dem es Dir passt und wir schicken Dir die nötigen Zugangsdaten zu.
 
     https://{{domain}}{% url 'invite' invite.id %}
 
 Wir freuen uns.
-Das Demokratie in Bewegung Team
+Das DEMOKRATIE IN BEWEGUNG Mitglieder-Team
