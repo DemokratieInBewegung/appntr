@@ -300,7 +300,7 @@ class ApplicationForm(ModelForm):
                     label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
 
     comm_rules = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/wp-content/uploads/2017/05/AnhangzurSatzungVerhaltens-Kodex-vom29.April2017.pdf" target="_blank">Verhaltensregeln</a> und <a href="https://docs.google.com/document/d/1_6vpN3qkpGe7ef3lgBybkByH7WybKe9-GvVYQRjNxkY/edit?usp=sharing" target="_blank">die internen Kommunikationsregel</a> von DIB wahrgenommen und bin bereit mich daran zu halten.'))
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://bewegung.jetzt/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregel</a> von DIB wahrgenommen und bin bereit mich daran zu halten.'))
 
     def clean_dib_participation_details(self):
         details = self.cleaned_data['dib_participation_details']
@@ -338,7 +338,7 @@ def applyform(request):
             application.save()
 
             EmailMessage(
-                    'Eingangsbestätigung des Mitgliedsantrag bei Demokratie in Bewegung',
+                    'Eingangsbestätigung des Mitgliedsantrag bei DEMOKRATIE IN BEWEGUNG',
                     render_to_string('email/accepted_application.txt', context=dict(application=application)),
                     settings.DEFAULT_FROM_EMAIL,
                     [application.email],
@@ -487,7 +487,7 @@ def reset_appointment(request, id):
 
 
     EmailMessage(
-        'Termin für Gespräch mit Demokratie in Bewegung zurückgesetzt',
+        'Termin für Gespräch mit DEMOKRATIE IN BEWEGUNG zurückgesetzt',
         render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app, apt=apt)),
         settings.DEFAULT_FROM_EMAIL,
         [app.email],

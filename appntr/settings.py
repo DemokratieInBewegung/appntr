@@ -134,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REPLY_TO_EMAIL = 'mitgliedsantrag@bewegung.jetzt'
 
-DEFAULT_FROM_EMAIL = 'keine-antwort@bewegung.jetzt'
+DEFAULT_FROM_EMAIL = 'mitgliedsantrag@bewegung.jetzt'
 EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 if DEBUG:
