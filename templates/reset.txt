@@ -1,8 +1,8 @@
 Hallo {{app.first_name}},
 
-Dein Gesprächstermin wurde zurück gesetzt. Bitte wähle einen neuen Gesprächstermin über den folgenden Link:
+Dein Gesprächstermin wurde zurückgesetzt. Bitte wähle einen neuen Gesprächstermin über den folgenden Link:
 
     https://{{domain}}{% url 'invite' invite.id %}
 
 Wir freuen uns.
-Das DEMOKRATIE IN BEWEGUNG Team
+Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG

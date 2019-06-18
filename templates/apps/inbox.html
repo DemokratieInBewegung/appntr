@@ -23,7 +23,7 @@
             <p class="card-text"><strong>Ethik-Frage</strong></p>
             <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
             {% if app.internet_profiles %}
-            <p class="card-text"><strong>Internet Profile</strong></p>
+            <p class="card-text"><strong>Internet-Profile</strong></p>
             <p class="card-text">{{app.internet_profiles|linebreaks }}</p>
             {% endif %}
             {% if app.affiliations %}
@@ -31,7 +31,7 @@
             <p class="card-text">{{app.affiliations|linebreaks }}</p>
             {% endif %}
             {% if app.marktplatz_name %}
-            <p class="card-text"><strong>Marktplatz Konto</strong> <a
+            <p class="card-text"><strong>Marktplatz-Konto</strong> <a
                     href="https://marktplatz.bewegung.jetzt/u/{{app.marktplatz_name}}/summary">{{app.marktplatz_name}}</a>
             </p>
             <p class="card-text marktplatz-info"></p>
@@ -73,7 +73,7 @@
     $('.nope-button').click(function(e) {
       var t = $(e.currentTarget).parent().find("textarea");
       if (t.val().trim().length < 30) {
-        alert("Bitte begründe deine Ablehnung (etwas mehr)!");
+        alert("Bitte begründe Deine Ablehnung (etwas mehr)!");
         return false;
       }
     });

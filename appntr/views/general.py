@@ -294,13 +294,13 @@ class ApplicationForm(ModelForm):
                                  widget=forms.Textarea)
 
     diversity = forms.BooleanField(required=True,
-                    label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegen zu wirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
+                    label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegenzuwirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
 
     ethic_codex = forms.BooleanField(required=True,
                     label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
 
     comm_rules = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://bewegung.jetzt/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregel</a> von DIB wahrgenommen und bin bereit mich daran zu halten.'))
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://bewegung.jetzt/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregeln</a> von DiB wahrgenommen und bin bereit mich daran zu halten.'))
 
     def clean_dib_participation_details(self):
         details = self.cleaned_data['dib_participation_details']
@@ -338,7 +338,7 @@ def applyform(request):
             application.save()
 
             EmailMessage(
-                    'Eingangsbestätigung des Mitgliedsantrag bei DEMOKRATIE IN BEWEGUNG',
+                    'Eingangsbestätigung des Mitgliedsantrags bei DEMOKRATIE IN BEWEGUNG',
                     render_to_string('email/accepted_application.txt', context=dict(application=application)),
                     settings.DEFAULT_FROM_EMAIL,
                     [application.email],

@@ -4,7 +4,7 @@
   <div class="jumbotron">
     <h1>Hallo {{name}}!</h1>
     <p>
-    Bitte wähle aus den unten gelisteten Terminen eine Zeit, die Dir passt. Bitte plane etwa 25 Minuten für das Gespräch ein. Wir nutzen für das Gespräch einen Online-Telefon-Konferenz-Dienst, den du entweder über eine installierte Anwendung am Computer, per App auf einem Smartphone (oder Tablet) oder per Telefon-Anruf nutzen kannst. Eine Anleitung, sowie die Zugangsdaten werden Dir nach der Auswahl in der Termin-Bestätigungs-Email zugesandt.</p>
+    Bitte wähle aus den unten gelisteten Terminen eine Zeit, die Dir passt. Bitte plane etwa 25 Minuten für das Gespräch ein. Wir nutzen für das Gespräch einen Online-Telefon-Konferenz-Dienst, den Du entweder über eine installierte Anwendung am Computer, per App auf einem Smartphone (oder Tablet) oder per Telefon-Anruf nutzen kannst. Eine Anleitung sowie die Zugangsdaten werden Dir nach der Auswahl in der Termin-Bestätigungs-Email zugesandt.</p>
     {% regroup slots by day as slot_list %}
     <form method="POST" onsubmit="return confirm('Diesen Termin auswählen?')" class="form-inline">
     {% csrf_token %}
@@ -25,12 +25,12 @@
       {% empty %}
         <div class="alert alert-warning" role="alert">
           <h3>Keine freien Termine</h3>
-          <p>Es gibt aktuell leider keine freien Termine, versuche es bitte später nochmal.</p>
+          <p>Es gibt aktuell leider keine freien Termine, versuche es bitte später noch mal.</p>
         </div>
       {% endfor %}
     </form>
     <br />    <br />
-    <p><strong>Nichts passendes dabei?</strong> Kein Problem, komm einfach später nochmal wieder, diese Liste aktualisiert sich ständig.</p>
+    <p><strong>Nichts Passendes dabei?</strong> Kein Problem, komm einfach später noch mal wieder, diese Liste aktualisiert sich ständig.</p>
   </div>
 </div>
 {% endblock %}

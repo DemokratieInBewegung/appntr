@@ -1,9 +1,9 @@
 Hallo {{app.first_name}},
 
 {% if apt %}
-Dein Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} wurde leider abgesagt. Bitte wähle über folgenden Link einen neuen Termin zu dem es Dir passt:{% else %}Bitte wähle über folgenden Link einen neuen Termin zu dem es Dir passt:{% endif %}
+Dein Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} wurde leider abgesagt. {% endif %} Bitte wähle über folgenden Link einen neuen Termin zu dem es Dir passt:
 
     https://{{domain}}{% url 'invite' app.invite.id %}
 
 Wir freuen uns!
-Das DEMOKRATIE IN BEWEGUNG Mitglieder-Team
+Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG
