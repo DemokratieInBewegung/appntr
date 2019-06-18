@@ -13,13 +13,13 @@ import re
 URL_BUILDER = "https://talky.io/dib-ma-{}"
 MIN_VOTES = 8
 
+
 class Timeslot(models.Model):
     class Meta:
         app_label = 'appntr'
     once = models.BooleanField(default=True)
     datetime = models.DateTimeField()
     interviewer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="slots")
-
 
 
 class Application(models.Model):
@@ -59,7 +59,7 @@ class Application(models.Model):
     country = models.CharField(max_length=25, verbose_name="Bundesland", help_text="In welchem Bundesland hast Du Deinen Erstwohnsitz?")
     marktplatz_name = models.CharField(max_length=120, null=True, blank=True, verbose_name="Marktplatz-Nutzer*innenname", help_text="Falls gegeben: Nutzer*innenname auf dem Marktplatz der Ideen")
     internet_profiles = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)")
-    affiliations = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: (ehemalige) Parteimitgliedschaft oder Interessenvertretungen")
+    affiliations = models.TextField(null=True, blank=True, verbose_name="Falls gegeben: (ehemalige) Parteimitgliedschaft(en) oder Interessenvertretungen")
 
     # application
     motivation = models.TextField()

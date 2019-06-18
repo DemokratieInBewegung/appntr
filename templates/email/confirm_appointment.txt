@@ -9,7 +9,7 @@ Zu dem gegebenen Zeitpunkt kannst Du dann einfach mit einem Klick auf folgenden 
 
     https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}
 
-Sollte es für Dich nicht möglich sein die Software zu installieren und per Computer teilzunehmen, kannst Du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188.
+Sollte es für Dich nicht möglich sein, die Software zu installieren und per Computer teilzunehmen, kannst Du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188
 
 Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} gefolgt von dem "#". Dann wirst Du automatisch in die Konferenz verbunden.
 {% else %}
@@ -18,14 +18,14 @@ Um das Gespräch zu beginnen, klicke dann einfach auf diesen Link:
 
 	{{apt.link}}
 
-Du brauchst dafür eine Kamera und ein Mikrofon am Computer sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollte, versuch es noch mal nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
+Du brauchst dafür eine Kamera (optional) und ein Mikrofon am Computer sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollte, versuche es nochmals nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
 {% endif %}
 
-Des Weiteren würden wir Dich darum bitten Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch noch mal durchzulesen:
+Des Weiteren würden wir Dich darum bitten Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch nochmals durchzulesen:
 
- - Die Initiativ-Struktur: https://bewegung.jetzt/2017/04/03/so-funktioniert-das-initiativprinzip/
+ - Die Initiativ-Struktur: https://bewegung.jetzt/funktionsweise-initiativprinzip
  - Der Ethik-Kodex: https://bewegung.jetzt/ethik-kodex/
 
 
 Wir freuen uns!
-Dein Team Mitgliederaufbau von DEMOKRATIE IN BEWEGUNG
+Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG

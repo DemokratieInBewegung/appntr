@@ -1,0 +1,18 @@
+  <div class="card">
+	<div class="card-block">
+		<h2 class="card-title">{{title}} Termine:</h2>
+		<div class="card-text">
+		  <ul>
+		    {% for apt in apts %}
+		      <li>
+		        <strong>{{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}: <a href="{% url 'show_application' apt.application.id %}">{{apt.application.first_name}} {{apt.application.last_name}} ({{apt.application.gender}}) für {{apt.application.country}}</a></strong>, {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} &amp; {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}}: <a href="{{apt.link}}">{{apt.link}}</a>
+		      </li>
+		    {% empty %}
+		      <div class="alert alert-default" role="alert">
+		      Keine {{none}}n Termine
+		      </div>
+		    {% endfor %}
+		  </ul>
+		</div>
+	  </div>
+  </div>

@@ -7,4 +7,4 @@ Dazu wähle bitte über folgenden Link einen Termin, zu dem es Dir passt, und wi
     https://{{domain}}{% url 'invite' invite.id %}
 
 Wir freuen uns.
-Das Team Mitgliederaufbau von DEMOKRATIE IN BEWEGUNG
+Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG
