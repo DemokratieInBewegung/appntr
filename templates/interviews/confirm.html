@@ -11,11 +11,14 @@
             <strong>{{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}}</strong>.
             <br>
             Bitte plane 25 Minuten für das Gespräch ein.
-        <p>
+        </p>
         <p>Klicke dann einfach in Deinem Browser auf {% if apt.interview_lead.config.zoom_id %}<a
                 href="https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}">diesen Link
             https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}</a>{% else %}<a href="{{apt.link}}">diesen Link
             {{apt.link}}</a>{% endif %}
+        Du erhälst diese und weitere Informationen auch noch per E-Mail
+        </p>
+         
     </div>
 </div>
 {% endblock %}
