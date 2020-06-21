@@ -19,7 +19,7 @@ django-user-accounts==3.0.2
 entrypoints==0.3
 gunicorn==20.0.4
 html5lib==1.0.1
-idna==2.9
+idna==2.8
 ipykernel==5.3.0
 ipython==7.15.0
 ipython-genutils==0.2.0
@@ -44,7 +44,7 @@ pandocfilters==1.4.1
 pexpect==4.2.1
 pickleshare==0.7.4
 prometheus-client==0.7.1
-prompt-toolkit==1.0.14
+prompt-toolkit==2.0.10
 psycopg2==2.7.1
 ptyprocess==0.5.1
 Pygments==2.2.0
@@ -68,5 +68,5 @@ urllib3==1.25.3
 wcwidth==0.1.7
 webencodings==0.5
 Werkzeug==0.15.3
-widgetsnbextension==2.0.0
+widgetsnbextension==3.5.1
 WTForms==2.1
