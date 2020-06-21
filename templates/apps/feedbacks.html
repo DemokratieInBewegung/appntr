@@ -5,7 +5,7 @@
     <h1>Offene Aufnahmen</h1><br/>
     {% for feedback in feedbacks %}
     <div class="card">
-        <div class="card-block">
+        <div class="card-body">
             <div class="card-counter">
                 {{ forloop.counter }} / {{ feedbacks|length }}
             </div>
@@ -20,7 +20,7 @@
             <p class="card-text"><strong>Kompetenzen für Mitarbeit</strong></p>
             <p class="card-text">{{feedback.statement_yes|linebreaks }}</p>
         </div>
-        <div class="card-block">
+        <div class="card-body">
             <button type="button" onclick="window.location.href='{% url 'feedback_done' feedback.id %}'" class="btn btn-success">Erledigt</button>
                 <button type="button" onclick="window.location.href='{% url 'show_application' feedback.application.id %}'" class="btn btn-info">Antrag</button>
         </div>
@@ -35,7 +35,7 @@
     <h1>Erledigte Aufnahmen</h1><br/>
     {% for feedback in feedback_history %}
     <div class="card">
-        <div class="card-block">
+        <div class="card-body">
             <div class="card-counter">
                 <button type="button" onclick="window.location.href='{% url 'show_application' feedback.application.id %}'" class="btn btn-info">Antrag</button>
                 <button type="button" onclick="window.location.href='{% url 'feedback_reopen' feedback.id %}'" class="btn btn-default">Wieder öffnen</button>

@@ -15,7 +15,7 @@
         {% csrf_token %}
 
         <div class="card">
-            <div class="card-block">
+            <div class="card-body">
 
                 <h2>Einstellungen</h2>
                 <p>Die folgenden Daten werden nach Terminvereinbarung an die Bewerber*innen weitergegeben.</p>
@@ -37,17 +37,17 @@
         </div>
 
         <div class="card">
-            <div class="card-block">
+            <div class="card-body">
                 <h3>Hier bitte die Verfügbarkeit wählen</h3>
                 {% include "misc/buttons/save.html" %}
             </div>
 
-            <div class="card-block">
+            <div class="card-body">
 
                 {% for entry in frames %}
 
                 <div class="card card-outline-info">
-                    <div class="card-block">
+                    <div class="card-body">
                         <h4 class="card-title text-muted">{{ entry.day|date:"l, j. F Y" }}</h4>
                         <div class="card-text">
                             <div class="row">

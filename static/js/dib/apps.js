@@ -13,7 +13,7 @@ var Application = {
                             data.user.last_seen_at = Application.formatDate(data.user.last_seen_at);
 
                             var tmpl = $('#tmpl_marktplatz_info').text();
-                            $('.card-block-user').append(ejs.render(tmpl, data));
+                            $('.card-body-user').append(ejs.render(tmpl, data));
                         }
                     })
                 }

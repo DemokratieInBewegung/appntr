@@ -22,7 +22,7 @@
     <div class="card">
         <div class="row">
             <div class="col-8">
-                <div class="card-block card-block-user">
+                <div class="card-body card-body-user">
                     <h4 class="card-title"><span class="badge badge-default">{{app.state}}</span>
                         {{app.first_name}} {{app.last_name}}</h4>
                     <h6 class="card-subtitle mb-2 text-muted">{{app.gender}} für {{app.country}}</h6>
@@ -60,7 +60,7 @@
                     <script type="text/plain" id="tmpl_marktplatz_info">
                         <p class="card-text"><strong>Marktplatz-Info</strong></p>
                         <div class="card w-75">
-                            <div class="card-block">
+                            <div class="card-body">
                             <h3 class="card-title"><a href="https://marktplatz.bewegung.jetzt/u/<%= user.username %>"><%= user.username %></a></h3>
                             <h6 class="card-subtitle mb-2 text-muted"><%= user.name %></h6>
                             <img class="rounded-circle card-avatar" src="https://marktplatz.bewegung.jetzt<%= user.avatar_template %>" alt="Avatar">
@@ -78,11 +78,11 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card-block">
+                <div class="card-body">
 
                     {% if app.appointment %}
 
-                    <div class="card-block">
+                    <div class="card-body">
                         <h4>Termin</h4>
                         <div class="card-text">
                             Termin mit {{app.appointment.interview_lead.get_full_name}} und
@@ -105,7 +105,7 @@
                     </div>
                     <hr/>
                     {% elif can_reset_appointment %}
-                    <div class="card-block">
+                    <div class="card-body">
                         <h4>Termin</h4>
                         <div class="card-text">
                             Noch keinen Termin
@@ -124,7 +124,7 @@
 
                     {% if app.invite %}
 
-                    <div class="card-block">
+                    <div class="card-body">
                         <h4>Einladung </h4>
                         <div class="card-text">
                             {% if app.invite.reminded_at %}
@@ -137,7 +137,7 @@
                     {% endif %}
 
                     {% if app.state == 'new' %}
-                    <div class="card-block text-center">
+                    <div class="card-body text-center">
                         <h4>Meine Wertung </h4>
                         <form action="{% url 'vote' app.id %}" method="POST">
                             {% csrf_token %}
@@ -165,7 +165,7 @@
                     </h3>
                 </div>
 
-                <div class="card-block">
+                <div class="card-body">
                     <h3>Wertungen </h3>
                     {% for uv in app.votes.all %}
                     <p class="card-subtitle text-muted">{{uv.user.get_full_name|default:uv.user.username}}
@@ -183,10 +183,10 @@
 
                 {% if user.is_staff %}
                 <hr/>
-                <div class="card-block">
+                <div class="card-body">
                     <h4 class="card-title">Admin Actions</h4>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     {% if not app.invite %}
                     <form method="POST" action="{% url 'direct_invite' app.id %}">
                         {% csrf_token %}
@@ -222,10 +222,10 @@
 </div>
 
 <div class="card">
-    <div class="card-block">
+    <div class="card-body">
         <h4 class="card-title">Kommentare</h4>
     </div>
-    <div class="card-block">
+    <div class="card-body">
         <form action="{% url 'comment' app.id %}" method="POST">
             {% csrf_token %}
             <textarea name="comment" cols="100" placeholder="Hier neuen Kommentar eingeben"></textarea>
@@ -234,7 +234,7 @@
         </form>
     </div>
 
-    <div class="card-block">
+    <div class="card-body">
         {% for comment in app.comments.all %}
         <h6 class="card-subtitle mb-2 text-muted">{{comment.user.get_full_name|default:comment.user.username}}
             {{comment.added_at|timesince}}</h6>
@@ -247,14 +247,14 @@
 <br/>
 
 <div class="card">
-    <div class="card-block">
+    <div class="card-body">
         <h4 class="card-title">Feedback</h4>
         <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseFeedback" role="button" aria-expanded="false" aria-controls="collapseFeedback">
             <i class="material-icons">send</i> Neues Feedback anlegen
         </a>
     </div>
     <div class="collapse" id="collapseFeedback">
-        <div class="card-block">
+        <div class="card-body">
             {% load add_css %}
             <form action="{% url 'feedback' app.id %}" method="post" class="form-table">
                 {% csrf_token %}
@@ -276,7 +276,7 @@
             </form>
         </div>
     </div>
-    <div class="card-block">
+    <div class="card-body">
         {% for feedback in app.feedbacks.all %}
             <hr/>
             <h6 class="card-subtitle mb-2 text-muted">

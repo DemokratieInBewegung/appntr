@@ -5,7 +5,7 @@
     {% for app in apps %}
 
     <div class="card">
-        <div class="card-block">
+        <div class="card-body">
             <div class="card-counter">
                 {{ forloop.counter }} / {{ apps|length }}
             </div>
@@ -45,7 +45,7 @@
             {% endif %}
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
             <form action="/vote/{{app.id}}" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
