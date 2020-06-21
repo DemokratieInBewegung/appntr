@@ -1,7 +1,7 @@
 amqp==2.6.0
 anyjson==0.3.3
 appdirs==1.4.4
-billiard==3.3.0.23
+billiard==3.6.3.0
 bleach==3.1.4
 celery==4.4.5
 certifi==2019.6.16
@@ -12,7 +12,7 @@ dj-database-url==0.4.2
 Django==1.11.29
 django-appconf==1.0.2
 django-bootstrap-form==3.4
-django-celery==3.2.1
+django-celery==3.3.1
 django-extensions==1.7.8
 django-mailer==1.2.2
 django-user-accounts==2.0.3
