@@ -11,14 +11,14 @@ Zu dem gegebenen Zeitpunkt kannst Du dann einfach mit einem Klick auf folgenden 
 
 Sollte es für Dich nicht möglich sein, die Software zu installieren und per Computer teilzunehmen, kannst Du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188
 
-Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} gefolgt von dem "#". Dann wirst Du automatisch in die Konferenz verbunden.
+Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} (nur die Zahlen bis zum Fragezeichen "?") gefolgt von dem "#" eingeben. Dann wirst Du automatisch in die Konferenz verbunden.
 {% else %}
 
 Um das Gespräch zu beginnen, klicke dann einfach auf diesen Link:
 
 	{{apt.link}}
 
-Du brauchst dafür eine Kamera (optional) und ein Mikrofon am Computer sowie den Firefox oder Google Chrome Browser. Falls es Probleme mit Bild und Ton geben sollte, versuche es nochmals nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
+Du brauchst dafür eine Kamera (optional) und ein Mikrofon am Computer sowie den Firefox, Google Chrome oder neuen neuen Edge Browser. Falls es Probleme mit Bild und Ton geben sollte, versuche es nochmals nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
 {% endif %}
 
 Des Weiteren würden wir Dich darum bitten Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch nochmals durchzulesen:
