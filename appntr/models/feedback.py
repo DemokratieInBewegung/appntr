@@ -5,17 +5,17 @@ from .general import Application
 
 class Feedback(models.Model):
     class TYPES:
-        YES = "Ja, aufnehmen"
-        NO = "Nein, nicht aufnehmen"
-        MAYBE = "Wir können uns nicht einigen. Bitte erneut einladen."
-        MISSED = "Person ist nicht zum Termin erschienen"
-        RECALL_YES = "Gespräch einzeln geführt, meine Empfehlung: ja, aufnehmen --> bitte zweiten Gesprächspartner organisieren"
-        RECALL_NO = "Gespräch einzeln geführt, meine Empfehlung: nein, nicht aufnehmen --> bitte zweiten Gesprächspartner organisieren"
-        RECALL_MAYBE = "Gespräch einzeln geführt, meine Empfehlung:bin mir unsicher --> bitte zwei neue Gesprächspartner organisieren"
+        YES = "yes"
+        NO = "no"
+        MAYBE = "maybe"
+        MISSED = "missed"
+        RECALL_YES = "recall_yes"
+        RECALL_NO = "recall_no"
+        RECALL_MAYBE = "recall_maybe"
 
     class STATUS:
-        OPEN = "offen"
-        DONE = "erledigt"
+        OPEN = "open"
+        DONE = "done"
 
     added_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="feedbacks")
