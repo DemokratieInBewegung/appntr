@@ -46,7 +46,7 @@ Happy Hacking!
 Using docker-compose, right from within this repo, run:
 
 ```
-docker compose up
+docker-compose up
 ```
 
 
@@ -55,7 +55,7 @@ docker compose up
 Don't forget to update the database after/within each deploy:
 
 ```
-docker compose exec web bash /code/scripts/upgrade.sh
+docker-compose exec web bash /code/scripts/upgrade.sh
 ```
 
 
