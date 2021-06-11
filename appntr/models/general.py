@@ -19,7 +19,7 @@ class Timeslot(models.Model):
         app_label = 'appntr'
     once = models.BooleanField(default=True)
     datetime = models.DateTimeField()
-    interviewer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="slots")
+    interviewer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="slots", on_delete=models.CASCADE)
 
 
 class Application(models.Model):
@@ -97,8 +97,8 @@ class UserVote(models.Model):
         app_label = 'appntr'
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes")
-    application = models.ForeignKey(Application, related_name="votes")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes", on_delete=models.CASCADE)
+    application = models.ForeignKey(Application, related_name="votes", on_delete=models.CASCADE)
     vote = models.CharField(max_length=1, choices=[('y', 'yay'), ('n', 'nay'), ('a', 'abstain')])
 
     class Meta:
@@ -110,8 +110,8 @@ class Comment(models.Model):
         app_label = 'appntr'
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="comments")
-    application = models.ForeignKey(Application, related_name="comments")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="comments", on_delete=models.CASCADE)
+    application = models.ForeignKey(Application, related_name="comments", on_delete=models.CASCADE)
     comment = models.TextField(blank=True, null=True)
 
 
@@ -120,7 +120,7 @@ class Invite(models.Model):
         app_label = 'appntr'
 
     id = models.CharField(max_length=10, primary_key=True)
-    application = models.OneToOneField(Application, null=True, default=None, related_name="invite")
+    application = models.OneToOneField(Application, null=True, default=None, related_name="invite", on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
     reminded_at = models.DateTimeField(blank=True, null=True, default=None)
@@ -131,9 +131,9 @@ class Appointment(models.Model):
         app_label = 'appntr'
 
     datetime = models.DateTimeField()
-    application = models.OneToOneField(Application, related_name="appointment")
-    interview_lead = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="leading")
-    interview_snd = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="second")  
+    application = models.OneToOneField(Application, related_name="appointment", on_delete=models.CASCADE)
+    interview_lead = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="leading", on_delete=models.CASCADE)
+    interview_snd = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="second", on_delete=models.CASCADE)  
 
 
     @property

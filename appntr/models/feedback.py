@@ -18,8 +18,8 @@ class Feedback(models.Model):
         DONE = "done"
 
     added_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="feedbacks")
-    application = models.ForeignKey(Application, related_name="feedbacks")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="feedbacks", on_delete=models.CASCADE)
+    application = models.ForeignKey(Application, related_name="feedbacks", on_delete=models.CASCADE)
     status = models.CharField(null=False, blank=False, default=STATUS.OPEN, max_length=255, verbose_name="Status", choices = [
         (STATUS.OPEN, "offen"),
         (STATUS.DONE, "erledigt")
