@@ -25,7 +25,7 @@ class Feedback(models.Model):
         (STATUS.DONE, "erledigt")
     ])
     done_at = models.DateTimeField(auto_now_add=False, null=True, blank=True)
-    done_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    done_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
     interviewer_names = models.CharField(null=False, blank=False, max_length=255, verbose_name="Namen der beiden DiB-Gesprächspartner*innen")
 
     feedback_type = models.CharField(db_index=True, max_length=25, verbose_name="Rückmeldung", choices= [
