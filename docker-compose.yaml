@@ -2,7 +2,7 @@ version: '2'
 
 services:
   db:
-    image: postgres:9.6
+    image: postgres:13
     restart: unless-stopped
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
@@ -11,6 +11,9 @@ services:
     env_file: secrects.env
     volumes:
       - ./data/db:/var/lib/postgresql/data
+    networks:
+      - ipv6ula
+
 
   web:
     build: .
@@ -28,8 +31,12 @@ services:
       - 8000
     links:
       - db
+    networks:
+      - ipv6ula
 
 networks:
-  default:
+#  default:
+  ipv6ula:
     external:
-      name: nginx-proxy
+#      name: nginx-proxy
+      name: ipv6ula
