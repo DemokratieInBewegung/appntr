@@ -44,7 +44,7 @@ pandocfilters==1.4.2
 pexpect==4.8.0
 pickleshare==0.7.5
 prometheus-client==0.8.0
-prompt-toolkit==1.0.18
+prompt-toolkit==
 psycopg2==2.8.5
 ptyprocess==0.6.0
 Pygments==2.7.4
