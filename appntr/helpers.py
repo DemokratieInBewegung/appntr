@@ -12,7 +12,7 @@ from uuid import uuid4
 
 BALANCE_GENDERS = ['Mann', 'mann', 'männlich', "Männlich"]
 ACCEPTED_RATIO = 0.0
-MAX_WAIT = timedelta(days=14) # we postpone max 14 days
+MAX_WAIT = timedelta(days=0) # we postpone max 0 days
 
 
 def decline_application(app):

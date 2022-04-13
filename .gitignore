@@ -12,3 +12,5 @@ lib
 pip-selfcheck.json
 data/
 .idea/
+/secrects.*
+/bak

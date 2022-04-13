@@ -10,7 +10,7 @@
     <meta name="keywords" content="{% block metakeywords%}{% endblock %}">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,400i,700|Rubik:400,400i,500,500i,700" rel="stylesheet">
-    <link href="/static/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/bootstrap-4.5.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="/static/dib.css" rel="stylesheet" type="text/css">
     <!-- Font Awesome icon font -->
     <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -23,19 +23,26 @@
 
 <body class="{% block body_class%}{% endblock%} hyphenate">
     <div class="container-fluid dib-nav">
-        <nav class="navbar navbar-toggleable-sm">
+        <nav class="navbar navbar-expand-md">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="/">
-                <img src="/static/img/dib_logo.svg" height="40" class="d-inline-block align-middle" alt="Demokratie in Bewegung">
+            <!-- IE 10 Fix: have the logo twice, show this on collapsed #navbarNav -->
+            <a class="navbar-brand d-md-none" href="/">
+                <img src="/static/img/dib_logo.png" height="40" class="d-inline-block align-middle" alt="Demokratie in Bewegung">
             </a>
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- IE 10 Fix: have the logo twice, hide this on collapsed #navbarNav -->
+                <a class="navbar-brand d-none d-md-block" href="/">
+                <img src="/static/img/dib_logo.png" height="40" class="d-inline-block align-middle" alt="Demokratie in Bewegung">
+                </a>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href='https://bewegung.jetzt/impressum/'>Impressum</a>
+                        <a class="nav-link" href="https://bewegung.jetzt/impressum/">Impressum</a>
                     </li>
-                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://bewegung.jetzt/datenschutz/">Datenschutz</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -70,6 +77,9 @@
                     <a class="nav-link {% if menu == 'all' %} active{%endif%}" href='/applications/all'>Alle Anträge</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% if menu == 'feedbacks' %} active{%endif%}" href='/applications/feedbacks'>Aufnahmen</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link  {% if menu == 'slots' %} active{%endif%}" href="{% url 'manage_slots' %}">Meine Verfügbarkeit</a>
                 </li>
 
@@ -90,7 +100,7 @@
     </div>
     <!-- Needed by Bootstrap 4.0 -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/static/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
     {% block body-javascript %}{% endblock %}
 </body>
 </html>

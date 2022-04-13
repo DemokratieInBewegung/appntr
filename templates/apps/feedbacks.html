@@ -1,0 +1,60 @@
+{% extends "apps/_base.html" %}
+
+{% block inner %}
+<div class="form-group">
+    <h1>Offene Aufnahmen</h1><br/>
+    {% for feedback in feedbacks %}
+    <div class="card">
+        <div class="card-body">
+            <div class="card-counter">
+                {{ forloop.counter }} / {{ feedbacks|length }}
+            </div>
+            <h4 class="card-title">
+                <a href="{% url 'show_application' feedback.application.id %}">{{feedback.application.first_name}} {{feedback.application.last_name}}</a>
+            </h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{feedback.application.gender}} für {{feedback.application.country}}</h6>
+            <br/>
+            <p class="card-text"><strong>Email des Antragstellers:</strong> {{ feedback.application.email }}</p>
+            <p class="card-text"><strong>Gesprächspartner*innen bei DiB:</strong> {{feedback.interviewer_names}}</p>
+            <p class="card-text"><strong>Zustimmung zur Aufnahme am:</strong> {{feedback.added_at|date}} {{feedback.added_at|time}}</p>
+            <p class="card-text"><strong>Kompetenzen für Mitarbeit</strong></p>
+            <p class="card-text">{{feedback.statement_yes|linebreaks }}</p>
+        </div>
+        <div class="card-body">
+            <button type="button" onclick="window.location.href='{% url 'feedback_done' feedback.id %}'" class="btn btn-success">Erledigt</button>
+                <button type="button" onclick="window.location.href='{% url 'show_application' feedback.application.id %}'" class="btn btn-info">Antrag</button>
+        </div>
+    </div>
+    <br/>
+    {% empty %}
+    <div class="alert alert-info" style="text-align: center" role="alert">
+        <h1>Alles erledigt!</h1>
+    </div>
+    {% endfor %}
+    <br/>
+    <h1>Erledigte Aufnahmen</h1><br/>
+    {% for feedback in feedback_history %}
+    <div class="card">
+        <div class="card-body">
+            <div class="card-counter">
+                <button type="button" onclick="window.location.href='{% url 'show_application' feedback.application.id %}'" class="btn btn-info">Antrag</button>
+                <button type="button" onclick="window.location.href='{% url 'feedback_reopen' feedback.id %}'" class="btn btn-default">Wieder öffnen</button>
+                &nbsp;
+                {{ forloop.counter }} / {{ feedback_history|length }}
+            </div>
+            <h6 class="card-subtitle mb-2 text-muted">Erledigt von {{feedback.done_user.username}} am {{feedback.done_at|date}} {{feedback.done_at|time}}:</h6>
+            <p class="card-text">
+                {{feedback.application.first_name}} {{feedback.application.last_name}}, {{feedback.application.email}}, {{feedback.application.country}},
+                {{feedback.statement_yes}}
+            </p>
+        </div>
+    </div>
+    <br/>
+    {% empty %}
+    <div class="alert alert-info" style="text-align: center" role="alert">
+        <h1>Keine Aufnahmen vorhanden</h1>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

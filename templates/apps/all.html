@@ -3,7 +3,7 @@
 {% block inner %}
   <div>
       <form method="GET">
-        <input type="search" name="q" placeHolder="Suche (noch in arbeit)">
+        <input type="search" name="q" placeHolder="Suche (noch in Arbeit)">
       </form>
   </div>
   <br />
@@ -11,7 +11,7 @@
     {% for app in apps %}
 
       <div class="card">
-        <div class="card-block">
+        <div class="card-body">
           <p class="card-title">
           {% if app.winner == 'yay' %}
             <span class="badge badge-pill badge-success"><i class="material-icons">thumb_up</i></span>
@@ -25,7 +25,7 @@
 
           <a href="{% url 'show_application' app.id %}">{{app.first_name}} {{app.last_name}}</a></p>
           <h6 class="card-subtitle mb-2 text-muted">
-            <span class="badge badge-default">{{app.state}}</span> {{app.gender}}  für {{app.country}}
+            <span class="badge badge-default">{{app.state}}</span> {{app.gender}} für {{app.country}}
             
           </h6>
         </div>
