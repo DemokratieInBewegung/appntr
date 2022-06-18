@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='application',
             name='affiliations',
-            field=models.TextField(blank=True, null=True, verbose_name='Falls gegeben: (ehemalige) Parteimitgliedschaft oder Interessenvertretungen'),
+            field=models.TextField(blank=True, null=True, verbose_name='Falls vorhanden: (ehemalige) Parteimitgliedschaft oder Interessenvertretungen'),
         ),
     ]
