@@ -17,7 +17,7 @@ MAX_WAIT = timedelta(days=0) # we postpone max 0 days
 
 def decline_application(app):
     EmailMessage(
-            'Ihr Mitgliedsantrag bei DiB - DEMOKRATIE IN BEWEGUNG',
+            'Dein Mitgliedsantrag bei DiB - DEMOKRATIE IN BEWEGUNG',
             render_to_string('email/decline.txt', context=dict(app=app)),
             settings.DEFAULT_FROM_EMAIL,
             [app.email],
