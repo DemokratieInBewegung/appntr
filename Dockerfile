@@ -7,4 +7,3 @@ RUN pip install --upgrade pip
 RUN pip install "setuptools<58.0.0"
 RUN pip install -r requirements.txt
 ADD . /code
-58.0.0
