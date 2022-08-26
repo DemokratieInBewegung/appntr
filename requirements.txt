@@ -31,7 +31,7 @@ jupyter==1.0.0
 jupyter-client==7.3.4
 jupyter-console==6.4.3
 jupyter-core==4.9.2
-kombu==3.0.37
+kombu==5.2.4
 lockfile==0.12.2
 MarkupSafe==2.1.1
 mistune==0.8.4
