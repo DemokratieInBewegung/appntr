@@ -3,7 +3,7 @@ anyjson==0.3.3
 appdirs==1.4.4
 billiard==3.3.0.23
 bleach==4.1.0
-celery==3.1.26.post2
+celery==5.1.2
 certifi==2022.6.15
 chardet==5.0.0
 click==8.0.3
