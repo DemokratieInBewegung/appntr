@@ -68,5 +68,5 @@ urllib3==1.26.12
 wcwidth==0.2.5
 webencodings==0.5.1
 Werkzeug==2.0.3
-widgetsnbextension==3.5.1
+widgetsnbextension==3.6.0
 WTForms==3.0.0
