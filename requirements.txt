@@ -45,7 +45,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 prometheus-client==0.14.1
 prompt-toolkit==3.0.24
-psycopg2==2.9.3
+psycopg2==2.9.4
 ptyprocess==0.7.0
 Pygments==2.13.0
 pyparsing==3.0.7
