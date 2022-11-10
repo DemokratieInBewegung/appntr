@@ -194,3 +194,5 @@ MEDIA_ROOT = os.path.join( BASE_DIR, 'public', 'media')
 
 # app specific
 MIN_VOTERS = 5
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
