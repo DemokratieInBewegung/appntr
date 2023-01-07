@@ -290,7 +290,7 @@ class ApplicationForm(ModelForm):
                                  label="Welche Fähigkeiten, Erfahrungen und Ideen möchtest Du als Mitglied gerne einbringen, die DiB nach vorne bringen könnten?",
                                  widget=forms.Textarea)
     ethical_dilemma = forms.CharField(validators=[min_length],
-                                 label="Welche politischen Themen liegen dir besonders am Herzen?",
+                                 label="Welche politischen Themen liegen Dir besonders am Herzen?",
                                  widget=forms.Textarea)
 
     diversity = forms.BooleanField(required=True,
