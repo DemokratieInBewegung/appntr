@@ -1,4 +1,4 @@
-# Appntr - The Membership application, voting and appointment management system of [DEMOKRATIE IN BEWEGUNG](https://bewegung.jetzt)
+# Appntr - The Membership application, voting and appointment management system of [DEMOKRATIE IN BEWEGUNG](https://dib.de)
 
 ## Development 
 

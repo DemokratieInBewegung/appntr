@@ -57,7 +57,7 @@ class Application(models.Model):
     email = models.CharField(max_length=255, verbose_name="E-Mail-Adresse", help_text="Unter welcher E-Mail-Adresse können wir Dich persönlich erreichen?")
     phone = models.CharField(max_length=255, verbose_name="Telefonnummer", help_text="Unter welcher Telefonnummer können wir Dich persönlich erreichen?")
     country = models.CharField(max_length=25, verbose_name="Bundesland", help_text="In welchem Bundesland hast Du Deinen Erstwohnsitz?")
-    marktplatz_name = models.CharField(max_length=120, null=True, blank=True, verbose_name="DiB Marktplatz-Nutzer*innen-Name", help_text="Falls vorhanden: Nutzer*innen-Name auf dem DiB Marktplatz der Ideen https://marktplatz.bewegung.jetzt/")
+    marktplatz_name = models.CharField(max_length=120, null=True, blank=True, verbose_name="DiB Marktplatz-Nutzer*innen-Name", help_text="Falls vorhanden: Nutzer*innen-Name auf dem DiB Marktplatz der Ideen https://marktplatz.dib.de/")
     internet_profiles = models.TextField(null=True, blank=True, verbose_name="Falls vorhanden: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)")
     affiliations = models.TextField(null=True, blank=True, verbose_name="Falls vorhanden: (ehemalige) Parteimitgliedschaft(en) oder Interessenvertretungen")
 

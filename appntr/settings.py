@@ -132,9 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-REPLY_TO_EMAIL = 'mitgliedsantrag@bewegung.jetzt'
+REPLY_TO_EMAIL = 'mitgliedsantrag@dib.de'
 
-DEFAULT_FROM_EMAIL = 'mitgliedsantrag@bewegung.jetzt'
+DEFAULT_FROM_EMAIL = 'mitgliedsantrag@dib.de'
 EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 if DEBUG:
@@ -155,7 +155,7 @@ else:
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
     EMAIL_HOST_USER = os.environ.get('SMTP_USERNAME')
     EMAIL_HOST_PASSWORD = os.environ.get('SMTP_PASSWORD')
-    EMAIL_REPLY_TO = 'mitgliedsantrag@bewegung.jetzt'
+    EMAIL_REPLY_TO = 'mitgliedsantrag@dib.de'
     EMAIL_PORT = int(os.environ.get('SMTP_PORT'))
 
 

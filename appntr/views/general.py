@@ -297,10 +297,10 @@ class ApplicationForm(ModelForm):
                     label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegenzuwirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
 
     ethic_codex = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
+                    label=mark_safe('Ich habe den <a href="https://dib.de/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
 
     comm_rules = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://bewegung.jetzt/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregeln</a> von DiB wahrgenommen und bin bereit mich daran zu halten.'))
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://dib.de/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://dib.de/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregeln</a> von DiB wahrgenommen und bin bereit mich daran zu halten.'))
 
     def clean_dib_participation_details(self):
         details = self.cleaned_data['dib_participation_details']

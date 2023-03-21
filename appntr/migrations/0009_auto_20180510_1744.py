@@ -25,6 +25,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='application',
             name='marktplatz_name',
-            field=models.CharField(blank=True, help_text='Falls vorhanden: Nutzer*innen-Name auf dem Marktplatz der Ideen https://marktplatz.bewegung.jetzt/', max_length=120, null=True, verbose_name='Marktplatz-Nutzer*innen-Name'),
+            field=models.CharField(blank=True, help_text='Falls vorhanden: Nutzer*innen-Name auf dem Marktplatz der Ideen https://marktplatz.dib.de/', max_length=120, null=True, verbose_name='Marktplatz-Nutzer*innen-Name'),
         ),
     ]

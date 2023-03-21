@@ -1,7 +1,7 @@
 var Application = {
     loadMarktplatzInfo: function (username) {
         username = username.replace('@', '');
-        fetch("https://marktplatz.bewegung.jetzt/u/" + username + ".json?stats=true").then(
+        fetch("https://marktplatz.dib.de/u/" + username + ".json?stats=true").then(
             response => {
                 if (response.status) {
                     response.json().then(data => {

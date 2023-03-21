@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='application',
             name='marktplatz_name',
-            field=models.CharField(blank=True, max_length=120, null=True, verbose_name='Falls vorhanden: Nutzer*innen-Name auf dem Marktplatz der Ideen https://marktplatz.bewegung.jetzt/'),
+            field=models.CharField(blank=True, max_length=120, null=True, verbose_name='Falls vorhanden: Nutzer*innen-Name auf dem Marktplatz der Ideen https://marktplatz.dib.de/'),
         ),
     ]
