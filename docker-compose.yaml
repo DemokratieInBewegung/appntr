@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 
 services:
   db:
@@ -20,9 +20,9 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgres://apptnr:204rkmafd90-ad@db/apptnr
-      - VIRTUAL_HOST=mitgliedsantrag.bewegung.jetzt
-      - LETSENCRYPT_HOST=mitgliedsantrag.bewegung.jetzt
-      - LETSENCRYPT_EMAIL=domains@bewegung.jetzt
+      - VIRTUAL_HOST=mitgliedsantrag.dib.de
+      - LETSENCRYPT_HOST=mitgliedsantrag.dib.de
+      - LETSENCRYPT_EMAIL=domains@dib.de
     env_file: secrects.env
     command: gunicorn -w 3 -b 0.0.0.0 appntr.wsgi
     volumes:
@@ -35,8 +35,6 @@ services:
       - ipv6ula
 
 networks:
-#  default:
   ipv6ula:
-    external:
-#      name: nginx-proxy
-      name: ipv6ula
+    external: true
+    name: ipv6ula

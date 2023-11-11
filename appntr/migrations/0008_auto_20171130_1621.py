@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='application',
             name='contacted_members',
-            field=models.TextField(blank=True, null=True, verbose_name='Falls gegeben: Ich bin bereits mit folgenden DiB-Aktiven im Kontakt:'),
+            field=models.TextField(blank=True, null=True, verbose_name='Falls vorhanden: Ich bin bereits mit folgenden DiB-Aktiven im Kontakt:'),
         ),
         migrations.AlterField(
             model_name='application',
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='application',
             name='marktplatz_name',
-            field=models.CharField(blank=True, help_text='Falls gegeben: Nutzername auf dem Marktplatz der Ideen', max_length=120, null=True, verbose_name='Marktplatz Nutzername'),
+            field=models.CharField(blank=True, help_text='Falls vorhanden: Nutzer*innen-Name auf dem Marktplatz der Ideen https://marktplatz.dib.de/', max_length=120, null=True, verbose_name='Marktplatz Nutzer*innen-Name'),
         ),
         migrations.AlterField(
             model_name='application',

@@ -17,7 +17,7 @@ MAX_WAIT = timedelta(days=0) # we postpone max 0 days
 
 def decline_application(app):
     EmailMessage(
-            'Ihre Mitgliedsantrag bei Demokratie in Bewegung',
+            'Dein Mitgliedsantrag bei DiB - DEMOKRATIE IN BEWEGUNG',
             render_to_string('email/decline.txt', context=dict(app=app)),
             settings.DEFAULT_FROM_EMAIL,
             [app.email],
@@ -53,7 +53,7 @@ def invite_application(app, force=False):
     invite.save()
 
     EmailMessage(
-            'Einladung zum Gespräch mit Demokratie in Bewegung',
+            'Einladung zum Gespräch mit DiB - DEMOKRATIE IN BEWEGUNG',
             render_to_string('email/invite.txt', context=dict(domain=site.domain, app=app, invite=invite)),
             settings.DEFAULT_FROM_EMAIL,
             [app.email],

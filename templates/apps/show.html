@@ -30,7 +30,7 @@
                     <p class="card-text">{{app.motivation|linebreaks }}</p>
                     <p class="card-text"><strong>Fähigkeiten</strong></p>
                     <p class="card-text">{{app.skills|linebreaks }}</p>
-                    <p class="card-text"><strong>Ethik-Frage</strong></p>
+                    <p class="card-text"><strong>politische Herzensthemen</strong></p>
                     <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
                     {% if app.internet_profiles %}
                     <p class="card-text"><strong>Internet-Profile</strong></p>
@@ -61,9 +61,9 @@
                         <p class="card-text"><strong>Marktplatz-Info</strong></p>
                         <div class="card w-75">
                             <div class="card-body">
-                            <h3 class="card-title"><a href="https://marktplatz.bewegung.jetzt/u/<%= user.username %>"><%= user.username %></a></h3>
+                            <h3 class="card-title"><a href="https://marktplatz.dib.de/u/<%= user.username %>"><%= user.username %></a></h3>
                             <h6 class="card-subtitle mb-2 text-muted"><%= user.name %></h6>
-                            <img class="rounded-circle card-avatar" src="https://marktplatz.bewegung.jetzt<%= user.avatar_template %>" alt="Avatar">
+                            <img class="rounded-circle card-avatar" src="https://marktplatz.dib.de<%= user.avatar_template %>" alt="Avatar">
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Hauptgruppe: <%= user.primary_group_name %></li>

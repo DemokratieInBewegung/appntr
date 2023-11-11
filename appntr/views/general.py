@@ -200,7 +200,7 @@ def invite(request, id):
             apt.save()
 
             EmailMessage(
-                'Termin für Gespräch mit Demokratie in Bewegung',
+                'Termin für Gespräch mit DiB - DEMOKRATIE IN BEWEGUNG',
                 render_to_string('email/confirm_appointment.txt', context=dict(domain=site.domain, apt=apt, app=app)),
                 settings.DEFAULT_FROM_EMAIL,
                 [app.email],
@@ -228,7 +228,7 @@ def invite(request, id):
 
         except (KeyError, StopIteration):
             ctx["slots"] = slots
-            ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen auswählen."
+            ctx["message"] = "Zeitraum steht nicht zur Verfügung. Bitte einen anderen Zeitraum auswählen."
 
     else:
         ctx = dict(name=app.first_name, slots=sorted(get_open_slots()[1].keys()))
@@ -244,7 +244,7 @@ def index(request):
 
 def min_length(value):
     if len(value) < 50:
-        raise ValidationError('Geht es auch etwas ausführlicher?')
+        raise ValidationError('Bitte etwas ausführlicher die Frage beantworten, damit wir uns besser einen ersten Eindruck bilden können. Vielen lieben Dank.')
 
 
 FB_GENDER = ['Mann', 'Frau', "androgyner Mensch","androgyn","bigender","weiblich","Frau zu Mann (FzM)",
@@ -287,20 +287,20 @@ class ApplicationForm(ModelForm):
                                  label="Was ist Deine Motivation Dich bei DiB zu engagieren?",
                                  widget=forms.Textarea)
     skills = forms.CharField(validators=[min_length],
-                                 label="Welche Fähigkeiten, Erfahrungen und Ideen willst Du als Mitglied einbringen, die DiB nach vorne bringen werden?",
+                                 label="Welche Fähigkeiten, Erfahrungen und Ideen möchtest Du als Mitglied gerne einbringen, die DiB nach vorne bringen könnten?",
                                  widget=forms.Textarea)
     ethical_dilemma = forms.CharField(validators=[min_length],
-                                 label="Was würdest Du tun, wenn basisdemokratisch (nach dem Initiativprinzip) eine inhaltliche Entscheidung getroffen wird, die Du persönlich nicht unterstützt?",
+                                 label="Welche politischen Themen liegen Dir besonders am Herzen?",
                                  widget=forms.Textarea)
 
     diversity = forms.BooleanField(required=True,
                     label=mark_safe('Wir leben leider in einer Gesellschaft mit struktureller Diskriminierung und Benachteiligung. Deswegen finde ich es gut, dass DiB Maßnahmen ergreift, um dem entgegenzuwirken. Ich werde entsprechende Maßnahmen voll und ganz unterstützen.'))
 
     ethic_codex = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe den <a href="https://bewegung.jetzt/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
+                    label=mark_safe('Ich habe den <a href="https://dib.de/ethik-kodex/" target="_blank">Ethik-Kodex</a> gelesen und bin bereit ihn zu unterzeichnen.'))
 
     comm_rules = forms.BooleanField(required=True,
-                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://bewegung.jetzt/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://bewegung.jetzt/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregeln</a> von DiB wahrgenommen und bin bereit mich daran zu halten.'))
+                    label=mark_safe('Ich habe die in der Satzung festgelegten <a href="https://dib.de/verhaltens-kodex-pdf" target="_blank">Verhaltensregeln</a> und <a href="https://dib.de/kommunikationsregeln-pdf" target="_blank">die internen Kommunikationsregeln</a> von DiB wahrgenommen und bin bereit mich daran zu halten.'))
 
     def clean_dib_participation_details(self):
         details = self.cleaned_data['dib_participation_details']
@@ -338,14 +338,14 @@ def applyform(request):
             application.save()
 
             EmailMessage(
-                    'Eingangsbestätigung des Mitgliedsantrags bei DEMOKRATIE IN BEWEGUNG',
+                    'Eingangsbestätigung des Mitgliedsantrags bei DiB - DEMOKRATIE IN BEWEGUNG',
                     render_to_string('email/accepted_application.txt', context=dict(application=application)),
                     settings.DEFAULT_FROM_EMAIL,
                     [application.email],
                     reply_to=(settings.REPLY_TO_EMAIL,)
                 ).send()
 
-            messages.success(request, "Danke sehr. Dein Antrag ist bei uns eingegangen.")
+            messages.success(request, "Vielen Dank, Dein Antrag ist bei uns eingegangen.")
 
             form = ApplicationForm()
 
@@ -424,7 +424,7 @@ def vote(request, id):
             decline_application(app)
         # on abstain we wait for more votes for now...
 
-    messages.success(request, "Deine Abstimmung wurde aufgenommen.")
+    messages.success(request, "Vielen Dank, Deine Abstimmung wurde aufgenommen.")
     return redirect(request.META.get('HTTP_REFERER') or '/applications/inbox')
 
 
@@ -434,7 +434,7 @@ def comment(request, id):
     app = get_object_or_404(Application, pk=id)
     Comment(application=app, user=request.user, comment=request.POST.get('comment')).save()
 
-    messages.success(request, "Kommentar erstellt.")
+    messages.success(request, "Kommentar wurde erstellt.")
     return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
 
@@ -487,7 +487,7 @@ def reset_appointment(request, id):
 
 
     EmailMessage(
-        'Termin für Gespräch mit DEMOKRATIE IN BEWEGUNG zurückgesetzt',
+        'Termin für Gespräch mit DiB - DEMOKRATIE IN BEWEGUNG wurde zurückgesetzt',
         render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app, apt=apt)),
         settings.DEFAULT_FROM_EMAIL,
         [app.email],
@@ -499,7 +499,7 @@ def reset_appointment(request, id):
       app.appointment.delete()
     app.state = Application.STATES.INVITED
     app.save()
-    messages.success(request, "Termin zurückgesetzt")
+    messages.success(request, "Termin wurde zurückgesetzt")
     return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
 

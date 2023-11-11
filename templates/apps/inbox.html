@@ -20,7 +20,7 @@
             <p class="card-text">{{app.motivation|linebreaks }}</p>
             <p class="card-text"><strong>Fähigkeiten</strong></p>
             <p class="card-text">{{app.skills|linebreaks }}</p>
-            <p class="card-text"><strong>Ethik-Frage</strong></p>
+            <p class="card-text"><strong>politische Herzensthemen</strong></p>
             <p class="card-text">{{app.ethical_dilemma|linebreaks }}</p>
             {% if app.internet_profiles %}
             <p class="card-text"><strong>Internet-Profile</strong></p>
@@ -32,7 +32,7 @@
             {% endif %}
             {% if app.marktplatz_name %}
             <p class="card-text"><strong>Marktplatz-Konto</strong> <a
-                    href="https://marktplatz.bewegung.jetzt/u/{{app.marktplatz_name}}/summary">{{app.marktplatz_name}}</a>
+                    href="https://marktplatz.dib.de/u/{{app.marktplatz_name}}/summary">{{app.marktplatz_name}}</a>
             </p>
             <p class="card-text marktplatz-info"></p>
             {% endif %}

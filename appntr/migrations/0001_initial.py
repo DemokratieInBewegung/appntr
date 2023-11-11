@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('email', models.CharField(help_text='Unter welcher E-Mail Adresse können wir Dich persönlich erreichen?', max_length=255, verbose_name='E-Mail Adresse')),
                 ('phone', models.CharField(help_text='Unter welcher Telefonnummer können wir Dich persönlich erreichen?', max_length=255, verbose_name='Telefonnummer')),
                 ('country', models.CharField(help_text='In welchem Bundesland hast du deinen Erstwohnsitz?', max_length=25, verbose_name='Bundesland')),
-                ('internet_profiles', models.TextField(blank=True, null=True, verbose_name='Falls gegeben: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)')),
+                ('internet_profiles', models.TextField(blank=True, null=True, verbose_name='Falls vorhanden: Persönliche Webseite(n), Profile auf Sozialen Netzwerken (Xing, Facebook, Twitter und so weiter)')),
                 ('motivation', models.TextField()),
                 ('skills', models.TextField()),
                 ('ethical_dilemma', models.TextField()),

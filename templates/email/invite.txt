@@ -1,10 +1,13 @@
 Hallo {{app.first_name}},
 
-Herzlichen Dank für Dein Interesse an DEMOKRATIE IN BEWEGUNG. Wir haben Deine Unterlagen geprüft und würden Dich gerne zu einem (Online-)Gespräch einladen.
+Herzlichen Dank für Dein Interesse an DiB - DEMOKRATIE IN BEWEGUNG. Wir haben Deine Unterlagen geprüft und würden Dich gerne zu einem (Online-) Gespräch einladen.
 
-Dazu wähle bitte über folgenden Link einen Termin, zu dem es Dir passt, und wir schicken Dir die nötigen Zugangsdaten zu.
+Dazu wähle bitte über folgenden Link einen Termin aus, zu dem es Dir passt, und wir schicken Dir die nötigen Zugangsdaten zu.
 
     https://{{domain}}{% url 'invite' invite.id %}
+
+Falls kein Termin zur Auswahl stehen sollte, dann antworte bitte kurz auf dies Nachricht. Wir schauen dann, dass wir zeitnah neue Termin zur Verfügung stellen.
+Schon einfach über obigen Link zu einem späteren Zeitpunkt nochmals auf die Terminauswahl.
 
 Wir freuen uns.
 Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG

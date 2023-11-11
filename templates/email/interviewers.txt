@@ -17,4 +17,4 @@ Die Bewerbungsunterlagen (und etwaige Diskussionen vom Team) findet Ihr hier:
     https://{{domain}}{% url 'show_application' apt.application.id %}
 
 
-Cheerio!
+Viel Spaß beim Gespräch!

@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='application',
             name='affiliations',
-            field=models.TextField(blank=True, null=True, verbose_name='Falls gegeben: (ehemalige) Parteimitgliedschaft(en) oder Interessenvertretungen'),
+            field=models.TextField(blank=True, null=True, verbose_name='Falls vorhanden: (ehemalige) Parteimitgliedschaft(en) oder Interessenvertretungen'),
         ),
     ]

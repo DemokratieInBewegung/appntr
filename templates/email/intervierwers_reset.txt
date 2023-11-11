@@ -3,6 +3,5 @@ Hallo {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}}, 
 Euer Termin mit 
 {{apt.application.first_name}} {{apt.application.last_name}} ({{apt.application.gender}} für {{apt.application.country}}) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} wurde abgesagt. Und wir haben eine neue Einladung verschickt.
 
-Cheerio!
+Danke für Euren Einsatz!
 
-Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG

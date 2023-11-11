@@ -1,4 +1,4 @@
-# Appntr - The Membership application, voting and appointment management system of [DEMOKRATIE IN BEWEGUNG](https://bewegung.jetzt)
+# Appntr - The Membership application, voting and appointment management system of [DEMOKRATIE IN BEWEGUNG](https://dib.de)
 
 ## Development 
 
@@ -43,10 +43,10 @@ Happy Hacking!
 
 ## Deployment
 
-Using docker-compose, right from within this repo, run:
+Using docker compose, right from within this repo, run:
 
 ```
-docker-compose up
+docker compose up
 ```
 
 
@@ -55,7 +55,7 @@ docker-compose up
 Don't forget to update the database after/within each deploy:
 
 ```
-docker-compose exec web bash /code/scripts/upgrade.sh
+docker compose exec web bash /code/scripts/upgrade.sh
 ```
 
 
@@ -63,7 +63,7 @@ docker-compose exec web bash /code/scripts/upgrade.sh
 
 Here are some common commands you might want to do to trouble shoot things:
 
-(if on `docker-compose`, prefix with `docker-compose exec web` and put command in `"`)
+(if on `docker compose`, prefix with `docker compose exec web` and put command in `"`)
 
 #### Reset Date so you can invite immediately:
 

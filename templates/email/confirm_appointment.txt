@@ -3,29 +3,30 @@ Hallo {{apt.application.first_name}},
 Wir freuen uns Dich persönlich kennen zu lernen. Du hast einen Termin mit {{apt.interview_lead.get_full_name|default:apt.interview_lead.username}} ({{apt.interview_lead.email}}) und {{apt.interview_snd.get_full_name|default:apt.interview_snd.username}} ({{apt.interview_snd.email}}) für {{apt.datetime|date:"l, j. F Y"}} um {{apt.datetime|time:"TIME_FORMAT"}} ausgemacht. Bitte plane etwa 25min für das Gespräch ein.
 {% if apt.interview_lead.config.zoom_id %}
 
-Wir nutzen das Internet-Konferenz-System der Firma Zoom. Dafür musst Du vorher eine Software herunterladen und auf Deinem Computer installieren. Diese findest Du hier: https://zoom.us/download
+Wir nutzen das Video-Konferenz-System der Firma Zoom. Dafür kannst Du vorher eine Software herunterladen und auf Deinem Computer installieren. Diese findest Du hier: https://zoom.us/download
+Es ist aber auch ohne die Software eine Teilnahme nur im Browser möglich, der allerdings anfragen wird, die Kamera und das Mikrofon nutzen zu dürfen, welches Du dann erlauben musst. Wenn die Software installiert ist, sind weitere Funktionen in dem Video Gespräch möglich.
 
 Zu dem gegebenen Zeitpunkt kannst Du dann einfach mit einem Klick auf folgenden Link der Telekonferenz beitreten:
 
     https://zoom.us/j/{{apt.interview_lead.config.zoom_id}}
 
-Sollte es für Dich nicht möglich sein, die Software zu installieren und per Computer teilzunehmen, kannst Du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt die folgende Nummer anrufen: 030-3080-6188
+Sollte es für Dich nicht möglich sein, per Computer teilzunehmen, kannst Du Dich auch per Telefon einwählen. Dafür zu dem Zeitpunkt eine der folgenden Nummern anrufen: +49 69 50500951 ; +49 69 50500952 ; +49 69 38079884 ; +49 69 38079883
 
-Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} (nur die Zahlen bis zum Fragezeichen "?") gefolgt von dem "#" eingeben. Dann wirst Du automatisch in die Konferenz verbunden.
+Nach der Aufforderung dann bitte per Tastenfeld die Nummer {{apt.interview_lead.config.zoom_id}} (nur die Zahlen bis zum Fragezeichen "?") gefolgt von dem "#" Zeichen eingeben. Dann wirst Du automatisch in die Konferenz verbunden.
 {% else %}
 
-Um das Gespräch zu beginnen, klicke dann einfach auf diesen Link:
+Um das Gespräch per Zoom zu beginnen, klicke dann kurz vor dem Termin einfach auf diesen Link:
 
 	{{apt.link}}
 
-Du brauchst dafür eine Kamera (optional) und ein Mikrofon am Computer sowie den Firefox, Google Chrome oder neuen neuen Edge Browser. Falls es Probleme mit Bild und Ton geben sollte, versuche es nochmals nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
+Du brauchst dafür eine Kamera (optional) und ein Mikrofon am Computer sowie den Firefox, Google Chrome, Safari oder neuen Edge Browser. Falls es Probleme mit Bild und Ton geben sollte, versuche es nochmals nach Abschalten von Adblocker-Plugins und etwaiger Firewall.
 {% endif %}
 
-Des Weiteren würden wir Dich darum bitten Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch nochmals durchzulesen:
+Des Weiteren würden wir Dich darum bitten, Dir die folgenden Dokumente in Vorbereitung zu dem Gespräch nochmals durchzulesen:
 
- - Die Initiativ-Struktur: https://bewegung.jetzt/funktionsweise-initiativprinzip
- - Der Ethik-Kodex: https://bewegung.jetzt/ethik-kodex/
+ - Die Initiativ-Struktur: https://dib.de/funktionsweise-initiativprinzip
+ - Der Ethik-Kodex: https://dib.de/ethik-kodex/
 
 
 Wir freuen uns!
-Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG
+Das Mitglieder-Team von DiB - DEMOKRATIE IN BEWEGUNG
