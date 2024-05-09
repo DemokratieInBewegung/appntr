@@ -1,13 +1,7 @@
 Hallo {{app.first_name}},
 
-Herzlichen Dank für Dein Interesse an DiB - DEMOKRATIE IN BEWEGUNG. Wir haben Deine Unterlagen geprüft und würden Dich gerne zu einem (Online-) Gespräch einladen.
-
-Dazu wähle bitte über folgenden Link einen Termin aus, zu dem es Dir passt, und wir schicken Dir die nötigen Zugangsdaten zu.
-
-    https://{{domain}}{% url 'invite' invite.id %}
-
-Falls kein Termin zur Auswahl stehen sollte, dann antworte bitte kurz auf dies Nachricht. Wir schauen dann, dass wir zeitnah neue Termin zur Verfügung stellen.
-Schon einfach über obigen Link zu einem späteren Zeitpunkt nochmals auf die Terminauswahl.
+Herzlichen Dank für Dein Interesse an DiB - DEMOKRATIE IN BEWEGUNG. Wir haben Deine Unterlagen geprüft und werden dir in Kürze den Mitgliedsantrag aus unserer Verwaltung zusenden. 
+Die Absenderadresse wird dort verwaltung@dib.de sein. Gegebenenfalls de SPAM Ordner kontrollieren, falls die E-Mail nicht innerhalb der nächsten 24 Stunden kommen sollte.
 
 Wir freuen uns.
-Das Mitglieder-Team von DEMOKRATIE IN BEWEGUNG
+Der Bundesvorstand von DEMOKRATIE IN BEWEGUNG
