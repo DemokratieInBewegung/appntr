@@ -53,7 +53,7 @@ def invite_application(app, force=False):
     invite.save()
 
     EmailMessage(
-            'Einladung zum Gespräch mit DiB - DEMOKRATIE IN BEWEGUNG',
+            'Einladung zum Mitgliedsantrag bei DiB - DEMOKRATIE IN BEWEGUNG',
             render_to_string('email/invite.txt', context=dict(domain=site.domain, app=app, invite=invite)),
             settings.DEFAULT_FROM_EMAIL,
             [app.email],
