@@ -94,7 +94,7 @@
                         </div>
                         {% if can_reset_appointment %}
 
-                        <form method="POST" onsubmit="return confirm('Termin wirklich zurücksetzen?')"
+                        <form method="POST" onsubmit="return confirm('Einladung wirklich versenden?')"
                               action="{% url 'reset_appointment' app.id %}">
                             {% csrf_token %}
                             <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Termin zurück
@@ -113,7 +113,7 @@
                             <form method="POST" onsubmit="return confirm('Email wirklich erneut schicken?')"
                                   action="{% url 'reset_appointment' app.id %}">
                                 {% csrf_token %}
-                                <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Erneut
+                                <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Zu Termin
                                     einladen.
                                 </button>
                             </form>
@@ -190,7 +190,7 @@
                     {% if not app.invite %}
                     <form method="POST" action="{% url 'direct_invite' app.id %}">
                         {% csrf_token %}
-                        <button class="btn btn-outline-success"><i class="material-icons">mail</i> Direkt einladen
+                        <button class="btn btn-outline-success"><i class="material-icons">mail</i> Direkt zusagen
                         </button>
                     </form>
                     {% endif %}

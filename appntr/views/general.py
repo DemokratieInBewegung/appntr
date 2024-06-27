@@ -487,7 +487,7 @@ def reset_appointment(request, id):
 
 
     EmailMessage(
-        'Termin für Gespräch mit DiB - DEMOKRATIE IN BEWEGUNG wurde zurückgesetzt',
+        'Einladung zu einem Termin für Gespräch mit DiB - DEMOKRATIE IN BEWEGUNG',
         render_to_string('email/reset.txt', context=dict(domain=site.domain, app=app, apt=apt)),
         settings.DEFAULT_FROM_EMAIL,
         [app.email],
@@ -499,7 +499,7 @@ def reset_appointment(request, id):
       app.appointment.delete()
     app.state = Application.STATES.INVITED
     app.save()
-    messages.success(request, "Termin wurde zurückgesetzt")
+    messages.success(request, "Einladung zu einem Termin wurde versendet")
     return redirect(request.META.get('HTTP_REFERER') or '/applications/{}'.format(id))
 
 
