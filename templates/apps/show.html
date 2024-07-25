@@ -111,7 +111,7 @@
                             Noch keinen Termin
 
                             <form method="POST" onsubmit="return confirm('Email wirklich erneut schicken?')"
-                                  action="{% url 'reset_appointment' app.id %}">
+                                  action="{% url 'direct_invite' app.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-outline-danger"><i class="material-icons">clear</i> Zu Termin
                                     einladen.
