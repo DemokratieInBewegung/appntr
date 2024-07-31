@@ -23,6 +23,7 @@ services:
       - VIRTUAL_HOST=mitgliedsantrag.dib.de
       - LETSENCRYPT_HOST=mitgliedsantrag.dib.de
       - LETSENCRYPT_EMAIL=domains@dib.de
+      - TZ=Europe/Berlin
     env_file: secrects.env
     command: gunicorn -w 3 -b 0.0.0.0 appntr.wsgi
     volumes:
