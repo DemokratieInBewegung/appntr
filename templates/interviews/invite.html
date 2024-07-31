@@ -4,7 +4,7 @@
   <div class="jumbotron">
     <h1>Hallo {{name}}!</h1>
     <p>
-    Bitte wähle aus den unten gelisteten Terminen eine Zeit, die Dir passt. Bitte plane etwa 25 Minuten für das Gespräch ein. Wir nutzen für das Gespräch einen Online-Telefon-Konferenz-Dienst, den Du entweder über eine installierte Anwendung am Computer, per App auf einem Smartphone (oder Tablet) oder per Telefon-Anruf nutzen kannst. Eine Anleitung sowie die Zugangsdaten werden Dir nach der Auswahl in der Termin-Bestätigungs-Email zugesandt.</p>
+    Bitte wähle aus den unten gelisteten Terminen eine Zeit, die Dir passt. Die angezeigte Uhrzeit ist in der Zeitzone Europe/Berlin. Bitte plane etwa 25 Minuten für das Gespräch ein. Wir nutzen für das Gespräch einen Online-Video-Konferenz-Dienst, den Du entweder über den Webbrowser,  eine installierte Anwendung am Computer, per App auf einem Smartphone (oder Tablet) oder per Telefon-Anruf nutzen kannst. Eine Anleitung sowie die Zugangsdaten werden Dir nach der Auswahl in der Termin-Bestätigungs-Email zugesandt.</p>
     {% regroup slots by day as slot_list %}
     <form method="POST" onsubmit="return confirm('Diesen Termin auswählen?')" class="form-inline">
     {% csrf_token %}
